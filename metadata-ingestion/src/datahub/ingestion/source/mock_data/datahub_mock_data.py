@@ -266,8 +266,11 @@ class DataHubMockDataSource(Source):
             fan_out, hops, fan_out_after_first
         )
 
-        logger.info(f"About to create {tables_to_be_created} datasets mock data")
+        logger.info(
+            f"About to create {tables_to_be_created} tables for lineage testing"
+        )
 
+        current_progress = 0
         for i in range(hops + 1):
             tables_at_level = tables_at_levels[i]
 
@@ -287,6 +290,12 @@ class DataHubMockDataSource(Source):
                     fan_out_after_first=fan_out_after_first,
                     tables_at_levels=tables_at_levels,
                 )
+
+                current_progress += 1
+                if current_progress % 1000 == 0:
+                    logger.info(
+                        f"Progress: {current_progress}/{tables_to_be_created} tables processed"
+                    )
 
     def _generate_lineage_for_table(
         self,
