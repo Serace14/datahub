@@ -1,0 +1,19 @@
+[
+  {
+    "auditHeader": null,
+    "proposedSnapshot": {
+      "com.linkedin.pegasus2avro.metadata.snapshot.DatasetSnapshot": {
+        "urn": "urn:li:dataset:(urn:li:dataPlatform:CustomService,mi_dataset_prueba,PROD)",
+        "aspects": [
+          {
+            "com.linkedin.pegasus2avro.dataset.DatasetProperties": {
+              "name": "mi_dataset_prueba",
+              "description": "Dataset de prueba asociado a CustomService"
+            }
+          }
+        ]
+      }
+    },
+    "proposedDelta": null
+  }
+]

@@ -258,6 +258,7 @@ import com.linkedin.datahub.graphql.types.container.ContainerType;
 import com.linkedin.datahub.graphql.types.corpgroup.CorpGroupType;
 import com.linkedin.datahub.graphql.types.corpuser.CorpUserType;
 import com.linkedin.datahub.graphql.types.dashboard.DashboardType;
+import com.linkedin.datahub.graphql.types.dashboard2.Dashboard2Type;
 import com.linkedin.datahub.graphql.types.dataflow.DataFlowType;
 import com.linkedin.datahub.graphql.types.datajob.DataJobType;
 import com.linkedin.datahub.graphql.types.dataplatform.DataPlatformType;
@@ -428,6 +429,7 @@ public class GmsGraphQLEngine {
   private final CorpGroupType corpGroupType;
   private final ChartType chartType;
   private final DashboardType dashboardType;
+  private final Dashboard2Type dashboard2Type;
   private final DataPlatformType dataPlatformType;
   private final TagType tagType;
   private final MLModelType mlModelType;
@@ -560,6 +562,7 @@ public class GmsGraphQLEngine {
     this.corpGroupType = new CorpGroupType(entityClient);
     this.chartType = new ChartType(entityClient);
     this.dashboardType = new DashboardType(entityClient);
+    this.dashboard2Type = new Dashboard2Type(entityClient);
     this.dataPlatformType = new DataPlatformType(entityClient);
     this.tagType = new TagType(entityClient);
     this.mlModelType = new MLModelType(entityClient);
@@ -619,6 +622,7 @@ public class GmsGraphQLEngine {
                 dataPlatformType,
                 chartType,
                 dashboardType,
+                dashboard2Type,
                 tagType,
                 mlModelType,
                 mlModelGroupType,
@@ -715,6 +719,7 @@ public class GmsGraphQLEngine {
     configureCorpUserResolvers(builder);
     configureCorpGroupResolvers(builder);
     configureDashboardResolvers(builder);
+    configureDashboard2Resolvers(builder);
     configureNotebookResolvers(builder);
     configureChartResolvers(builder);
     configureTypeResolvers(builder);
@@ -994,6 +999,7 @@ public class GmsGraphQLEngine {
                 .dataFetcher("corpUser", getResolver(corpUserType))
                 .dataFetcher("corpGroup", getResolver(corpGroupType))
                 .dataFetcher("dashboard", getResolver(dashboardType))
+                .dataFetcher("dashboard2", getResolver(dashboard2Type))
                 .dataFetcher("chart", getResolver(chartType))
                 .dataFetcher("tag", getResolver(tagType))
                 .dataFetcher("dataFlow", getResolver(dataFlowType))
@@ -2136,6 +2142,68 @@ public class GmsGraphQLEngine {
                     (env) -> ((DashboardUserUsageCounts) env.getSource()).getUser().getUrn())));
     builder.type(
         "DashboardStatsSummary",
+        typeWiring ->
+            typeWiring.dataFetcher(
+                "topUsersLast30Days",
+                new LoadableTypeBatchResolver<>(
+                    corpUserType,
+                    (env) -> {
+                      DashboardStatsSummary summary = ((DashboardStatsSummary) env.getSource());
+                      return summary.getTopUsersLast30Days() != null
+                          ? summary.getTopUsersLast30Days().stream()
+                              .map(CorpUser::getUrn)
+                              .collect(Collectors.toList())
+                          : null;
+                    })));
+  }
+
+  /**
+   * Configures resolvers responsible for resolving the {@link
+   * com.linkedin.datahub.graphql.generated.Dashboard2} type.
+   */
+  private void configureDashboard2Resolvers(final RuntimeWiring.Builder builder) {
+    builder.type(
+        "Dashboard2",
+        typeWiring ->
+            typeWiring
+                .dataFetcher("relationships", new EntityRelationshipsResultResolver(graphClient))
+                .dataFetcher("browsePaths", new EntityBrowsePathsResolver(this.dashboard2Type))
+                .dataFetcher(
+                    "lineage",
+                    new EntityLineageResultResolver(
+                        siblingGraphService, restrictedService, this.authorizationConfiguration))
+                .dataFetcher(
+                    "dataPlatformInstance",
+                    new LoadableTypeResolver<>(
+                        dataPlatformInstanceType,
+                        (env) -> {
+                          final Dashboard2 dashboard2 = env.getSource();
+                          return dashboard2.getDataPlatformInstance() != null
+                              ? dashboard2.getDataPlatformInstance().getUrn()
+                              : null;
+                        })));
+    builder.type(
+        "Dashboard2Info",
+        typeWiring ->
+            typeWiring.dataFetcher(
+                "charts",
+                new LoadableTypeBatchResolver<>(
+                    chartType,
+                    (env) ->
+                        ((DashboardInfo) env.getSource())
+                            .getCharts().stream()
+                                .map(Chart::getUrn)
+                                .collect(Collectors.toList()))));
+    builder.type(
+        "Dashboard2UserUsageCounts",
+        typeWiring ->
+            typeWiring.dataFetcher(
+                "user",
+                new LoadableTypeResolver<>(
+                    corpUserType,
+                    (env) -> ((DashboardUserUsageCounts) env.getSource()).getUser().getUrn())));
+    builder.type(
+        "Dashboard2StatsSummary",
         typeWiring ->
             typeWiring.dataFetcher(
                 "topUsersLast30Days",

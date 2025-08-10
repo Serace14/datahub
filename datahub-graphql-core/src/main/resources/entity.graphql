@@ -45,6 +45,11 @@ type Query {
   dashboard(urn: String!): Dashboard
 
   """
+  Fetch a Dashboard2 by primary key (urn)
+  """
+  dashboard2(urn: String!): Dashboard2
+
+  """
   Fetch a Notebook by primary key (urn)
   """
   notebook(urn: String!): Notebook
@@ -1086,6 +1091,11 @@ enum EntityType {
   The Dashboard Entity
   """
   DASHBOARD
+
+  """
+  The Dashboard Entity
+  """
+  DASHBOARD2
 
   """
   The Notebook Entity
@@ -5965,6 +5975,79 @@ type DashboardInfo {
   An optional AuditStamp corresponding to the deletion of this dashboard
   """
   deleted: AuditStamp
+}
+
+"""
+A Dash2board Metadata Entity
+"""
+type Dashboard2 implements EntityWithRelationships & Entity & BrowsableEntity {
+  """
+  The primary key of the Dashboard
+  """
+  urn: String!
+
+  """
+  A standard Entity Type
+  """
+  type: EntityType!
+
+  """
+  Deprecated, use properties field instead
+  Additional read only information about the dashboard
+  """
+  info: Dashboard2Info
+
+  """
+  An id unique within the dashboard tool
+  """
+  dashboardId: String!
+
+  """
+  The specific instance of the data platform that this entity belongs to
+  """
+  dataPlatformInstance: DataPlatformInstance
+
+  """
+  The dashboard tool name
+  Note that this will soon be deprecated in favor of a standardized notion of Data Platform
+  """
+  tool: String!
+
+  """
+  Granular API for querying edges extending from this entity
+  """
+  relationships(input: RelationshipsInput!): EntityRelationshipsResult
+
+  """
+  The browse paths corresponding to the dashboard. If no Browse Paths have been generated before, this will be null.
+  """
+  browsePaths: [BrowsePath!]
+
+  """
+  Edges extending from this entity grouped by direction in the lineage graph
+  """
+  lineage(input: LineageInput!): EntityLineageResult
+}
+
+"""
+Additional read only info about a Dashboard2
+"""
+type Dashboard2Info {
+  """
+  Display of the dashboard
+  """
+  name: String!
+
+  """
+  Description of the dashboard
+  """
+  description: String
+
+  """
+  Deprecated, use relationship Contains instead
+  Charts that comprise the dashboard
+  """
+  charts: [Chart!]! @deprecated
 }
 
 """

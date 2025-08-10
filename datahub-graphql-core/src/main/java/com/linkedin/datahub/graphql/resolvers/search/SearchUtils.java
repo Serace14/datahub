@@ -1,20 +1,6 @@
 package com.linkedin.datahub.graphql.resolvers.search;
 
-import static com.linkedin.metadata.Constants.CHART_ENTITY_NAME;
-import static com.linkedin.metadata.Constants.CONTAINER_ENTITY_NAME;
-import static com.linkedin.metadata.Constants.CORP_GROUP_ENTITY_NAME;
-import static com.linkedin.metadata.Constants.CORP_USER_ENTITY_NAME;
-import static com.linkedin.metadata.Constants.DASHBOARD_ENTITY_NAME;
-import static com.linkedin.metadata.Constants.DATASET_ENTITY_NAME;
-import static com.linkedin.metadata.Constants.DATA_FLOW_ENTITY_NAME;
-import static com.linkedin.metadata.Constants.DATA_JOB_ENTITY_NAME;
-import static com.linkedin.metadata.Constants.DOMAIN_ENTITY_NAME;
-import static com.linkedin.metadata.Constants.GLOSSARY_TERM_ENTITY_NAME;
-import static com.linkedin.metadata.Constants.ML_FEATURE_ENTITY_NAME;
-import static com.linkedin.metadata.Constants.ML_FEATURE_TABLE_ENTITY_NAME;
-import static com.linkedin.metadata.Constants.ML_MODEL_ENTITY_NAME;
-import static com.linkedin.metadata.Constants.ML_MODEL_GROUP_ENTITY_NAME;
-import static com.linkedin.metadata.Constants.ML_PRIMARY_KEY_ENTITY_NAME;
+import static com.linkedin.metadata.Constants.*;
 
 import com.google.common.collect.ImmutableList;
 import com.linkedin.common.urn.Urn;
@@ -72,6 +58,7 @@ public class SearchUtils {
       ImmutableList.of(
           EntityType.DATASET,
           EntityType.DASHBOARD,
+          EntityType.DASHBOARD2,
           EntityType.CHART,
           EntityType.MLMODEL,
           EntityType.MLMODEL_GROUP,
@@ -99,6 +86,7 @@ public class SearchUtils {
       ImmutableList.of(
           EntityType.DATASET,
           EntityType.DASHBOARD,
+          EntityType.DASHBOARD2,
           EntityType.CHART,
           EntityType.CONTAINER,
           EntityType.MLMODEL,
@@ -121,6 +109,7 @@ public class SearchUtils {
       ImmutableList.of(
           EntityType.DATASET,
           EntityType.DASHBOARD,
+          EntityType.DASHBOARD2,
           EntityType.CHART,
           EntityType.CONTAINER,
           EntityType.MLMODEL,
@@ -135,6 +124,7 @@ public class SearchUtils {
       Stream.of(
               DATASET_ENTITY_NAME,
               DASHBOARD_ENTITY_NAME,
+              DASHBOARD2_ENTITY_NAME,
               DATA_FLOW_ENTITY_NAME,
               DATA_JOB_ENTITY_NAME,
               CHART_ENTITY_NAME,

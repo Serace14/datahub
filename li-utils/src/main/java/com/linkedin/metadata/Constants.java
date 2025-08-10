@@ -64,6 +64,7 @@ public class Constants {
   public static final String DATASET_ENTITY_NAME = "dataset";
   public static final String CHART_ENTITY_NAME = "chart";
   public static final String DASHBOARD_ENTITY_NAME = "dashboard";
+  public static final String DASHBOARD2_ENTITY_NAME = "dashboard2";
   public static final String DATA_FLOW_ENTITY_NAME = "dataFlow";
   public static final String DATA_JOB_ENTITY_NAME = "dataJob";
   public static final String DATA_PLATFORM_ENTITY_NAME = "dataPlatform";
@@ -188,6 +189,13 @@ public class Constants {
   public static final String EDITABLE_DASHBOARD_PROPERTIES_ASPECT_NAME =
       "editableDashboardProperties";
   public static final String DASHBOARD_USAGE_STATISTICS_ASPECT_NAME = "dashboardUsageStatistics";
+
+  // Dashboard
+  public static final String DASHBOARD2_KEY_ASPECT_NAME = "dashboard2Key";
+  public static final String DASHBOARD2_INFO_ASPECT_NAME = "dashboard2Info";
+  public static final String EDITABLE_DASHBOARD2_PROPERTIES_ASPECT_NAME =
+      "editableDashboard2Properties";
+  public static final String DASHBOARD2_USAGE_STATISTICS_ASPECT_NAME = "dashboard2UsageStatistics";
 
   // Notebook
   public static final String NOTEBOOK_KEY_ASPECT_NAME = "notebookKey";

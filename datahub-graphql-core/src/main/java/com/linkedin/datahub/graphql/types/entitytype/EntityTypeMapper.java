@@ -22,6 +22,7 @@ public class EntityTypeMapper {
           .put(EntityType.DATA_PLATFORM, Constants.DATA_PLATFORM_ENTITY_NAME)
           .put(EntityType.ER_MODEL_RELATIONSHIP, Constants.ER_MODEL_RELATIONSHIP_ENTITY_NAME)
           .put(EntityType.DASHBOARD, Constants.DASHBOARD_ENTITY_NAME)
+          .put(EntityType.DASHBOARD2, Constants.DASHBOARD2_ENTITY_NAME)
           .put(EntityType.NOTEBOOK, Constants.NOTEBOOK_ENTITY_NAME)
           .put(EntityType.CHART, Constants.CHART_ENTITY_NAME)
           .put(EntityType.DATA_FLOW, Constants.DATA_FLOW_ENTITY_NAME)

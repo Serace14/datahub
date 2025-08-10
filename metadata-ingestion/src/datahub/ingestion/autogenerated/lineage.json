@@ -1,5 +1,67 @@
 {
   "entities": {
+    "chart": {
+      "chartInfo": {
+        "aspect": "chartInfo",
+        "fields": [
+          {
+            "name": "inputs",
+            "path": "inputs",
+            "isLineage": true,
+            "relationship": {
+              "name": "Consumes",
+              "entityTypes": [
+                "dataset"
+              ],
+              "isLineage": true
+            }
+          },
+          {
+            "name": "inputEdges",
+            "path": "inputEdges",
+            "isLineage": true,
+            "relationship": {
+              "name": "Consumes",
+              "entityTypes": [
+                "dataset"
+              ],
+              "isLineage": true
+            }
+          }
+        ]
+      }
+    },
+    "dashboard2": {
+      "dashboard2Info": {
+        "aspect": "dashboard2Info",
+        "fields": [
+          {
+            "name": "charts",
+            "path": "charts",
+            "isLineage": true,
+            "relationship": {
+              "name": "Contains",
+              "entityTypes": [
+                "chart"
+              ],
+              "isLineage": true
+            }
+          },
+          {
+            "name": "chartEdges",
+            "path": "chartEdges",
+            "isLineage": true,
+            "relationship": {
+              "name": "Contains",
+              "entityTypes": [
+                "chart"
+              ],
+              "isLineage": true
+            }
+          }
+        ]
+      }
+    },
     "dataJob": {
       "dataJobInputOutput": {
         "aspect": "dataJobInputOutput",
@@ -79,77 +141,6 @@
         ]
       }
     },
-    "dataProcessInstance": {
-      "dataProcessInstanceOutput": {
-        "aspect": "dataProcessInstanceOutput",
-        "fields": [
-          {
-            "name": "outputEdges",
-            "path": "outputEdges",
-            "isLineage": true,
-            "relationship": {
-              "name": "DataProcessInstanceProduces",
-              "entityTypes": [
-                "dataset",
-                "mlModel",
-                "dataProcessInstance"
-              ],
-              "isLineage": true
-            }
-          }
-        ]
-      },
-      "dataProcessInstanceInput": {
-        "aspect": "dataProcessInstanceInput",
-        "fields": [
-          {
-            "name": "inputEdges",
-            "path": "inputEdges",
-            "isLineage": true,
-            "relationship": {
-              "name": "DataProcessInstanceConsumes",
-              "entityTypes": [
-                "dataset",
-                "mlModel",
-                "dataProcessInstance"
-              ],
-              "isLineage": true
-            }
-          }
-        ]
-      }
-    },
-    "dataProcess": {
-      "dataProcessInfo": {
-        "aspect": "dataProcessInfo",
-        "fields": [
-          {
-            "name": "inputs",
-            "path": "inputs",
-            "isLineage": true,
-            "relationship": {
-              "name": "Consumes",
-              "entityTypes": [
-                "dataset"
-              ],
-              "isLineage": true
-            }
-          },
-          {
-            "name": "outputs",
-            "path": "outputs",
-            "isLineage": true,
-            "relationship": {
-              "name": "Consumes",
-              "entityTypes": [
-                "dataset"
-              ],
-              "isLineage": true
-            }
-          }
-        ]
-      }
-    },
     "dataset": {
       "upstreamLineage": {
         "aspect": "upstreamLineage",
@@ -160,37 +151,6 @@
             "isLineage": true,
             "relationship": {
               "name": "DownstreamOf",
-              "entityTypes": [
-                "dataset"
-              ],
-              "isLineage": true
-            }
-          }
-        ]
-      }
-    },
-    "chart": {
-      "chartInfo": {
-        "aspect": "chartInfo",
-        "fields": [
-          {
-            "name": "inputs",
-            "path": "inputs",
-            "isLineage": true,
-            "relationship": {
-              "name": "Consumes",
-              "entityTypes": [
-                "dataset"
-              ],
-              "isLineage": true
-            }
-          },
-          {
-            "name": "inputEdges",
-            "path": "inputEdges",
-            "isLineage": true,
-            "relationship": {
-              "name": "Consumes",
               "entityTypes": [
                 "dataset"
               ],
@@ -267,6 +227,96 @@
         ]
       }
     },
+    "dataProcessInstance": {
+      "dataProcessInstanceInput": {
+        "aspect": "dataProcessInstanceInput",
+        "fields": [
+          {
+            "name": "inputEdges",
+            "path": "inputEdges",
+            "isLineage": true,
+            "relationship": {
+              "name": "DataProcessInstanceConsumes",
+              "entityTypes": [
+                "dataset",
+                "mlModel",
+                "dataProcessInstance"
+              ],
+              "isLineage": true
+            }
+          }
+        ]
+      },
+      "dataProcessInstanceOutput": {
+        "aspect": "dataProcessInstanceOutput",
+        "fields": [
+          {
+            "name": "outputEdges",
+            "path": "outputEdges",
+            "isLineage": true,
+            "relationship": {
+              "name": "DataProcessInstanceProduces",
+              "entityTypes": [
+                "dataset",
+                "mlModel",
+                "dataProcessInstance"
+              ],
+              "isLineage": true
+            }
+          }
+        ]
+      }
+    },
+    "dataProcess": {
+      "dataProcessInfo": {
+        "aspect": "dataProcessInfo",
+        "fields": [
+          {
+            "name": "inputs",
+            "path": "inputs",
+            "isLineage": true,
+            "relationship": {
+              "name": "Consumes",
+              "entityTypes": [
+                "dataset"
+              ],
+              "isLineage": true
+            }
+          },
+          {
+            "name": "outputs",
+            "path": "outputs",
+            "isLineage": true,
+            "relationship": {
+              "name": "Consumes",
+              "entityTypes": [
+                "dataset"
+              ],
+              "isLineage": true
+            }
+          }
+        ]
+      }
+    },
+    "mlFeature": {
+      "mlFeatureProperties": {
+        "aspect": "mlFeatureProperties",
+        "fields": [
+          {
+            "name": "sources",
+            "path": "sources",
+            "isLineage": true,
+            "relationship": {
+              "name": "DerivedFrom",
+              "entityTypes": [
+                "dataset"
+              ],
+              "isLineage": true
+            }
+          }
+        ]
+      }
+    },
     "mlModelGroup": {
       "mlModelGroupProperties": {
         "aspect": "mlModelGroupProperties",
@@ -293,25 +343,6 @@
               "entityTypes": [
                 "dataJob",
                 "dataProcessInstance"
-              ],
-              "isLineage": true
-            }
-          }
-        ]
-      }
-    },
-    "mlFeature": {
-      "mlFeatureProperties": {
-        "aspect": "mlFeatureProperties",
-        "fields": [
-          {
-            "name": "sources",
-            "path": "sources",
-            "isLineage": true,
-            "relationship": {
-              "name": "DerivedFrom",
-              "entityTypes": [
-                "dataset"
               ],
               "isLineage": true
             }
@@ -397,5 +428,5 @@
     }
   },
   "generated_by": "metadata-ingestion/scripts/modeldocgen.py",
-  "generated_at": "2025-07-01T10:49:03.713749+00:00"
+  "generated_at": "2025-08-10T16:21:30.837653+00:00"
 }

@@ -5,6 +5,7 @@ import { BusinessAttributeEntity } from '@app/entity/businessAttribute/BusinessA
 import { ChartEntity } from '@app/entity/chart/ChartEntity';
 import { ContainerEntity } from '@app/entity/container/ContainerEntity';
 import { DashboardEntity } from '@app/entity/dashboard/DashboardEntity';
+import { Dashboard2Entity } from '@app/entity/dashboard2/Dashboard2Entity';
 import { DataContractEntity } from '@app/entity/dataContract/DataContractEntity';
 import { DataFlowEntity } from '@app/entity/dataFlow/DataFlowEntity';
 import { DataJobEntity } from '@app/entity/dataJob/DataJobEntity';
@@ -34,6 +35,7 @@ export default function buildEntityRegistry() {
     registry.register(new DatasetEntity());
     registry.register(new DataContractEntity());
     registry.register(new DashboardEntity());
+    registry.register(new Dashboard2Entity());
     registry.register(new ChartEntity());
     registry.register(new UserEntity());
     registry.register(new GroupEntity());

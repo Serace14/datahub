@@ -1,0 +1,28 @@
+[
+  {
+    "entityType": "dataset",
+    "entityUrn": "urn:li:dataset:(urn:li:dataPlatform:CustomService,ef7d1ebc-be18-4cb0-af55-17a3cb509434,PROD)",
+    "changeType": "UPSERT",
+    "aspectName": "datasetProperties",
+    "aspect": {
+      "name": "Protection areas of birds against collision and electrocution",
+      "description": "Cartography of the areas where aerial wiring is required to have special isolation or increase visibility to protect birdlife.",
+      "origin": "PROD",
+      "customProperties": {
+        "format": "Shapefile",
+        "subjects": "Formentera, Mallorca, Illes Balears, Eivissa, Menorca",
+        "organization": "Institut Cartogràfic i Geogràfic de les Illes Balears",
+        "theme": "environment",
+        "type": "dataset",
+        "language": "eng",
+        "source": "Not available",
+        "bounding_box_crs": "EPSG:25831",
+        "bounding_box_lower": "4.332175 38.637107",
+        "bounding_box_upper": "1.127507 40.099572",
+        "uri_wms": "https://ideib.caib.es/geoserveis/services/public/AIRIBs_GOIB/MapServer/WMSServer?request=GetCapabilities",
+        "uri_rest": "https://ideib.caib.es/geoserveis/rest/services/public/AIRIBs_GOIB/MapServer",
+        "uri_image": "https://ideib.caib.es/recursos/ProtecAvifauna.jpg"
+      }
+    }
+  }
+]

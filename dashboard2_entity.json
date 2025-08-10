@@ -1,0 +1,22 @@
+{
+  "entity": {
+    "dashboard2": {
+      "urn": "urn:li:dashboard2:(mytool,custom_dashboard_001)",
+      "aspects": [
+        {
+          "name": "dashboard2Info",
+          "content": {
+            "name": "Informe mensual de ventas",
+            "description": "Dashboard con KPIs de ventas por región"
+          }
+        },
+        {
+          "name": "status",
+          "content": {
+            "removed": false
+          }
+        }
+      ]
+    }
+  }
+}

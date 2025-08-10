@@ -1,0 +1,10 @@
+source:
+  type: file
+  config:
+    path: "./mi_dataset_asociado.json"
+
+sink:
+  type: datahub-rest
+  config:
+    server: "http://localhost:8080"
+    token: "eyJhbGciOiJIUzI1NiJ9.eyJhY3RvclR5cGUiOiJVU0VSIiwiYWN0b3JJZCI6ImRhdGFodWIiLCJ0eXBlIjoiUEVSU09OQUwiLCJ2ZXJzaW9uIjoiMiIsImp0aSI6IjQ0YzBkZTc4LWJlNTctNDA0Yi1hMmIzLTNjNjA3Zjg3MDYwNiIsInN1YiI6ImRhdGFodWIiLCJleHAiOjE3NjAyMTA4ODAsImlzcyI6ImRhdGFodWItbWV0YWRhdGEtc2VydmljZSJ9.ym_uhasuF7scL_x4ug1lezvu-o3fhvdtph9hZ-yVByQ"

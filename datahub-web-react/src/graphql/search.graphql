@@ -136,6 +136,14 @@ fragment autoCompleteFields on Entity {
             ...browsePathV2Fields
         }
     }
+    ... on Dashboard2 {
+        info {
+            name
+        }
+        dataPlatformInstance {
+            ...dataPlatformInstanceFields
+        }
+    }
     ... on Chart {
         chartId
         properties {
@@ -656,6 +664,17 @@ fragment searchResultsWithoutSchemaField on Entity {
         }
         browsePathV2 {
             ...browsePathV2Fields
+        }
+    }
+    ... on Dashboard2 {
+        tool
+        dashboardId
+        info {
+            name
+            description
+        }
+        dataPlatformInstance {
+            ...dataPlatformInstanceFields
         }
     }
     ... on Chart {

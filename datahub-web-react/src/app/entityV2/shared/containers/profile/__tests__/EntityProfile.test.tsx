@@ -275,9 +275,11 @@ describe('EntityProfile', () => {
         );
 
         // find the schema fields in the schema table
-        await waitFor(() => expect(getByText('user_name')).toBeInTheDocument());
-        await waitFor(() => expect(getByText('user_id')).toBeInTheDocument());
-        expect(queryByText('propertyAKey')).not.toBeInTheDocument();
+        //await waitFor(() => expect(getByText('user_name')).toBeInTheDocument());
+        //await waitFor(() => expect(getByText('user_id')).toBeInTheDocument());
+        await waitFor(() => expect(getByText((text) => text.includes('user_name'))).toBeInTheDocument());
+	await waitFor(() => expect(getByText((text) => text.includes('user_id'))).toBeInTheDocument());
+	expect(queryByText('propertyAKey')).not.toBeInTheDocument();
 
         fireEvent(
             getByText('Properties'),

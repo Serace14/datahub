@@ -181,6 +181,12 @@ entities:
       - incidentsSummary
       - forms
       - testResults
+  - name: dashboard2
+    keyAspect: dashboard2Key
+    aspects:
+      - dashboard2Info
+      - dataPlatformInstance
+      - browsePaths
   - name: notebook
     doc: Notebook represents a combination of query, text, chart and etc. This is in BETA version
     keyAspect: notebookKey

@@ -77,6 +77,16 @@ query getBrowseResults($input: BrowseInput!) {
                     typeNames
                 }
             }
+            ... on Dashboard2 {
+                urn
+                type
+                tool
+                dashboardId
+                info {
+                    name
+                    description
+                }
+            }
             ... on GlossaryTerm {
                 ownership {
                     ...ownershipFields
