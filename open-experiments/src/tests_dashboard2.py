@@ -13,7 +13,7 @@ ASPECT_NAME = "dashboard2Info"
 DASHBOARD_ID = 1000 + random.randint(0, 8999)
 URN = f"urn:li:dashboard2:(looker,looker.com/dashboards/{DASHBOARD_ID})"
 ASPECT_FILE = "dashboard2info.json"
-DATAHUB_CLI = "."
+DATAHUB_CLI = "../../metadata-ingestion/venv/bin/datahub"
 
 # --- Helpers ---
 def run_datahub(*args):
