@@ -1,0 +1,34 @@
+namespace com.linkedin.metadata.key
+
+import com.linkedin.common.Urn
+import com.linkedin.common.FabricType
+
+/**
+ * Key for a CatalogRecord
+ */
+@Aspect = {
+  "name": "catalogRecordKey"
+}
+record CatalogRecordKey {
+  /**
+  * Data platform urn associated with the dataset
+  */
+  @Searchable = {
+    "fieldType": "URN",
+    "enableAutocomplete": true
+  }
+  platform: Urn
+
+  /**
+  * Unique guid for catalog record
+  */
+  //This is no longer to be used for Dataset native name. Use name, qualifiedName from DatasetProperties instead.
+  @Searchable = {
+    "fieldName": "id"
+    "fieldType": "WORD_GRAM",
+    "enableAutocomplete": true,
+    "boostScore": 10.0
+  }
+  name: string
+
+}

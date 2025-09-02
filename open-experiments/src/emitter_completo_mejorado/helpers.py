@@ -2,7 +2,7 @@ from typing import Any
 
 from datahub.emitter.mcp import MetadataChangeProposalWrapper
 from datahub.metadata._internal_schema_classes import CorpGroupInfoClass, OwnershipClass, OwnershipTypeClass, \
-    OwnerClass, GlobalTagsClass, TagPropertiesClass
+    OwnerClass, GlobalTagsClass, TagPropertiesClass, DomainPropertiesClass, DomainsClass
 from datahub.specific.dataset import DatasetPatchBuilder
 import datahub.emitter.mce_builder as builder
 
@@ -76,3 +76,22 @@ def set_urls(dataset_urn: str, url_urn: str, url_value: str, emitter):
         emitter.emit(patch_mcp)
 
     print(f"Structured property 'urls' actualizada para ({dataset_urn})")
+
+def create_new_domain(domain_name: str, domain_description, emitter):
+    domain_urn = builder.make_domain_urn(domain_name)
+    domain_aspect = DomainPropertiesClass(
+        name=domain_name,
+        description=domain_description
+    )
+    emitter.emit(MetadataChangeProposalWrapper(entityUrn=domain_urn, aspect=domain_aspect))
+    print(f"Dominio creado/actualizado: {domain_urn}")
+
+def asignar_dominio(dataset_urn: str, domain_name: str, emitter):
+    domain_urn = builder.make_domain_urn(domain_name)
+    domains_aspect = DomainsClass(domains=[domain_urn])
+    dataset_domain_mcp = MetadataChangeProposalWrapper(
+        entityUrn=dataset_urn,
+        aspect=domains_aspect
+    )
+    emitter.emit(dataset_domain_mcp)
+    print(f"Dominio asignado al dataset (dataset_urn): {domain_name}")

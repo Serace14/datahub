@@ -49,6 +49,45 @@ entities:
       - partitionsSummary
       - versionProperties
       - icebergCatalogInfo
+  - name: catalogRecord
+    doc: Entidad para guardar el xml de un metadato y relacionarlo con los datasets a los que esté relacionado.
+    category: core
+    keyAspect: catalogRecordKey
+    aspects:
+      - viewProperties
+      - subTypes
+      - datasetProfile
+      - datasetUsageStatistics
+      - operation
+      - domains
+      - applications
+      - schemaMetadata
+      - status
+      - container
+      - deprecation
+      - testResults
+      - siblings
+      - embed
+      - incidentsSummary
+      - datasetProperties
+      - editableDatasetProperties
+      - datasetDeprecation
+      - datasetUpstreamLineage
+      - upstreamLineage
+      - institutionalMemory
+      - ownership
+      - editableSchemaMetadata
+      - globalTags
+      - glossaryTerms
+      - browsePaths
+      - dataPlatformInstance
+      - browsePathsV2
+      - access
+      - structuredProperties
+      - forms
+      - partitionsSummary
+      - versionProperties
+      - icebergCatalogInfo
   - name: dataHubPolicy
     doc: DataHub Policies represent access policies granted to users or groups on metadata operations like edit, view etc.
     category: internal

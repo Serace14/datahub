@@ -62,6 +62,7 @@ public class Constants {
 
   public static final String CORP_GROUP_ENTITY_NAME = "corpGroup";
   public static final String DATASET_ENTITY_NAME = "dataset";
+  public static final String CATALOGRECORD_ENTITY_NAME = "catalogRecord";
   public static final String CHART_ENTITY_NAME = "chart";
   public static final String DASHBOARD_ENTITY_NAME = "dashboard";
   public static final String DASHBOARD2_ENTITY_NAME = "dashboard2";
@@ -168,6 +169,15 @@ public class Constants {
   public static final String EDITABLE_SCHEMA_METADATA_ASPECT_NAME = "editableSchemaMetadata";
   public static final String VIEW_PROPERTIES_ASPECT_NAME = "viewProperties";
   public static final String DATASET_PROFILE_ASPECT_NAME = "datasetProfile";
+
+  // CatalogRecord
+  public static final String CATALOGRECORD_KEY_ASPECT_NAME = "datasetKey";
+  public static final String CATALOGRECORD_PROPERTIES_ASPECT_NAME = "datasetProperties";
+  public static final String EDITABLE_CATALOGRECORD_PROPERTIES_ASPECT_NAME =
+      "editableDatasetProperties";
+  public static final String CATALOGRECORD_DEPRECATION_ASPECT_NAME = "datasetDeprecation";
+  public static final String CATALOGRECORD_UPSTREAM_LINEAGE_ASPECT_NAME = "datasetUpstreamLineage";
+  public static final String CATALOGRECORD_PROFILE_ASPECT_NAME = "datasetProfile";
 
   public static final String STRUCTURED_PROPERTIES_ASPECT_NAME = "structuredProperties";
   public static final String FORMS_ASPECT_NAME = "forms";
