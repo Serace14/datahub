@@ -6,7 +6,7 @@ import subprocess
 import requests
 
 # --- Configuración ---
-TOKEN = "eyJhbGciOiJIUzI1NiJ9.eyJhY3RvclR5cGUiOiJVU0VSIiwiYWN0b3JJZCI6ImRhdGFodWIiLCJ0eXBlIjoiUEVSU09OQUwiLCJ2ZXJzaW9uIjoiMiIsImp0aSI6ImQyNDU4YTRkLTc2YTYtNDQ4My1iNWYyLTA2MDRiMjZiYmE4NiIsInN1YiI6ImRhdGFodWIiLCJleHAiOjE3NTU2ODA3NzksImlzcyI6ImRhdGFodWItbWV0YWRhdGEtc2VydmljZSJ9.pO264G1P2YRwLdIumiiT5s49wY7tmD0MLSpKHNaCOH8"
+TOKEN = "eyJhbGciOiJIUzI1NiJ9.eyJhY3RvclR5cGUiOiJVU0VSIiwiYWN0b3JJZCI6ImRhdGFodWIiLCJ0eXBlIjoiUEVSU09OQUwiLCJ2ZXJzaW9uIjoiMiIsImp0aSI6IjRiNTYxNWQyLWQ1ZmYtNGVkYy1iZjQ2LTM2ZjVhZjRiODE4NSIsInN1YiI6ImRhdGFodWIiLCJleHAiOjE3NjM4ODkxMjMsImlzcyI6ImRhdGFodWItbWV0YWRhdGEtc2VydmljZSJ9.DhiGqCmdmowSS5TRLRkoYDuPNtp_cLsKZR7JlLtMDHI"
 API_URL = "http://localhost:8080"
 ENTITY_TYPE = "dashboard2"
 ASPECT_NAME = "dashboard2Info"
@@ -208,3 +208,19 @@ def test_search_old_title():
     r = requests.post(f"{API_URL}/api/graphql", headers=headers(), json=query)
     results = r.json().get("data", {}).get("search", {}).get("searchResults", [])
     assert any(res.get("entity", {}).get("urn") == URN for res in results)
+
+def test_query_dashboard2_by_id():
+    query = {
+        "query": f'''
+        query {{
+          dashboard2(urn: "{URN}") {{
+            urn
+            type
+            dashboardId
+          }}
+        }}
+        '''
+    }
+    r = requests.post(f"{API_URL}/api/graphql", headers=headers(), json=query)
+    data = r.json().get("data", {}).get("dashboard2", {})
+    assert data.get("dashboardId") == f"looker.com/dashboards/{DASHBOARD_ID}"

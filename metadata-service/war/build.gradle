@@ -121,7 +121,7 @@ docker {
     buildArgs(dockerBuildArgs)
   }
 
-  debugBuildArgs = [APP_ENV:  'dev']
+  debugBuildArgs = [APP_ENV:  'prod']
 }
 
 test {

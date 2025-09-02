@@ -64,7 +64,7 @@ services:
     - ELASTIC_CLIENT_HOST=elasticsearch
     - ELASTIC_CLIENT_PORT=9200
     hostname: datahub-frontend-react
-    image: ${DATAHUB_FRONTEND_IMAGE:-acryldata/datahub-frontend-react}:${DATAHUB_VERSION:-head}
+    image: ${DATAHUB_FRONTEND_IMAGE:-acryldata/datahub-frontend-react}:${DATAHUB_VERSION:-debug}
     ports:
     - ${DATAHUB_MAPPED_FRONTEND_PORT:-9002}:9002
     volumes:
@@ -164,6 +164,10 @@ services:
     - ${XPACK_SECURITY_ENABLED:-xpack.security.enabled=false}
     - ES_JAVA_OPTS=-Xms256m -Xmx512m -Dlog4j2.formatMsgNoLookups=true
     - OPENSEARCH_JAVA_OPTS=-Xms512m -Xmx512m -Dlog4j2.formatMsgNoLookups=true
+    - http.cors.allow-origin=http://localhost:1358,http://127.0.0.1:1358
+    - http.cors.enabled=true
+    - http.cors.allow-headers=X-Requested-With,X-Auth-Token,Content-Type,Content-Length,Authorization
+    - http.cors.allow-credentials=true
     healthcheck:
       interval: 1s
       retries: 3
@@ -294,6 +298,12 @@ services:
     volumes:
     - zkdata:/var/lib/zookeeper/data
     - zklogs:/var/lib/zookeeper/log
+  dejavu:
+    image: "appbaseio/dejavu:latest"
+    environment:
+      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+    ports:
+      - "1358:1358"
 volumes:
   broker: null
   esdata: null

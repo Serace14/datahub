@@ -707,6 +707,26 @@ fragment dashboardFields on Dashboard {
     }
 }
 
+fragment dashboard2Fields on Dashboard2 {
+    urn
+    type
+    tool
+    dashboardId
+    info {
+        name
+        description
+    }
+    platform {
+        ...platformFields
+    }
+    dataPlatformInstance {
+        ...dataPlatformInstanceFields
+    }
+    browsePathV2 {
+        ...browsePathV2Fields
+    }
+}
+
 fragment nonRecursiveMLFeature on MLFeature {
     urn
     type

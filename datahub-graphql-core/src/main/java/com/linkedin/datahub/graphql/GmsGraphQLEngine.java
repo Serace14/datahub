@@ -2173,6 +2173,11 @@ public class GmsGraphQLEngine {
                     new EntityLineageResultResolver(
                         siblingGraphService, restrictedService, this.authorizationConfiguration))
                 .dataFetcher(
+                    "platform",
+                    new LoadableTypeResolver<>(
+                        dataPlatformType,
+                        (env) -> ((Dashboard2) env.getSource()).getPlatform().getUrn()))
+                .dataFetcher(
                     "dataPlatformInstance",
                     new LoadableTypeResolver<>(
                         dataPlatformInstanceType,

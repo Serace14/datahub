@@ -13,7 +13,7 @@ import Loading from '@app/shared/Loading';
 import PlatformIcon from '@app/sharedV2/icons/PlatformIcon';
 import { useEntityRegistryV2 } from '@app/useEntityRegistry';
 
-import { GetDashboardQuery } from '@graphql/dashboard.generated';
+import { GetDashboard2Query } from '@graphql/dashboard2.generated';
 import { useGetSearchResultsQuery } from '@graphql/search.generated';
 import { Entity, EntityType } from '@types';
 
@@ -51,7 +51,7 @@ const EntitiesList = styled.div`
 
 export default function Dashboard2SummaryOverview() {
     const { loading } = useEntityData();
-    const dashboard = useBaseEntity<GetDashboardQuery>()?.dashboard;
+    const dashboard = useBaseEntity<GetDashboard2Query>()?.dashboard2;
     const entityRegistry = useEntityRegistryV2();
 
     const charts = (dashboard?.charts?.relationships?.map((r) => r.entity) || []) as Entity[];
@@ -81,7 +81,7 @@ export default function Dashboard2SummaryOverview() {
 
     const dataSources = (dataSourcesData?.search?.searchResults?.map((result) => result.entity) || []) as Entity[];
 
-    const owner = dashboard?.ownership?.owners && dashboard?.ownership?.owners[0]?.owner;
+    const owner = undefined;
     const displayName = entityRegistry.getDisplayName(EntityType.Dashboard, dashboard);
 
     return (
@@ -89,7 +89,7 @@ export default function Dashboard2SummaryOverview() {
             <MainSection>
                 <SummaryHeader>General Info</SummaryHeader>
 
-                {!!owner && <SummaryCreatedBySection owner={owner} />}
+                {false}
             </MainSection>
 
             <MainSection>

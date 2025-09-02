@@ -28,7 +28,7 @@ import { MatchedFieldList } from '@app/search/matches/MatchedFieldList';
 import { matchedInputFieldRenderer } from '@app/search/matches/matchedInputFieldRenderer';
 import { capitalizeFirstLetterOnly } from '@app/shared/textUtil';
 
-import { GetDashboardQuery, useGetDashboardQuery, useUpdateDashboardMutation } from '@graphql/dashboard.generated';
+import { GetDashboard2Query, useGetDashboard2Query } from '@graphql/dashboard2.generated';
 import {Dashboard, Dashboard2, EntityType, LineageDirection, OwnershipType, SearchResult} from '@types';
 
 
@@ -78,7 +78,7 @@ export class Dashboard2Entity implements Entity<Dashboard2> {
 
     getCollectionName = () => 'Dashboards2';
 
-    useEntityQuery = useGetDashboardQuery;
+    useEntityQuery = useGetDashboard2Query;
 
     getSidebarSections = () => [
         {
@@ -113,7 +113,7 @@ export class Dashboard2Entity implements Entity<Dashboard2> {
             urn={urn}
             entityType={EntityType.Dashboard2}
             useEntityQuery={this.useEntityQuery}
-            useUpdateQuery={useUpdateDashboardMutation}
+            useUpdateQuery={ undefined }
             getOverrideProperties={this.getOverridePropertiesFromEntity}
             headerDropdownItems={new Set([EntityMenuItems.UPDATE_DEPRECATION, EntityMenuItems.RAISE_INCIDENT])}
             subHeader={{

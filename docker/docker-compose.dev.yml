@@ -1,7 +1,7 @@
-# Default overrides for running local development.
+# Default overrides for running local prodelopment.
 
-# Images here are made as "development" images by following the general pattern of defining a multistage build with
-# separate prod/dev steps; using APP_ENV to specify which to use. The dev steps should avoid building and instead assume
+# Images here are made as "prodelopment" images by following the general pattern of defining a multistage build with
+# separate prod/prod steps; using APP_ENV to specify which to use. The prod steps should avoid building and instead assume
 # that binaries and scripts will be mounted to the image, as also set up by this file. Also see see this excellent
 # thread https://github.com/docker/cli/issues/1134.
 
@@ -18,7 +18,7 @@ services:
       context: ../
       dockerfile: docker/datahub-frontend/Dockerfile
       args:
-        APP_ENV: dev
+        APP_ENV: prod
     environment:
     - JAVA_TOOL_OPTIONS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5002
     - DATAHUB_ANALYTICS_ENABLED=${DATAHUB_ANALYTICS_ENABLED:-true}
@@ -34,10 +34,10 @@ services:
       context: datahub-gms
       dockerfile: Dockerfile
       args:
-        APP_ENV: dev
+        APP_ENV: prod
     environment:
     - SKIP_ELASTICSEARCH_CHECK=false
-    - DATAHUB_SERVER_TYPE=${DATAHUB_SERVER_TYPE:-dev}
+    - DATAHUB_SERVER_TYPE=${DATAHUB_SERVER_TYPE:-prod}
     - DATAHUB_TELEMETRY_ENABLED=${DATAHUB_TELEMETRY_ENABLED:-true}
     - METADATA_SERVICE_AUTH_ENABLED=${METADATA_SERVICE_AUTH_ENABLED:-false}
     - JAVA_TOOL_OPTIONS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5001
@@ -65,10 +65,10 @@ services:
       context: datahub-upgrade
       dockerfile: Dockerfile
       args:
-        APP_ENV: dev
+        APP_ENV: prod
     environment:
     - SKIP_ELASTICSEARCH_CHECK=false
-    - DATAHUB_SERVER_TYPE=${DATAHUB_SERVER_TYPE:-dev}
+    - DATAHUB_SERVER_TYPE=${DATAHUB_SERVER_TYPE:-prod}
     - DATAHUB_TELEMETRY_ENABLED=${DATAHUB_TELEMETRY_ENABLED:-true}
     - REPROCESS_DEFAULT_BROWSE_PATHS_V2=${REPROCESS_DEFAULT_BROWSE_PATHS_V2:-false}
     - JAVA_TOOL_OPTIONS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5003
@@ -83,7 +83,7 @@ services:
       context: elasticsearch-setup
       dockerfile: Dockerfile
       args:
-        APP_ENV: dev
+        APP_ENV: prod
     depends_on:
       elasticsearch:
         condition: service_healthy

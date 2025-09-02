@@ -55,7 +55,7 @@ import { matchedInputFieldRenderer } from '@app/search/matches/matchedInputField
 import { MatchedFieldList } from '@app/searchV2/matches/MatchedFieldList';
 import { capitalizeFirstLetterOnly } from '@app/shared/textUtil';
 
-import { GetDashboardQuery, useGetDashboardQuery, useUpdateDashboardMutation } from '@graphql/dashboard.generated';
+import { GetDashboard2Query, useGetDashboard2Query } from '@graphql/dashboard2.generated';
 import { Dashboard2, EntityType, LineageDirection, SearchResult } from '@types';
 
 const PREVIEW_SUPPORTED_PLATFORMS = [LOOKER_URN, MODE_URN];
@@ -118,14 +118,14 @@ export class Dashboard2Entity implements Entity<Dashboard2> {
 
     getCollectionName = () => 'Dashboards2';
 
-    useEntityQuery = useGetDashboardQuery;
+    useEntityQuery = useGetDashboard2Query;
 
     renderProfile = (urn: string) => (
         <EntityProfile
             urn={urn}
             entityType={EntityType.Dashboard2}
-            useEntityQuery={useGetDashboardQuery}
-            useUpdateQuery={useUpdateDashboardMutation}
+            useEntityQuery={useGetDashboard2Query}
+            useUpdateQuery={undefined}
             getOverrideProperties={this.getOverridePropertiesFromEntity}
             headerDropdownItems={headerDropdownItems}
             subHeader={{
@@ -142,10 +142,10 @@ export class Dashboard2Entity implements Entity<Dashboard2> {
                     component: DashboardChartsTab,
                     icon: AppstoreOutlined,
                     display: {
-                        visible: (_, dashboard2: GetDashboardQuery) =>
-                            (dashboard2?.dashboard?.charts?.total || 0) > 0 ||
-                            (dashboard2?.dashboard?.datasets?.total || 0) === 0,
-                        enabled: (_, dashboard: GetDashboardQuery) => (dashboard?.dashboard?.charts?.total || 0) > 0,
+                        visible: (_, dashboard2: GetDashboard2Query) =>
+                            (dashboard2?.dashboard2?.charts?.total || 0) > 0 ||
+                            (dashboard2?.dashboard2?.datasets?.total || 0) === 0,
+                        enabled: (_, dashboard: GetDashboard2Query) => (dashboard?.dashboard2?.charts?.total || 0) > 0,
                     },
                 },
                 {
@@ -153,8 +153,8 @@ export class Dashboard2Entity implements Entity<Dashboard2> {
                     component: DashboardDatasetsTab,
                     icon: TableOutlined,
                     display: {
-                        visible: (_, dashboard2: GetDashboardQuery) => (dashboard2?.dashboard?.datasets?.total || 0) > 0,
-                        enabled: (_, dashboard2: GetDashboardQuery) => (dashboard2?.dashboard?.datasets?.total || 0) > 0,
+                        visible: (_, dashboard2: GetDashboard2Query) => (dashboard2?.dashboard2?.datasets?.total || 0) > 0,
+                        enabled: (_, dashboard2: GetDashboard2Query) => (dashboard2?.dashboard2?.datasets?.total || 0) > 0,
                     },
                 },
                 {
@@ -167,12 +167,10 @@ export class Dashboard2Entity implements Entity<Dashboard2> {
                     component: EmbedTab,
                     icon: EyeOutlined,
                     display: {
-                        visible: (_, dashboard2: GetDashboardQuery) =>
-                            !!dashboard2?.dashboard?.embed?.renderUrl &&
-                            PREVIEW_SUPPORTED_PLATFORMS.includes(dashboard2?.dashboard?.platform.urn),
-                        enabled: (_, dashboard2: GetDashboardQuery) =>
-                            !!dashboard2?.dashboard?.embed?.renderUrl &&
-                            PREVIEW_SUPPORTED_PLATFORMS.includes(dashboard2?.dashboard?.platform.urn),
+                        visible: (_, dashboard2: GetDashboard2Query) =>
+                            false,
+                        enabled: (_, dashboard2: GetDashboard2Query) =>
+                            false,
                     },
                 },
                 {
@@ -333,7 +331,7 @@ export class Dashboard2Entity implements Entity<Dashboard2> {
         <EmbeddedProfile
             urn={urn}
             entityType={EntityType.Dashboard2}
-            useEntityQuery={useGetDashboardQuery}
+            useEntityQuery={useGetDashboard2Query}
             getOverrideProperties={this.getOverridePropertiesFromEntity}
         />
     );

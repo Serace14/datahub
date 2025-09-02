@@ -6008,6 +6008,16 @@ type Dashboard2 implements EntityWithRelationships & Entity & BrowsableEntity {
   dataPlatformInstance: DataPlatformInstance
 
   """
+  Standardized platform urn where the dashboard is defined
+  """
+  platform: DataPlatform!
+
+  """
+  The browse path V2 corresponding to an entity. If no Browse Paths V2 have been generated before, this will be null.
+  """
+  browsePathV2: BrowsePathV2
+
+  """
   The dashboard tool name
   Note that this will soon be deprecated in favor of a standardized notion of Data Platform
   """
