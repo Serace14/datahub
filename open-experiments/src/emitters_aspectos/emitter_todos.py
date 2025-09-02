@@ -16,7 +16,7 @@ import datahub.emitter.mce_builder as builder
 # === Configuración DataHub ===
 emitter = DatahubRestEmitter(
     gms_server="http://localhost:8080",  # Cambia si tu DataHub está en otra URL
-    token="eyJhbGciOiJIUzI1NiJ9.eyJhY3RvclR5cGUiOiJVU0VSIiwiYWN0b3JJZCI6ImRhdGFodWIiLCJ0eXBlIjoiUEVSU09OQUwiLCJ2ZXJzaW9uIjoiMiIsImp0aSI6ImJjYzI0YTMwLThiZTUtNGNhMy04MzQ5LTEzYTU0MzJiODE5ZCIsInN1YiI6ImRhdGFodWIiLCJleHAiOjE3NjM0NjA2NTgsImlzcyI6ImRhdGFodWItbWV0YWRhdGEtc2VydmljZSJ9.5S4rfT3P7jdFAutiT5VlqcaOWpyibr7sxc1dD2_7BNw"
+    token="eyJhbGciOiJIUzI1NiJ9.eyJhY3RvclR5cGUiOiJVU0VSIiwiYWN0b3JJZCI6ImRhdGFodWIiLCJ0eXBlIjoiUEVSU09OQUwiLCJ2ZXJzaW9uIjoiMiIsImp0aSI6IjRiNTYxNWQyLWQ1ZmYtNGVkYy1iZjQ2LTM2ZjVhZjRiODE4NSIsInN1YiI6ImRhdGFodWIiLCJleHAiOjE3NjM4ODkxMjMsImlzcyI6ImRhdGFodWItbWV0YWRhdGEtc2VydmljZSJ9.DhiGqCmdmowSS5TRLRkoYDuPNtp_cLsKZR7JlLtMDHI"
 )
 emitter.test_connection()
 
@@ -86,7 +86,7 @@ while True:
         if id_value:
             patch_builder = DatasetPatchBuilder(dataset_urn)
             patch_builder.set_structured_property(
-                "urn:li:structuredProperty:37a61c93-b1aa-4261-90e8-947771c3582b",  # structured property ID
+                "urn:li:structuredProperty:id",  # structured property ID
                 id_value
             )
             for patch_mcp in patch_builder.build():
@@ -195,7 +195,7 @@ while True:
             # Crear el patch para la structured property
             patch_builder = DatasetPatchBuilder(dataset_urn)
             patch_builder.set_structured_property(
-                "urn:li:structuredProperty:be175e19-c07a-40ab-8228-52094c78edd8",
+                "urn:li:structuredProperty:date",
                 date_value
             )
             patch_mcps = patch_builder.build()
@@ -267,7 +267,7 @@ while True:
             # Crear el patch para la structured property
             patch_builder = DatasetPatchBuilder(dataset_urn)
             patch_builder.set_structured_property(
-                "urn:li:structuredProperty:acdd5c4c-5463-47b5-a748-55d9955c776d",
+                "urn:li:structuredProperty:language",
                 language_value
             )
             patch_mcps = patch_builder.build()
@@ -452,7 +452,7 @@ while True:
 
         print("Type encontrado:", type_value)
 
-        # Asignar el ID al dataset usando GenericAspect
+        # Asignar el type al dataset usando GenericAspect
         if type_value:
             # URN del dataset
             dataset_urn = make_dataset_urn(
@@ -464,7 +464,7 @@ while True:
             # Crear el patch para la structured property
             patch_builder = DatasetPatchBuilder(dataset_urn)
             patch_builder.set_structured_property(
-                "urn:li:structuredProperty:dce65839-7577-4ddf-881c-95df4c30a514",
+                "urn:li:structuredProperty:type",
                 type_value
             )
             patch_mcps = patch_builder.build()
@@ -473,9 +473,9 @@ while True:
             for patch_mcp in patch_mcps:
                 emitter.emit(patch_mcp)
 
-            print(f"Structured property 'id' actualizada para ({dataset_urn}) {type_value}")
+            print(f"Structured property 'type' actualizada para ({dataset_urn}) {type_value}")
         else:
-            print("No se encontró ningun id en el XML.")
+            print("No se encontró ningun type en el XML.")
 
         # ========================
         # Extracción de URLs y asignación
@@ -544,7 +544,7 @@ while True:
 
             patch_builder = DatasetPatchBuilder(dataset_urn)
             patch_builder.set_structured_property(
-                "urn:li:structuredProperty:c4fe8236-87ff-4310-ac79-6468b4633634",
+                "urn:li:structuredProperty:urls",
                 urls_list
             )
             patch_mcps = patch_builder.build()
