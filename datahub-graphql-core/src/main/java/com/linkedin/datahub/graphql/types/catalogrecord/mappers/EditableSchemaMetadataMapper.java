@@ -3,10 +3,9 @@ package com.linkedin.datahub.graphql.types.catalogrecord.mappers;
 import com.linkedin.common.urn.Urn;
 import com.linkedin.datahub.graphql.QueryContext;
 import com.linkedin.schema.EditableSchemaMetadata;
-
+import java.util.stream.Collectors;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.stream.Collectors;
 
 public class EditableSchemaMetadataMapper {
 

@@ -1,5 +1,7 @@
 package com.linkedin.datahub.graphql.types.catalogrecord.mappers;
 
+import static com.linkedin.metadata.Constants.*;
+
 import com.linkedin.common.AuditStamp;
 import com.linkedin.common.GlobalTags;
 import com.linkedin.common.TagAssociationArray;
@@ -18,19 +20,17 @@ import com.linkedin.mxe.MetadataChangeProposal;
 import com.linkedin.schema.EditableSchemaFieldInfo;
 import com.linkedin.schema.EditableSchemaFieldInfoArray;
 import com.linkedin.schema.EditableSchemaMetadata;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.stream.Collectors;
-
-import static com.linkedin.metadata.Constants.*;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public class CatalogRecordUpdateInputMapper
     implements InputModelMapper<CatalogRecordUpdateInput, Collection<MetadataChangeProposal>, Urn> {
 
-  public static final CatalogRecordUpdateInputMapper INSTANCE = new CatalogRecordUpdateInputMapper();
+  public static final CatalogRecordUpdateInputMapper INSTANCE =
+      new CatalogRecordUpdateInputMapper();
 
   public static Collection<MetadataChangeProposal> map(
       @Nullable final QueryContext context,

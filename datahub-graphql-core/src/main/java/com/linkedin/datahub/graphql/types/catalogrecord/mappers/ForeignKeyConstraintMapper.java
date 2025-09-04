@@ -6,10 +6,9 @@ import com.linkedin.datahub.graphql.generated.Dataset;
 import com.linkedin.datahub.graphql.generated.ForeignKeyConstraint;
 import com.linkedin.datahub.graphql.generated.SchemaFieldEntity;
 import com.linkedin.datahub.graphql.types.common.mappers.UrnToEntityMapper;
-import lombok.extern.slf4j.Slf4j;
-
-import javax.annotation.Nullable;
 import java.util.stream.Collectors;
+import javax.annotation.Nullable;
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class ForeignKeyConstraintMapper {

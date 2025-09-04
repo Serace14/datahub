@@ -31,4 +31,14 @@ record CatalogRecordKey {
   }
   name: string
 
+  /**
+    * Fabric type where dataset belongs to or where it was generated.
+    */
+    @Searchable = {
+      "fieldType": "TEXT_PARTIAL",
+      "addToFilters": true,
+      "filterNameOverride": "Environment",
+      "queryByDefault": false
+    }
+    origin: FabricType
 }

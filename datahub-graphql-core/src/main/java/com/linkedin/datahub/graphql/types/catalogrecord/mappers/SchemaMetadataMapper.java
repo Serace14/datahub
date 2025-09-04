@@ -4,10 +4,9 @@ import com.linkedin.common.urn.Urn;
 import com.linkedin.datahub.graphql.QueryContext;
 import com.linkedin.entity.EnvelopedAspect;
 import com.linkedin.schema.SchemaMetadata;
-
+import java.util.stream.Collectors;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.stream.Collectors;
 
 public class SchemaMetadataMapper {
 

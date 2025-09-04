@@ -1,5 +1,8 @@
 package com.linkedin.datahub.graphql.types.catalogrecord;
 
+import static com.linkedin.datahub.graphql.Constants.BROWSE_PATH_DELIMITER;
+import static com.linkedin.metadata.Constants.*;
+
 import com.datahub.authorization.ConjunctivePrivilegeGroup;
 import com.datahub.authorization.DisjunctivePrivilegeGroup;
 import com.google.common.collect.ImmutableList;
@@ -16,8 +19,6 @@ import com.linkedin.datahub.graphql.resolvers.ResolverUtils;
 import com.linkedin.datahub.graphql.types.BatchMutableType;
 import com.linkedin.datahub.graphql.types.BrowsableEntityType;
 import com.linkedin.datahub.graphql.types.SearchableEntityType;
-import com.linkedin.datahub.graphql.types.catalogrecord.CatalogRecordUtils;
-import com.linkedin.datahub.graphql.types.catalogrecord.mappers.CatalogRecordUpdateInputMapper;
 import com.linkedin.datahub.graphql.types.catalogrecord.mappers.CatalogRecordMapper;
 import com.linkedin.datahub.graphql.types.catalogrecord.mappers.CatalogRecordUpdateInputMapper;
 import com.linkedin.datahub.graphql.types.mappers.AutoCompleteResultsMapper;
@@ -35,15 +36,11 @@ import com.linkedin.metadata.search.SearchResult;
 import com.linkedin.mxe.MetadataChangeProposal;
 import com.linkedin.r2.RemoteInvocationException;
 import graphql.execution.DataFetcherResult;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
-
-import static com.linkedin.datahub.graphql.Constants.BROWSE_PATH_DELIMITER;
-import static com.linkedin.metadata.Constants.*;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public class CatalogRecordType
     implements SearchableEntityType<CatalogRecord, String>,
@@ -52,12 +49,12 @@ public class CatalogRecordType
 
   private static final Set<String> ASPECTS_TO_RESOLVE =
       ImmutableSet.of(
-              CATALOGRECORD_KEY_ASPECT_NAME,
-              CATALOGRECORD_PROPERTIES_ASPECT_NAME,
+          CATALOGRECORD_KEY_ASPECT_NAME,
+          CATALOGRECORD_PROPERTIES_ASPECT_NAME,
           EDITABLE_CATALOGRECORD_PROPERTIES_ASPECT_NAME,
-              CATALOGRECORD_DEPRECATION_ASPECT_NAME, // This aspect is deprecated.
+          CATALOGRECORD_DEPRECATION_ASPECT_NAME, // This aspect is deprecated.
           DEPRECATION_ASPECT_NAME,
-              CATALOGRECORD_UPSTREAM_LINEAGE_ASPECT_NAME,
+          CATALOGRECORD_UPSTREAM_LINEAGE_ASPECT_NAME,
           UPSTREAM_LINEAGE_ASPECT_NAME,
           EDITABLE_SCHEMA_METADATA_ASPECT_NAME,
           VIEW_PROPERTIES_ASPECT_NAME,
@@ -206,13 +203,15 @@ public class CatalogRecordType
   public List<BrowsePath> browsePaths(@Nonnull String urn, @Nonnull final QueryContext context)
       throws Exception {
     final StringArray result =
-        entityClient.getBrowsePaths(context.getOperationContext(), CatalogRecordUtils.getCatalogRecordUrn(urn));
+        entityClient.getBrowsePaths(
+            context.getOperationContext(), CatalogRecordUtils.getCatalogRecordUrn(urn));
     return BrowsePathsMapper.map(context, result);
   }
 
   @Override
   public List<CatalogRecord> batchUpdate(
-      @Nonnull BatchCatalogRecordUpdateInput[] input, @Nonnull QueryContext context) throws Exception {
+      @Nonnull BatchCatalogRecordUpdateInput[] input, @Nonnull QueryContext context)
+      throws Exception {
     final Urn actor = Urn.createFromString(context.getActorUrn());
 
     final Collection<MetadataChangeProposal> proposals =
@@ -221,7 +220,7 @@ public class CatalogRecordType
                 updateInput -> {
                   if (isAuthorized(updateInput.getUrn(), updateInput.getUpdate(), context)) {
                     Collection<MetadataChangeProposal> datasetProposals =
-                            CatalogRecordUpdateInputMapper.map(context, updateInput.getUpdate(), actor);
+                        CatalogRecordUpdateInputMapper.map(context, updateInput.getUpdate(), actor);
                     datasetProposals.forEach(
                         proposal -> proposal.setEntityUrn(UrnUtils.getUrn(updateInput.getUrn())));
                     return datasetProposals;
@@ -233,7 +232,9 @@ public class CatalogRecordType
             .collect(Collectors.toList());
 
     final List<String> urns =
-        Arrays.stream(input).map(BatchCatalogRecordUpdateInput::getUrn).collect(Collectors.toList());
+        Arrays.stream(input)
+            .map(BatchCatalogRecordUpdateInput::getUrn)
+            .collect(Collectors.toList());
 
     try {
       entityClient.batchIngestProposals(context.getOperationContext(), proposals, false);
@@ -253,7 +254,7 @@ public class CatalogRecordType
     if (isAuthorized(urn, input, context)) {
       final CorpuserUrn actor = CorpuserUrn.createFromString(context.getActorUrn());
       final Collection<MetadataChangeProposal> proposals =
-              CatalogRecordUpdateInputMapper.map(context, input, actor);
+          CatalogRecordUpdateInputMapper.map(context, input, actor);
       proposals.forEach(proposal -> proposal.setEntityUrn(UrnUtils.getUrn(urn)));
 
       try {
@@ -269,14 +270,17 @@ public class CatalogRecordType
   }
 
   private boolean isAuthorized(
-      @Nonnull String urn, @Nonnull CatalogRecordUpdateInput update, @Nonnull QueryContext context) {
+      @Nonnull String urn,
+      @Nonnull CatalogRecordUpdateInput update,
+      @Nonnull QueryContext context) {
     // Decide whether the current principal should be allowed to update the CatalogRecord.
     final DisjunctivePrivilegeGroup orPrivilegeGroups = getAuthorizedPrivileges(update);
     return AuthorizationUtils.isAuthorized(
         context, PoliciesConfig.DATASET_PRIVILEGES.getResourceType(), urn, orPrivilegeGroups);
   }
 
-  private DisjunctivePrivilegeGroup getAuthorizedPrivileges(final CatalogRecordUpdateInput updateInput) {
+  private DisjunctivePrivilegeGroup getAuthorizedPrivileges(
+      final CatalogRecordUpdateInput updateInput) {
 
     final ConjunctivePrivilegeGroup allPrivilegesGroup =
         new ConjunctivePrivilegeGroup(
@@ -312,4 +316,3 @@ public class CatalogRecordType
         ImmutableList.of(allPrivilegesGroup, specificPrivilegeGroup));
   }
 }
-

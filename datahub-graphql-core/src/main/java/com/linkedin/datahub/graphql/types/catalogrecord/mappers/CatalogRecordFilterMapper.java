@@ -4,7 +4,6 @@ import com.linkedin.datahub.graphql.QueryContext;
 import com.linkedin.datahub.graphql.generated.DatasetFilter;
 import com.linkedin.datahub.graphql.generated.DatasetFilterType;
 import com.linkedin.datahub.graphql.types.mappers.ModelMapper;
-
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 

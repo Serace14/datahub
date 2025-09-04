@@ -8,10 +8,9 @@ import com.linkedin.dataset.Quantile;
 import com.linkedin.dataset.ValueFrequency;
 import com.linkedin.metadata.aspect.EnvelopedAspect;
 import com.linkedin.metadata.utils.GenericRecordUtils;
-
+import java.util.stream.Collectors;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.stream.Collectors;
 
 public class CatalogRecordProfileMapper
     implements TimeSeriesAspectMapper<com.linkedin.datahub.graphql.generated.DatasetProfile> {

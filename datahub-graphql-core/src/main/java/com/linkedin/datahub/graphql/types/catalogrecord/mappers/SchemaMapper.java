@@ -5,10 +5,9 @@ import com.linkedin.datahub.graphql.QueryContext;
 import com.linkedin.datahub.graphql.generated.Schema;
 import com.linkedin.mxe.SystemMetadata;
 import com.linkedin.schema.SchemaMetadata;
-
+import java.util.stream.Collectors;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.stream.Collectors;
 
 public class SchemaMapper {
 

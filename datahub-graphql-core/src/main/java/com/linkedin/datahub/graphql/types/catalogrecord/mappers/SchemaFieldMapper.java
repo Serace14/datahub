@@ -9,7 +9,6 @@ import com.linkedin.datahub.graphql.generated.SchemaFieldEntity;
 import com.linkedin.datahub.graphql.types.glossary.mappers.GlossaryTermsMapper;
 import com.linkedin.datahub.graphql.types.tag.mappers.GlobalTagsMapper;
 import com.linkedin.metadata.utils.SchemaFieldUtils;
-
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 

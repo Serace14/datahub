@@ -57,6 +57,7 @@ public class SearchUtils {
   public static final List<EntityType> SEARCHABLE_ENTITY_TYPES =
       ImmutableList.of(
           EntityType.DATASET,
+          EntityType.CATALOG_RECORD,
           EntityType.DASHBOARD,
           EntityType.DASHBOARD2,
           EntityType.CHART,
@@ -85,6 +86,7 @@ public class SearchUtils {
   public static final List<EntityType> AUTO_COMPLETE_ENTITY_TYPES =
       ImmutableList.of(
           EntityType.DATASET,
+          EntityType.CATALOG_RECORD,
           EntityType.DASHBOARD,
           EntityType.DASHBOARD2,
           EntityType.CHART,
@@ -108,6 +110,7 @@ public class SearchUtils {
   public static final List<EntityType> BROWSE_ENTITY_TYPES =
       ImmutableList.of(
           EntityType.DATASET,
+          EntityType.CATALOG_RECORD,
           EntityType.DASHBOARD,
           EntityType.DASHBOARD2,
           EntityType.CHART,
@@ -123,6 +126,7 @@ public class SearchUtils {
   public static final List<String> PRIORITIZED_SOURCE_ENTITY_TYPES =
       Stream.of(
               DATASET_ENTITY_NAME,
+              CATALOGRECORD_ENTITY_NAME,
               DASHBOARD_ENTITY_NAME,
               DASHBOARD2_ENTITY_NAME,
               DATA_FLOW_ENTITY_NAME,

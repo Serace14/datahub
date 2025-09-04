@@ -1,5 +1,6 @@
 package com.linkedin.common.urn;
 
+import com.linkedin.common.FabricType;
 import com.linkedin.data.template.Custom;
 import com.linkedin.data.template.DirectCoercer;
 import com.linkedin.data.template.TemplateOutputCastException;
@@ -11,19 +12,25 @@ public class CatalogRecordUrn extends Urn {
 
   private final DataPlatformUrn _platform;
   private final String _datasetName;
+  private final FabricType _origin;
 
-  public CatalogRecordUrn(DataPlatformUrn platform, String name) {
+  public CatalogRecordUrn(DataPlatformUrn platform, String name, FabricType origin) {
     super(ENTITY_TYPE, TupleKey.create(platform, name));
     this._platform = platform;
     this._datasetName = name;
+    this._origin = origin;
   }
 
   public DataPlatformUrn getPlatformEntity() {
     return _platform;
   }
 
-  public String getDatasetNameEntity() {
+  public String getCatalogRecordNameEntity() {
     return _datasetName;
+  }
+
+  public FabricType getOriginEntity() {
+    return _origin;
   }
 
   public static CatalogRecordUrn createFromString(String rawUrn) throws URISyntaxException {
@@ -43,7 +50,8 @@ public class CatalogRecordUrn extends Urn {
         try {
           return new CatalogRecordUrn(
               (DataPlatformUrn) key.getAs(0, DataPlatformUrn.class),
-              (String) key.getAs(1, String.class));
+              (String) key.getAs(1, String.class),
+              (FabricType) key.getAs(2, FabricType.class));
         } catch (Exception var3) {
           throw new URISyntaxException(
               urn.toString(), "Invalid URN Parameter: '" + var3.getMessage());

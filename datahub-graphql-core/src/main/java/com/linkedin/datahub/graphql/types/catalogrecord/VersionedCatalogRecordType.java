@@ -1,5 +1,7 @@
 package com.linkedin.datahub.graphql.types.catalogrecord;
 
+import static com.linkedin.metadata.Constants.*;
+
 import com.google.common.collect.ImmutableSet;
 import com.linkedin.common.VersionedUrn;
 import com.linkedin.common.urn.Urn;
@@ -8,20 +10,15 @@ import com.linkedin.datahub.graphql.QueryContext;
 import com.linkedin.datahub.graphql.generated.Entity;
 import com.linkedin.datahub.graphql.generated.EntityType;
 import com.linkedin.datahub.graphql.generated.VersionedCatalogRecord;
-import com.linkedin.datahub.graphql.generated.VersionedDataset;
 import com.linkedin.datahub.graphql.types.catalogrecord.mappers.VersionedCatalogRecordMapper;
-import com.linkedin.datahub.graphql.types.dataset.mappers.VersionedDatasetMapper;
 import com.linkedin.entity.EntityResponse;
 import com.linkedin.entity.client.EntityClient;
 import com.linkedin.metadata.Constants;
 import graphql.execution.DataFetcherResult;
-
-import javax.annotation.Nonnull;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
-
-import static com.linkedin.metadata.Constants.*;
+import javax.annotation.Nonnull;
 
 public class VersionedCatalogRecordType
     implements com.linkedin.datahub.graphql.types.EntityType<VersionedCatalogRecord, VersionedUrn> {
@@ -29,11 +26,11 @@ public class VersionedCatalogRecordType
   private static final Set<String> ASPECTS_TO_RESOLVE =
       ImmutableSet.of(
           CATALOGRECORD_KEY_ASPECT_NAME,
-              CATALOGRECORD_PROPERTIES_ASPECT_NAME,
+          CATALOGRECORD_PROPERTIES_ASPECT_NAME,
           EDITABLE_CATALOGRECORD_PROPERTIES_ASPECT_NAME,
-              CATALOGRECORD_DEPRECATION_ASPECT_NAME, // This aspect is deprecated.
+          CATALOGRECORD_DEPRECATION_ASPECT_NAME, // This aspect is deprecated.
           DEPRECATION_ASPECT_NAME,
-              CATALOGRECORD_UPSTREAM_LINEAGE_ASPECT_NAME,
+          CATALOGRECORD_UPSTREAM_LINEAGE_ASPECT_NAME,
           UPSTREAM_LINEAGE_ASPECT_NAME,
           EDITABLE_SCHEMA_METADATA_ASPECT_NAME,
           VIEW_PROPERTIES_ASPECT_NAME,

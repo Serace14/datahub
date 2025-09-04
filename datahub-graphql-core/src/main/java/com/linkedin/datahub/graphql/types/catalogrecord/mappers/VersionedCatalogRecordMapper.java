@@ -1,5 +1,8 @@
 package com.linkedin.datahub.graphql.types.catalogrecord.mappers;
 
+import static com.linkedin.datahub.graphql.authorization.AuthorizationUtils.canView;
+import static com.linkedin.metadata.Constants.*;
+
 import com.linkedin.common.Deprecation;
 import com.linkedin.common.GlobalTags;
 import com.linkedin.common.GlossaryTerms;
@@ -10,8 +13,8 @@ import com.linkedin.common.urn.Urn;
 import com.linkedin.data.DataMap;
 import com.linkedin.datahub.graphql.QueryContext;
 import com.linkedin.datahub.graphql.authorization.AuthorizationUtils;
-import com.linkedin.datahub.graphql.generated.FabricType;
 import com.linkedin.datahub.graphql.generated.*;
+import com.linkedin.datahub.graphql.generated.FabricType;
 import com.linkedin.datahub.graphql.types.common.mappers.*;
 import com.linkedin.datahub.graphql.types.common.mappers.util.MappingHelper;
 import com.linkedin.datahub.graphql.types.domain.DomainAssociationMapper;
@@ -26,17 +29,12 @@ import com.linkedin.domain.Domains;
 import com.linkedin.entity.EntityResponse;
 import com.linkedin.entity.EnvelopedAspectMap;
 import com.linkedin.metadata.key.CatalogRecordKey;
-import com.linkedin.metadata.key.DatasetKey;
 import com.linkedin.mxe.SystemMetadata;
 import com.linkedin.schema.EditableSchemaMetadata;
 import com.linkedin.schema.SchemaMetadata;
-import lombok.extern.slf4j.Slf4j;
-
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
-import static com.linkedin.datahub.graphql.authorization.AuthorizationUtils.canView;
-import static com.linkedin.metadata.Constants.*;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Maps GMS response objects to objects conforming to the GQL schema.
@@ -44,7 +42,8 @@ import static com.linkedin.metadata.Constants.*;
  * <p>To be replaced by auto-generated mappers implementations
  */
 @Slf4j
-public class VersionedCatalogRecordMapper implements ModelMapper<EntityResponse, VersionedCatalogRecord> {
+public class VersionedCatalogRecordMapper
+    implements ModelMapper<EntityResponse, VersionedCatalogRecord> {
 
   public static final VersionedCatalogRecordMapper INSTANCE = new VersionedCatalogRecordMapper();
 
@@ -86,40 +85,44 @@ public class VersionedCatalogRecordMapper implements ModelMapper<EntityResponse,
     mappingHelper.mapToResult(
         INSTITUTIONAL_MEMORY_ASPECT_NAME,
         (catalogRecord, dataMap) ->
-                catalogRecord.setInstitutionalMemory(
+            catalogRecord.setInstitutionalMemory(
                 InstitutionalMemoryMapper.map(
                     context, new InstitutionalMemory(dataMap), entityUrn)));
     mappingHelper.mapToResult(
         OWNERSHIP_ASPECT_NAME,
         (catalogRecord, dataMap) ->
-                catalogRecord.setOwnership(OwnershipMapper.map(context, new Ownership(dataMap), entityUrn)));
+            catalogRecord.setOwnership(
+                OwnershipMapper.map(context, new Ownership(dataMap), entityUrn)));
     mappingHelper.mapToResult(
         STATUS_ASPECT_NAME,
-        (catalogRecord, dataMap) -> catalogRecord.setStatus(StatusMapper.map(context, new Status(dataMap))));
+        (catalogRecord, dataMap) ->
+            catalogRecord.setStatus(StatusMapper.map(context, new Status(dataMap))));
     mappingHelper.mapToResult(
         GLOBAL_TAGS_ASPECT_NAME,
         (catalogRecord, dataMap) -> mapGlobalTags(context, catalogRecord, dataMap, entityUrn));
     mappingHelper.mapToResult(
         EDITABLE_SCHEMA_METADATA_ASPECT_NAME,
         (catalogRecord, dataMap) ->
-                catalogRecord.setEditableSchemaMetadata(
+            catalogRecord.setEditableSchemaMetadata(
                 EditableSchemaMetadataMapper.map(
                     context, new EditableSchemaMetadata(dataMap), entityUrn)));
     mappingHelper.mapToResult(
         GLOSSARY_TERMS_ASPECT_NAME,
         (catalogRecord, dataMap) ->
-                catalogRecord.setGlossaryTerms(
+            catalogRecord.setGlossaryTerms(
                 GlossaryTermsMapper.map(context, new GlossaryTerms(dataMap), entityUrn)));
     mappingHelper.mapToResult(
         context, CONTAINER_ASPECT_NAME, VersionedCatalogRecordMapper::mapContainers);
-    mappingHelper.mapToResult(context, DOMAINS_ASPECT_NAME, VersionedCatalogRecordMapper::mapDomains);
+    mappingHelper.mapToResult(
+        context, DOMAINS_ASPECT_NAME, VersionedCatalogRecordMapper::mapDomains);
     mappingHelper.mapToResult(
         DEPRECATION_ASPECT_NAME,
         (catalogRecord, dataMap) ->
-                catalogRecord.setDeprecation(DeprecationMapper.map(context, new Deprecation(dataMap))));
+            catalogRecord.setDeprecation(DeprecationMapper.map(context, new Deprecation(dataMap))));
 
     if (context != null && !canView(context.getOperationContext(), entityUrn)) {
-      return AuthorizationUtils.restrictEntity(mappingHelper.getResult(), VersionedCatalogRecord.class);
+      return AuthorizationUtils.restrictEntity(
+          mappingHelper.getResult(), VersionedCatalogRecord.class);
     } else {
       return mappingHelper.getResult();
     }
@@ -132,9 +135,11 @@ public class VersionedCatalogRecordMapper implements ModelMapper<EntityResponse,
     return null;
   }
 
-  private void mapCatalogRecordKey(@Nonnull VersionedCatalogRecord dataset, @Nonnull DataMap dataMap) {
+  private void mapCatalogRecordKey(
+      @Nonnull VersionedCatalogRecord dataset, @Nonnull DataMap dataMap) {
     final CatalogRecordKey gmsKey = new CatalogRecordKey(dataMap);
     dataset.setName(gmsKey.getName());
+    dataset.setOrigin(FabricType.valueOf(gmsKey.getOrigin().toString()));
     dataset.setPlatform(
         DataPlatform.builder()
             .setType(EntityType.DATA_PLATFORM)
@@ -171,7 +176,8 @@ public class VersionedCatalogRecordMapper implements ModelMapper<EntityResponse,
     catalogRecord.setEditableProperties(editableProperties);
   }
 
-  private void mapViewProperties(@Nonnull VersionedCatalogRecord catalogRecord, @Nonnull DataMap dataMap) {
+  private void mapViewProperties(
+      @Nonnull VersionedCatalogRecord catalogRecord, @Nonnull DataMap dataMap) {
     final ViewProperties properties = new ViewProperties(dataMap);
     final com.linkedin.datahub.graphql.generated.ViewProperties graphqlProperties =
         new com.linkedin.datahub.graphql.generated.ViewProperties();

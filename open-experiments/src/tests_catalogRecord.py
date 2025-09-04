@@ -11,7 +11,7 @@ API_URL = "http://localhost:8080"
 ENTITY_TYPE = "catalogRecord"
 ASPECT_NAME = "datasetProperties"   # escogemos un aspect común como datasetProperties
 CATALOG_ID = 2000 + random.randint(0, 8999)
-URN = f"urn:li:catalogRecord:(looker,catalog-{CATALOG_ID})"
+URN = f"urn:li:catalogRecord:(urn:li:dataPlatform:geoserver,{CATALOG_ID},PROD)"
 ASPECT_FILE = "catalogRecordInfo.json"
 DATAHUB_CLI = "../../metadata-ingestion/venv/bin/datahub"
 

@@ -171,7 +171,7 @@ public class Constants {
   public static final String DATASET_PROFILE_ASPECT_NAME = "datasetProfile";
 
   // CatalogRecord
-  public static final String CATALOGRECORD_KEY_ASPECT_NAME = "datasetKey";
+  public static final String CATALOGRECORD_KEY_ASPECT_NAME = "catalogRecordKey";
   public static final String CATALOGRECORD_PROPERTIES_ASPECT_NAME = "datasetProperties";
   public static final String EDITABLE_CATALOGRECORD_PROPERTIES_ASPECT_NAME =
       "editableDatasetProperties";
@@ -200,7 +200,7 @@ public class Constants {
       "editableDashboardProperties";
   public static final String DASHBOARD_USAGE_STATISTICS_ASPECT_NAME = "dashboardUsageStatistics";
 
-  // Dashboard
+  // Dashboard2
   public static final String DASHBOARD2_KEY_ASPECT_NAME = "dashboard2Key";
   public static final String DASHBOARD2_INFO_ASPECT_NAME = "dashboard2Info";
   public static final String EDITABLE_DASHBOARD2_PROPERTIES_ASPECT_NAME =

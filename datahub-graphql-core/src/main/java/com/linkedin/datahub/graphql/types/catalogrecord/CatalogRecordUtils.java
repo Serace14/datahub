@@ -1,8 +1,6 @@
 package com.linkedin.datahub.graphql.types.catalogrecord;
 
 import com.linkedin.common.urn.CatalogRecordUrn;
-import com.linkedin.common.urn.DatasetUrn;
-
 import java.net.URISyntaxException;
 
 public class CatalogRecordUtils {
