@@ -89,6 +89,94 @@ fragment autoCompleteFields on Entity {
             ...browsePathV2Fields
         }
     }
+    ... on CatalogRecord {
+        exists
+        name
+        platform {
+            ...platformFields
+        }
+        dataPlatformInstance {
+            ...dataPlatformInstanceFields
+        }
+        properties {
+            name
+            qualifiedName
+            lastModified {
+                time
+                actor
+            }
+        }
+        parentContainers {
+            ...parentContainersFields
+        }
+        subTypes {
+            typeNames
+        }
+        siblings {
+            isPrimary
+            siblings {
+                urn
+                type
+                ... on CatalogRecord {
+                    exists
+                    platform {
+                        ...platformFields
+                    }
+                    parentContainers {
+                        ...parentContainersFields
+                    }
+                    name
+                    properties {
+                        name
+                        description
+                        qualifiedName
+                        externalUrl
+                        lastModified {
+                            time
+                            actor
+                        }
+                    }
+                }
+            }
+        }
+        siblingsSearch(input: { query: "*", count: 1 }) {
+            count
+            total
+            searchResults {
+                entity {
+                    urn
+                    type
+                    ... on CatalogRecord {
+                        exists
+                        platform {
+                            ...platformFields
+                        }
+                        parentContainers {
+                            ...parentContainersFields
+                        }
+                        name
+                        properties {
+                            name
+                            description
+                            qualifiedName
+                            externalUrl
+                            lastModified {
+                                time
+                                actor
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        ...catalogRecordStatsFields
+        access {
+            ...getAccess
+        }
+        browsePathV2 {
+            ...browsePathV2Fields
+        }
+    }
     ... on Role {
         id
         properties {
@@ -429,6 +517,38 @@ fragment datasetStatsFields on Dataset {
     }
 }
 
+fragment catalogRecordStatsFields on CatalogRecord {
+    lastProfile: datasetProfiles(limit: 1) {
+        rowCount
+        columnCount
+        sizeInBytes
+        timestampMillis
+    }
+    lastOperation: operations(limit: 1) {
+        lastUpdatedTimestamp
+        timestampMillis
+    }
+    statsSummary {
+        queryCountLast30Days
+        uniqueUserCountLast30Days
+        topUsersLast30Days {
+            urn
+            type
+            username
+            properties {
+                displayName
+                firstName
+                lastName
+                fullName
+            }
+            editableProperties {
+                displayName
+                pictureLink
+            }
+        }
+    }
+}
+
 fragment nonSiblingsDatasetSearchFields on Dataset {
     exists
     name
@@ -488,6 +608,67 @@ fragment nonSiblingsDatasetSearchFields on Dataset {
         ...entityHealth
     }
     ...datasetStatsFields
+}
+
+fragment nonSiblingsCatalogRecordSearchFields on CatalogRecord {
+    exists
+    name
+    origin
+    uri
+    platform {
+        ...platformFields
+    }
+    dataPlatformInstance {
+        ...dataPlatformInstanceFields
+    }
+    editableProperties {
+        name
+        description
+    }
+    access {
+        ...getAccess
+    }
+    platformNativeType
+    properties {
+        name
+        description
+        qualifiedName
+        customProperties {
+            key
+            value
+        }
+        externalUrl
+        lastModified {
+            time
+            actor
+        }
+    }
+    ownership {
+        ...ownershipFields
+    }
+    globalTags {
+        ...globalTagsFields
+    }
+    glossaryTerms {
+        ...glossaryTerms
+    }
+    subTypes {
+        typeNames
+    }
+    domain {
+        ...entityDomain
+    }
+    ...entityDataProduct
+    parentContainers {
+        ...parentContainersFields
+    }
+    deprecation {
+        ...deprecationFields
+    }
+    health {
+        ...entityHealth
+    }
+    ...catalogRecordStatsFields
 }
 
 fragment searchResultsWithoutSchemaField on Entity {

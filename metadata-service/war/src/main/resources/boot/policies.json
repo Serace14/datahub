@@ -370,6 +370,7 @@
               "field": "RESOURCE_TYPE",
               "values": [
                 "dataset",
+                "catalogRecord",
                 "chart",
                 "dashboard",
                 "dashboard2",

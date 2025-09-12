@@ -25,6 +25,11 @@ public class UrnToEntityMapper implements ModelMapper<com.linkedin.common.urn.Ur
       ((Dataset) partialEntity).setUrn(input.toString());
       ((Dataset) partialEntity).setType(EntityType.DATASET);
     }
+    if (input.getEntityType().equals("catalogRecord")) {
+      partialEntity = new CatalogRecord();
+      ((CatalogRecord) partialEntity).setUrn(input.toString());
+      ((CatalogRecord) partialEntity).setType(EntityType.CATALOG_RECORD);
+    }
     if (input.getEntityType().equals("role")) {
       partialEntity = new Role();
       ((Role) partialEntity).setUrn(input.toString());

@@ -465,6 +465,78 @@ fragment nonRecursiveDatasetFields on Dataset {
     }
 }
 
+fragment nonRecursiveCatalogRecordFields on CatalogRecord {
+    urn
+    name
+    type
+    origin
+    uri
+    lastIngested
+    platform {
+        ...platformFields
+    }
+    dataPlatformInstance {
+        ...dataPlatformInstanceFields
+    }
+    platformNativeType
+    properties {
+        name
+        qualifiedName
+        description
+        customProperties {
+            key
+            value
+        }
+        externalUrl
+        lastModified {
+            time
+            actor
+        }
+    }
+    structuredProperties {
+        properties {
+            ...structuredPropertiesFields
+        }
+    }
+    editableProperties {
+        name
+        description
+    }
+    ownership {
+        ...ownershipFields
+    }
+    institutionalMemory {
+        ...institutionalMemoryFields
+    }
+    globalTags {
+        ...globalTagsFields
+    }
+    glossaryTerms {
+        ...glossaryTerms
+    }
+    subTypes {
+        typeNames
+    }
+    domain {
+        ...entityDomain
+    }
+    application {
+        ...entityApplication
+    }
+    container {
+        ...entityContainer
+    }
+    deprecation {
+        ...deprecationFields
+    }
+    embed {
+        ...embedFields
+    }
+    browsePathV2 {
+        ...browsePathV2Fields
+    }
+}
+
 fragment nonRecursiveDataFlowFields on DataFlow {
     urn
     type
@@ -1390,6 +1462,13 @@ fragment entityDisplayNameFields on Entity {
             qualifiedName
         }
     }
+    ... on CatalogRecord {
+        name
+        properties {
+            name
+            qualifiedName
+        }
+    }
     ... on CorpUser {
         username
         properties {
@@ -1419,6 +1498,12 @@ fragment entityDisplayNameFields on Entity {
     ... on Dashboard {
         dashboardId
         properties {
+            name
+        }
+    }
+    ... on Dashboard2 {
+        dashboardId
+        info {
             name
         }
     }

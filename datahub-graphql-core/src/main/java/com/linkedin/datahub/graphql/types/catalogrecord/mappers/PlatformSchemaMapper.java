@@ -6,7 +6,6 @@ import com.linkedin.datahub.graphql.generated.PlatformSchema;
 import com.linkedin.datahub.graphql.generated.TableSchema;
 import com.linkedin.datahub.graphql.types.mappers.ModelMapper;
 import com.linkedin.schema.SchemaMetadata;
-
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 

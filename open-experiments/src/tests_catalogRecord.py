@@ -103,7 +103,9 @@ def test_graphql_search_catalogrecord():
         """
     }
     r = requests.post(f"{API_URL}/api/graphql", headers=headers(), json=query)
-    results = r.json().get("data", {}).get("search", {}).get("searchResults")
+    response_json = r.json()
+    print("\n[DEBUG] GraphQL search_catalogrecord response:", json.dumps(response_json, indent=2))
+    results = response_json.get("data", {}).get("search", {}).get("searchResults")
     assert results is not None
 
 def test_validate_aspect_structure(get_aspect_output):
@@ -137,7 +139,9 @@ def test_search_by_name():
         '''
     }
     r = requests.post(f"{API_URL}/api/graphql", headers=headers(), json=query)
-    results = r.json().get("data", {}).get("search", {}).get("searchResults", [])
+    response_json = r.json()
+    print("\n[DEBUG] GraphQL search_by_name response:", json.dumps(response_json, indent=2))
+    results = response_json.get("data", {}).get("search", {}).get("searchResults", [])
     assert any(res.get("entity", {}).get("urn") == URN for res in results)
 
 def test_query_catalogrecord_by_urn():

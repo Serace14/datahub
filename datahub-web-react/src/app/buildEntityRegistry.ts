@@ -14,6 +14,7 @@ import { DataPlatformInstanceEntity } from '@app/entity/dataPlatformInstance/Dat
 import { DataProcessInstanceEntity } from '@app/entity/dataProcessInstance/DataProcessInstanceEntity';
 import { DataProductEntity } from '@app/entity/dataProduct/DataProductEntity';
 import { DatasetEntity } from '@app/entity/dataset/DatasetEntity';
+import { CatalogRecordEntity } from '@app/entity/catalogRecord/CatalogRecordEntity';
 import { DomainEntity } from '@app/entity/domain/DomainEntity';
 import { ERModelRelationshipEntity } from '@app/entity/ermodelrelationships/ERModelRelationshipEntity';
 import GlossaryNodeEntity from '@app/entity/glossaryNode/GlossaryNodeEntity';
@@ -33,6 +34,7 @@ import { UserEntity } from '@app/entity/user/User';
 export default function buildEntityRegistry() {
     const registry = new EntityRegistry();
     registry.register(new DatasetEntity());
+    registry.register(new CatalogRecordEntity());
     registry.register(new DataContractEntity());
     registry.register(new DashboardEntity());
     registry.register(new Dashboard2Entity());

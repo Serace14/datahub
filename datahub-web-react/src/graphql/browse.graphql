@@ -40,6 +40,37 @@ query getBrowseResults($input: BrowseInput!) {
                 }
                 ...entityDataProduct
             }
+            ... on CatalogRecord {
+                name
+                origin
+                properties {
+                    name
+                    description
+                }
+                editableProperties {
+                    name
+                    description
+                }
+                platform {
+                    ...platformFields
+                }
+                ownership {
+                    ...ownershipFields
+                }
+                globalTags {
+                    ...globalTagsFields
+                }
+                glossaryTerms {
+                    ...glossaryTerms
+                }
+                subTypes {
+                    typeNames
+                }
+                domain {
+                    ...entityDomain
+                }
+                ...entityDataProduct
+            }
             ... on Dashboard {
                 urn
                 type
