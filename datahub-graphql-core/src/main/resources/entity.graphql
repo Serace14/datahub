@@ -35,9 +35,14 @@ type Query {
   dataset(urn: String!): Dataset
 
   """
-  Fetch a Dataset by primary key (urn)
+  Fetch a CatalogRecord by primary key (urn)
   """
   catalogRecord(urn: String!): CatalogRecord
+
+  """
+  Fetch a PlatformResource by primary key (urn)
+  """
+  platformResource(urn: String!): PlatformResource
 
   """
   Fetch a Dataset by primary key (urn) at a point in time based on aspect versions (versionStamp)
@@ -1092,6 +1097,11 @@ enum EntityType {
   The CatalogRecord Entity
   """
   CATALOG_RECORD
+
+  """
+  The PlatformResource Entity
+  """
+  PLATFORM_RESOURCE
 
   """
   The CorpUser Entity
@@ -2202,6 +2212,48 @@ type CatalogRecord implements EntityWithRelationships & Entity & BrowsableEntity
   Structured properties about this Dataset
   """
   structuredProperties: StructuredProperties
+}
+
+type PlatformResource implements Entity {
+  urn: String!
+  type: EntityType!
+  id: String!
+  info: PlatformResourceInfo
+  dataPlatformInstance: DataPlatformInstance
+  status: Status
+  structuredProperties: StructuredProperties
+  relationships(input: RelationshipsInput!): EntityRelationshipsResult
+}
+
+"""
+Additional read only info about a PlatformResource
+"""
+type PlatformResourceInfo {
+  resourceType: String!
+  primaryKey: String!
+  secondaryKeys: [String!]
+  value: SerializedValue
+}
+
+type SerializedValue {
+  blob: String! # En GraphQL, los bytes suelen representarse como String (base64)
+  contentType: SerializedValueContentType!
+  schemaType: SerializedValueSchemaType
+  schemaRef: String
+}
+
+enum SerializedValueContentType {
+  JSON
+  BINARY
+}
+
+enum SerializedValueSchemaType {
+  AVRO
+  PROTOBUF
+  PEGASUS
+  THRIFT
+  JSON
+  NONE
 }
 
 type RoleAssociation {

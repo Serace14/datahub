@@ -236,6 +236,7 @@ public class Constants {
       "dataPlatformInstanceProperties";
 
   // PlatformResource
+  public static final String PLATFORM_RESOURCE_KEY_ASPECT_NAME = "platformResourceKey";
   public static final String PLATFORM_RESOURCE_INFO_ASPECT_NAME = "platformResourceInfo";
 
   // ML Feature

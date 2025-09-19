@@ -23,6 +23,8 @@ public class EntityTypeUrnMapper {
           .put(Constants.DOMAIN_ENTITY_NAME, "urn:li:entityType:datahub.domain")
           .put(Constants.DATASET_ENTITY_NAME, "urn:li:entityType:datahub.dataset")
           .put(Constants.CATALOGRECORD_ENTITY_NAME, "urn:li:entityType:datahub.catalogRecord")
+          .put(
+              Constants.PLATFORM_RESOURCE_ENTITY_NAME, "urn:li:entityType:datahub.platformResource")
           .put(Constants.CORP_USER_ENTITY_NAME, "urn:li:entityType:datahub.corpuser")
           .put(Constants.CORP_GROUP_ENTITY_NAME, "urn:li:entityType:datahub.corpGroup")
           .put(Constants.DATA_PLATFORM_ENTITY_NAME, "urn:li:entityType:datahub.dataPlatform")

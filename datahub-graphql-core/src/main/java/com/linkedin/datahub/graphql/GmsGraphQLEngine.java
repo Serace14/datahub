@@ -294,6 +294,7 @@ import com.linkedin.datahub.graphql.types.mlmodel.MLPrimaryKeyType;
 import com.linkedin.datahub.graphql.types.module.PageModuleType;
 import com.linkedin.datahub.graphql.types.notebook.NotebookType;
 import com.linkedin.datahub.graphql.types.ownership.OwnershipType;
+import com.linkedin.datahub.graphql.types.platformresource.PlatformResourceType;
 import com.linkedin.datahub.graphql.types.policy.DataHubPolicyType;
 import com.linkedin.datahub.graphql.types.post.PostType;
 import com.linkedin.datahub.graphql.types.query.QueryType;
@@ -428,6 +429,7 @@ public class GmsGraphQLEngine {
 
   private final DatasetType datasetType;
   private final CatalogRecordType catalogRecordType;
+  private final PlatformResourceType platformResourceType;
 
   private final RoleType roleType;
 
@@ -565,6 +567,7 @@ public class GmsGraphQLEngine {
 
     this.datasetType = new DatasetType(entityClient);
     this.catalogRecordType = new CatalogRecordType(entityClient);
+    this.platformResourceType = new PlatformResourceType(entityClient);
     this.roleType = new RoleType(entityClient);
     this.corpUserType = new CorpUserType(entityClient, featureFlags);
     this.corpGroupType = new CorpGroupType(entityClient);
@@ -626,6 +629,7 @@ public class GmsGraphQLEngine {
             ImmutableList.of(
                 datasetType,
                 catalogRecordType,
+                platformResourceType,
                 roleType,
                 corpUserType,
                 corpGroupType,
@@ -728,6 +732,7 @@ public class GmsGraphQLEngine {
     configureGenericEntityResolvers(builder);
     configureDatasetResolvers(builder);
     configureCatalogRecordResolvers(builder);
+    configurePlatformResourceResolvers(builder);
     configureCorpUserResolvers(builder);
     configureCorpGroupResolvers(builder);
     configureDashboardResolvers(builder);
@@ -1000,6 +1005,7 @@ public class GmsGraphQLEngine {
                 .dataFetcher("browsePaths", new BrowsePathsResolver(browsableTypes))
                 .dataFetcher("dataset", getResolver(datasetType))
                 .dataFetcher("catalogRecord", getResolver(catalogRecordType))
+                .dataFetcher("platformResource", getResolver(platformResourceType))
                 .dataFetcher("role", getResolver(roleType))
                 .dataFetcher(
                     "versionedDataset",
@@ -2007,6 +2013,33 @@ public class GmsGraphQLEngine {
                                   .collect(Collectors.toList())
                               : null;
                         })));
+  }
+
+  /**
+   * Configures resolvers responsible for resolving the {@link
+   * com.linkedin.datahub.graphql.generated.PlatformResource} type.
+   */
+  private void configurePlatformResourceResolvers(final RuntimeWiring.Builder builder) {
+    builder.type(
+        "PlatformResource",
+        typeWiring ->
+            typeWiring
+                .dataFetcher("relationships", new EntityRelationshipsResultResolver(graphClient))
+                .dataFetcher(
+                    "aspects", new WeaklyTypedAspectsResolver(entityClient, entityRegistry))
+                .dataFetcher(
+                    "dataPlatformInstance",
+                    new LoadableTypeResolver<>(
+                        dataPlatformInstanceType,
+                        (env) -> {
+                          final PlatformResource pr = env.getSource();
+                          return pr.getDataPlatformInstance() != null
+                              ? pr.getDataPlatformInstance().getUrn()
+                              : null;
+                        }))
+                .dataFetcher(
+                    "platformResourceInfo",
+                    (env) -> ((PlatformResource) env.getSource()).getInfo()));
   }
 
   /**

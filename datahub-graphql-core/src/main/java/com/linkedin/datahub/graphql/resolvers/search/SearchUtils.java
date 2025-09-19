@@ -58,6 +58,7 @@ public class SearchUtils {
       ImmutableList.of(
           EntityType.DATASET,
           EntityType.CATALOG_RECORD,
+          EntityType.PLATFORM_RESOURCE,
           EntityType.DASHBOARD,
           EntityType.DASHBOARD2,
           EntityType.CHART,
@@ -87,6 +88,7 @@ public class SearchUtils {
       ImmutableList.of(
           EntityType.DATASET,
           EntityType.CATALOG_RECORD,
+          EntityType.PLATFORM_RESOURCE,
           EntityType.DASHBOARD,
           EntityType.DASHBOARD2,
           EntityType.CHART,
@@ -111,6 +113,7 @@ public class SearchUtils {
       ImmutableList.of(
           EntityType.DATASET,
           EntityType.CATALOG_RECORD,
+          EntityType.PLATFORM_RESOURCE,
           EntityType.DASHBOARD,
           EntityType.DASHBOARD2,
           EntityType.CHART,
@@ -127,6 +130,7 @@ public class SearchUtils {
       Stream.of(
               DATASET_ENTITY_NAME,
               CATALOGRECORD_ENTITY_NAME,
+              PLATFORM_RESOURCE_ENTITY_NAME,
               DASHBOARD_ENTITY_NAME,
               DASHBOARD2_ENTITY_NAME,
               DATA_FLOW_ENTITY_NAME,

@@ -230,11 +230,11 @@ configurations {
   assets
 }
 
-distZip {
-  dependsOn yarnBuild
-  archiveFileName = "datahub-web-react-${archiveVersion}.${archiveExtension}"
-  from 'dist'
-}
+//distZip {
+//  dependsOn yarnBuild
+//  archiveFileName = "datahub-web-react-${archiveVersion}.${archiveExtension}"
+//  from 'dist'
+//}
 
 jar {
   dependsOn yarnBuild
