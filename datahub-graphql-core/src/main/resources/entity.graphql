@@ -2223,6 +2223,10 @@ type PlatformResource implements Entity {
   status: Status
   structuredProperties: StructuredProperties
   relationships(input: RelationshipsInput!): EntityRelationshipsResult
+  lineage(input: LineageInput!): EntityLineageResult
+  fineGrainedLineages: [FineGrainedLineage!]
+  siblings: SiblingProperties
+  siblingsSearch(input: ScrollAcrossEntitiesInput!): ScrollResults
 }
 
 """

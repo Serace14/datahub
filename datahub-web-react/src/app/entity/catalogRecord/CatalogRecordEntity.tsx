@@ -90,7 +90,7 @@ export class CatalogRecordEntity implements Entity<CatalogRecord> {
 
     getGraphName = () => 'catalogRecord';
 
-    getEntityName = () => 'catalogRecord';
+    getEntityName = () => 'CatalogRecord';
 
     getCollectionName = () => 'CatalogRecords';
 

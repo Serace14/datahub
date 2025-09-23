@@ -1,0 +1,9 @@
+# relatedResourcesAspect.yaml
+name: relatedResources
+type: STRUCTURED
+fields:
+  - name: resources
+    type:
+      array:
+        type: string
+description: "Aspecto que relaciona CatalogRecord con PlatformResource"

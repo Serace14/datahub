@@ -95,6 +95,7 @@ export const valueTypes = [
 export const SEARCHABLE_ENTITY_TYPES = [
     EntityType.Dataset,
     EntityType.CatalogRecord,
+    EntityType.PlatformResource,
     EntityType.DataJob,
     EntityType.DataFlow,
     EntityType.Chart,
@@ -120,6 +121,7 @@ export const SEARCHABLE_ENTITY_TYPES = [
 export const APPLIES_TO_ENTITIES = [
     EntityType.Dataset,
     EntityType.CatalogRecord,
+    EntityType.PlatformResource,
     EntityType.DataJob,
     EntityType.DataFlow,
     EntityType.Chart,

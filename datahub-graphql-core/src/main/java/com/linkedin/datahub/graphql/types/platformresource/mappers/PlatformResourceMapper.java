@@ -3,10 +3,7 @@ package com.linkedin.datahub.graphql.types.platformresource.mappers;
 import static com.linkedin.datahub.graphql.authorization.AuthorizationUtils.canView;
 import static com.linkedin.metadata.Constants.*;
 
-import com.linkedin.common.DataPlatformInstance;
-import com.linkedin.common.SerializedValueContentType;
-import com.linkedin.common.SerializedValueSchemaType;
-import com.linkedin.common.Status;
+import com.linkedin.common.*;
 import com.linkedin.common.urn.Urn;
 import com.linkedin.data.DataMap;
 import com.linkedin.datahub.graphql.QueryContext;
@@ -18,10 +15,13 @@ import com.linkedin.datahub.graphql.generated.SerializedValue;
 // import com.linkedin.datahub.graphql.generated.SerializedValueContentType;
 // import com.linkedin.datahub.graphql.generated.SerializedValueSchemaType;
 import com.linkedin.datahub.graphql.types.common.mappers.DataPlatformInstanceAspectMapper;
+import com.linkedin.datahub.graphql.types.common.mappers.SiblingsMapper;
 import com.linkedin.datahub.graphql.types.common.mappers.StatusMapper;
+import com.linkedin.datahub.graphql.types.common.mappers.UpstreamLineagesMapper;
 import com.linkedin.datahub.graphql.types.common.mappers.util.MappingHelper;
 import com.linkedin.datahub.graphql.types.mappers.ModelMapper;
 import com.linkedin.datahub.graphql.types.structuredproperty.StructuredPropertiesMapper;
+import com.linkedin.dataset.UpstreamLineage;
 import com.linkedin.entity.EntityResponse;
 import com.linkedin.entity.EnvelopedAspectMap;
 import com.linkedin.platformresource.PlatformResourceKey;
@@ -73,6 +73,15 @@ public class PlatformResourceMapper implements ModelMapper<EntityResponse, Platf
             platformResource.setStructuredProperties(
                 StructuredPropertiesMapper.map(
                     context, new StructuredProperties(dataMap), entityUrn))));
+    mappingHelper.mapToResult(
+        SIBLINGS_ASPECT_NAME,
+        (platformResource, dataMap) ->
+            platformResource.setSiblings(SiblingsMapper.map(context, new Siblings(dataMap))));
+    mappingHelper.mapToResult(
+        UPSTREAM_LINEAGE_ASPECT_NAME,
+        (platformResource, dataMap) ->
+            platformResource.setFineGrainedLineages(
+                UpstreamLineagesMapper.map(new UpstreamLineage(dataMap))));
 
     if (context != null && !canView(context.getOperationContext(), entityUrn)) {
       return AuthorizationUtils.restrictEntity(mappingHelper.getResult(), PlatformResource.class);

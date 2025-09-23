@@ -2020,26 +2020,45 @@ public class GmsGraphQLEngine {
    * com.linkedin.datahub.graphql.generated.PlatformResource} type.
    */
   private void configurePlatformResourceResolvers(final RuntimeWiring.Builder builder) {
-    builder.type(
-        "PlatformResource",
-        typeWiring ->
-            typeWiring
-                .dataFetcher("relationships", new EntityRelationshipsResultResolver(graphClient))
-                .dataFetcher(
-                    "aspects", new WeaklyTypedAspectsResolver(entityClient, entityRegistry))
-                .dataFetcher(
-                    "dataPlatformInstance",
-                    new LoadableTypeResolver<>(
-                        dataPlatformInstanceType,
-                        (env) -> {
-                          final PlatformResource pr = env.getSource();
-                          return pr.getDataPlatformInstance() != null
-                              ? pr.getDataPlatformInstance().getUrn()
-                              : null;
-                        }))
-                .dataFetcher(
-                    "platformResourceInfo",
-                    (env) -> ((PlatformResource) env.getSource()).getInfo()));
+    builder
+        .type(
+            "PlatformResource",
+            typeWiring ->
+                typeWiring
+                    .dataFetcher(
+                        "relationships", new EntityRelationshipsResultResolver(graphClient))
+                    .dataFetcher(
+                        "aspects", new WeaklyTypedAspectsResolver(entityClient, entityRegistry))
+                    .dataFetcher(
+                        "dataPlatformInstance",
+                        new LoadableTypeResolver<>(
+                            dataPlatformInstanceType,
+                            (env) -> {
+                              final PlatformResource pr = env.getSource();
+                              return pr.getDataPlatformInstance() != null
+                                  ? pr.getDataPlatformInstance().getUrn()
+                                  : null;
+                            }))
+                    .dataFetcher(
+                        "platformResourceInfo",
+                        (env) -> ((PlatformResource) env.getSource()).getInfo())
+                    .dataFetcher(
+                        "lineage",
+                        new EntityLineageResultResolver(
+                            siblingGraphService,
+                            restrictedService,
+                            this.authorizationConfiguration))
+                    .dataFetcher(
+                        "siblingsSearch",
+                        new SiblingsSearchResolver(this.entityClient, this.viewService)))
+        .type(
+            "SiblingProperties",
+            typeWiring ->
+                typeWiring.dataFetcher(
+                    "siblings",
+                    new EntityTypeBatchResolver(
+                        new ArrayList<>(entityTypes),
+                        (env) -> ((SiblingProperties) env.getSource()).getSiblings())));
   }
 
   /**

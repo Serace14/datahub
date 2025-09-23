@@ -32,7 +32,9 @@ public class PlatformResourceType
           Constants.PLATFORM_RESOURCE_INFO_ASPECT_NAME,
           Constants.DATA_PLATFORM_INSTANCE_ASPECT_NAME,
           Constants.STATUS_ASPECT_NAME,
-          Constants.STRUCTURED_PROPERTIES_ASPECT_NAME);
+          Constants.STRUCTURED_PROPERTIES_ASPECT_NAME,
+          Constants.SIBLINGS_ASPECT_NAME,
+          Constants.UPSTREAM_LINEAGE_ASPECT_NAME);
 
   private static final Set<String> FACET_FIELDS = ImmutableSet.of("origin", "platform");
   private static final String ENTITY_NAME = "platformResource";
