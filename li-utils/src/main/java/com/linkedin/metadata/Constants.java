@@ -178,6 +178,7 @@ public class Constants {
   public static final String CATALOGRECORD_DEPRECATION_ASPECT_NAME = "datasetDeprecation";
   public static final String CATALOGRECORD_UPSTREAM_LINEAGE_ASPECT_NAME = "datasetUpstreamLineage";
   public static final String CATALOGRECORD_PROFILE_ASPECT_NAME = "datasetProfile";
+  public static final String PLATFORM_RESOURCE_ASSOCIATION_ASPECT_NAME = "platformResources";
 
   public static final String STRUCTURED_PROPERTIES_ASPECT_NAME = "structuredProperties";
   public static final String FORMS_ASPECT_NAME = "forms";

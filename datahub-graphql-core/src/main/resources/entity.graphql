@@ -2212,6 +2212,17 @@ type CatalogRecord implements EntityWithRelationships & Entity & BrowsableEntity
   Structured properties about this Dataset
   """
   structuredProperties: StructuredProperties
+
+  platformResources: PlatformResourceAssociation
+}
+
+type PlatformResourceAssociation {
+  """
+  Lista de URNs de PlatformResource relacionados con este CatalogRecord.
+  """
+  resource: PlatformResource!
+
+  associatedUrn: String!
 }
 
 type PlatformResource implements Entity {

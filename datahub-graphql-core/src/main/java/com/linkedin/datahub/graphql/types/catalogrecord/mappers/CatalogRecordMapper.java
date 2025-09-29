@@ -4,6 +4,7 @@ import static com.linkedin.datahub.graphql.authorization.AuthorizationUtils.canV
 import static com.linkedin.metadata.Constants.*;
 
 import com.linkedin.application.Applications;
+import com.linkedin.catalogrecord.PlatformResources;
 import com.linkedin.common.*;
 import com.linkedin.common.Access;
 import com.linkedin.common.DataPlatformInstance;
@@ -179,6 +180,10 @@ public class CatalogRecordMapper implements ModelMapper<EntityResponse, CatalogR
         SUB_TYPES_ASPECT_NAME,
         (dashboard, dataMap) ->
             dashboard.setSubTypes(SubTypesMapper.map(context, new SubTypes(dataMap))));
+    mappingHelper.mapToResult(
+        APPLICATION_MEMBERSHIP_ASPECT_NAME,
+        (catalogRecord, dataMap) ->
+            mapPlatformResourceAssociation(context, catalogRecord, dataMap));
 
     if (context != null && !canView(context.getOperationContext(), entityUrn)) {
       return AuthorizationUtils.restrictEntity(mappingHelper.getResult(), CatalogRecord.class);
@@ -294,6 +299,15 @@ public class CatalogRecordMapper implements ModelMapper<EntityResponse, CatalogR
       @Nonnull DataMap dataMap) {
     final Domains domains = new Domains(dataMap);
     catalogRecord.setDomain(DomainAssociationMapper.map(context, domains, catalogRecord.getUrn()));
+  }
+
+  private static void mapPlatformResourceAssociation(
+      @Nullable final QueryContext context,
+      @Nonnull CatalogRecord catalogRecord,
+      @Nonnull DataMap dataMap) {
+    final PlatformResources platformResources = new PlatformResources(dataMap);
+    catalogRecord.setPlatformResources(
+        PlatformResourceAssociationMapper.map(context, platformResources, catalogRecord.getUrn()));
   }
 
   private static void mapApplicationAssociation(
