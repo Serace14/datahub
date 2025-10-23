@@ -54,7 +54,7 @@ def modified_aspect():
         "secondaryKeys": ["sk3"],
         "value": {
             "blob": base64.b64encode(b'{"hello":"world"}').decode("utf-8"),
-            "contentType": "JSON",
+            "contentType": "XML",
             "schemaType": "NONE"
         }
     }

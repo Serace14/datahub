@@ -144,6 +144,10 @@ public class PlatformResourceMapper implements ModelMapper<EntityResponse, Platf
       result.setValue(sv);
     }
 
+    if (info.getXmlText() != null) {
+      result.setXmlText(info.getXmlText());
+    }
+
     return result;
   }
 

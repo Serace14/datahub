@@ -471,6 +471,14 @@ type Mutation {
   updateDashboard(urn: String!, input: DashboardUpdateInput!): Dashboard
 
   """
+  Update the metadata about a particular Dashboard
+  """
+  updatePlatformResource(
+    urn: String!
+    input: PlatformResourceUpdateInput!
+  ): PlatformResource
+
+  """
   Update the metadata about a particular Notebook
   """
   updateNotebook(urn: String!, input: NotebookUpdateInput!): Notebook
@@ -2248,6 +2256,7 @@ type PlatformResourceInfo {
   primaryKey: String!
   secondaryKeys: [String!]
   value: SerializedValue
+  xmlText: String
 }
 
 type SerializedValue {
@@ -2260,6 +2269,8 @@ type SerializedValue {
 enum SerializedValueContentType {
   JSON
   BINARY
+  XML
+  OTHER
 }
 
 enum SerializedValueSchemaType {
@@ -2268,6 +2279,7 @@ enum SerializedValueSchemaType {
   PEGASUS
   THRIFT
   JSON
+  XML
   NONE
 }
 
@@ -5502,6 +5514,88 @@ input DashboardUpdateInput {
   Update to editable properties
   """
   editableProperties: DashboardEditablePropertiesUpdate
+}
+
+"""
+Input type for updating a PlatformResource entity
+"""
+input PlatformResourceUpdateInput {
+  """
+  General descriptive and identifying information about the platform resource.
+  """
+  info: PlatformResourceInfoInput
+
+  """
+  Structured properties, if the resource supports them.
+  """
+  structuredProperties: StructuredPropertiesInput
+
+  """
+  Instance of the data platform this resource belongs to.
+  """
+  dataPlatformInstance: String
+
+  """
+  Status (active, removed, etc.)
+  """
+  status: StatusInput
+}
+
+"""
+Input for updating the 'info' aspect of a PlatformResource
+"""
+input PlatformResourceInfoInput {
+  """
+  The type of the resource (e.g., Table, Stream, Function, etc.)
+  """
+  resourceType: String
+
+  """
+  Primary key for the resource.
+  """
+  primaryKey: String
+
+  """
+  Secondary keys for the resource.
+  """
+  secondaryKeys: [String!]
+
+  """
+  Optional serialized value (metadata, settings, etc.)
+  """
+  value: SerializedValueInput
+}
+
+"""
+Input for updating serialized values (used for flexible data structures)
+"""
+input SerializedValueInput {
+  """
+  JSON string representing the serialized value.
+  """
+  json: String
+}
+
+"""
+Input for updating entity status (used across entities)
+"""
+input StatusInput {
+  removed: Boolean
+}
+
+"""
+Input for updating structured properties (key-value map)
+"""
+input StructuredPropertiesInput {
+  properties: [StructuredPropertyInput!]
+}
+
+"""
+Input for each structured property
+"""
+input StructuredPropertyInput {
+  key: String!
+  value: String!
 }
 
 """

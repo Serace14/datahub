@@ -232,6 +232,85 @@ fragment autoCompleteFields on Entity {
             ...dataPlatformInstanceFields
         }
     }
+    ... on PlatformResource {
+        urn
+        type
+        id
+        info {
+            resourceType
+            primaryKey
+            secondaryKeys
+            value{
+                blob
+            }
+        }
+        dataPlatformInstance {
+            ...dataPlatformInstanceFields
+        }
+        status {
+            removed
+        }
+        structuredProperties {
+            properties {
+                ...structuredPropertiesFields
+            }
+        }
+        siblings {
+            isPrimary
+            siblings {
+                urn
+                type
+                ... on PlatformResource {
+                    id
+                    info {
+                        resourceType
+                        primaryKey
+                        secondaryKeys
+                        value{
+                            blob
+                        }
+                    }
+                    dataPlatformInstance {
+                        ...dataPlatformInstanceFields
+                    }
+                    structuredProperties {
+                        properties {
+                            ...structuredPropertiesFields
+                        }
+                    }
+                }
+            }
+        }
+        siblingsSearch(input: { query: "*", count: 1 }) {
+            count
+            total
+            searchResults {
+                entity {
+                    urn
+                    type
+                    ... on PlatformResource {
+                        id
+                        info {
+                            resourceType
+                            primaryKey
+                            secondaryKeys
+                            value{
+                                blob
+                            }
+                        }
+                        dataPlatformInstance {
+                            ...dataPlatformInstanceFields
+                        }
+                        structuredProperties {
+                            properties {
+                                ...structuredPropertiesFields
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
     ... on Chart {
         chartId
         properties {
@@ -721,6 +800,133 @@ fragment searchResultsWithoutSchemaField on Entity {
             }
         }
     }
+    ... on CatalogRecord {
+        ...nonSiblingsCatalogRecordSearchFields
+        siblings {
+            isPrimary
+            siblings {
+                urn
+                type
+                ... on CatalogRecord {
+                    ...nonSiblingsCatalogRecordSearchFields
+                    structuredProperties {
+                        properties {
+                            ...structuredPropertiesFields
+                        }
+                    }
+                }
+            }
+        }
+        siblingsSearch(input: { query: "*", count: 1 }) {
+            count
+            total
+            searchResults {
+                entity {
+                    urn
+                    type
+                    ... on CatalogRecord {
+                        ...nonSiblingsCatalogRecordSearchFields
+                        siblings {
+                            isPrimary
+                        }
+                        structuredProperties {
+                            properties {
+                                ...structuredPropertiesFields
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        browsePathV2 {
+            ...browsePathV2Fields
+        }
+        structuredProperties {
+            properties {
+                ...structuredPropertiesFields
+            }
+        }
+    }
+    ... on PlatformResource {
+        urn
+        type
+        id
+        info {
+            resourceType
+            primaryKey
+            secondaryKeys
+            value{
+                blob
+            }
+        }
+        dataPlatformInstance {
+            ...dataPlatformInstanceFields
+        }
+        status {
+            removed
+        }
+        structuredProperties {
+            properties {
+                ...structuredPropertiesFields
+            }
+        }
+        siblings {
+            isPrimary
+            siblings {
+                urn
+                type
+                ... on PlatformResource {
+                    id
+                    info {
+                        resourceType
+                        primaryKey
+                        secondaryKeys
+                        value{
+                            blob
+                        }
+                    }
+                    dataPlatformInstance {
+                        ...dataPlatformInstanceFields
+                    }
+                    structuredProperties {
+                        properties {
+                            ...structuredPropertiesFields
+                        }
+                    }
+                }
+            }
+        }
+        siblingsSearch(input: { query: "*", count: 1 }) {
+            count
+            total
+            searchResults {
+                entity {
+                    urn
+                    type
+                    ... on PlatformResource {
+                        id
+                        info {
+                            resourceType
+                            primaryKey
+                            secondaryKeys
+                            value{
+                                blob
+                            }
+                        }
+                        dataPlatformInstance {
+                            ...dataPlatformInstanceFields
+                        }
+                        structuredProperties {
+                            properties {
+                                ...structuredPropertiesFields
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     ... on DataPlatformInstance {
         ...dataPlatformInstanceFields
     }

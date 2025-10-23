@@ -71,6 +71,32 @@ query getBrowseResults($input: BrowseInput!) {
                 }
                 ...entityDataProduct
             }
+            ... on PlatformResource {
+                urn
+                type
+                id
+                info {
+                    resourceType
+                    primaryKey
+                    secondaryKeys
+                    value{
+                        blob
+                    }
+                }
+                dataPlatformInstance {
+                    ...dataPlatformInstanceFields
+                }
+                status {
+                    removed
+                }
+                structuredProperties {
+                    properties {
+                        ...structuredPropertiesFields
+                    }
+                }
+                ...entityDataProduct
+            }
+
             ... on Dashboard {
                 urn
                 type

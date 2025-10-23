@@ -39,7 +39,7 @@ import { capitalizeFirstLetterOnly } from '@app/shared/textUtil';
 import { useAppConfig } from '@app/useAppConfig';
 
 import { GetCatalogRecordQuery, useGetCatalogRecordQuery, useUpdateCatalogRecordMutation } from '@graphql/catalogRecord.generated';
-import { CatalogRecord, DatasetProperties, EntityType, OwnershipType, SearchResult } from '@types';
+import { CatalogRecord, CatalogRecordProperties, EntityType, OwnershipType, SearchResult } from '@types';
 
 const SUBTYPES = {
     VIEW: 'view',
@@ -276,7 +276,7 @@ export class CatalogRecordEntity implements Entity<CatalogRecord> {
     getOverridePropertiesFromEntity = (catalogRecord?: CatalogRecord | null): GenericEntityProperties => {
         // if dataset has subTypes filled out, pick the most specific subtype and return it
         const subTypes = catalogRecord?.subTypes;
-        const extendedProperties: DatasetProperties | undefined | null = catalogRecord?.properties && {
+        const extendedProperties: CatalogRecordProperties | undefined | null = catalogRecord?.properties && {
             ...catalogRecord?.properties,
             qualifiedName: catalogRecord?.properties?.qualifiedName || this.displayName(catalogRecord),
         };
