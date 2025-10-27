@@ -68,7 +68,7 @@ print(f"Status: {status_value or '⚠️ No encontrado'}")
 print(f"Language: {language_value or '⚠️ No encontrado'}")
 
 # === Crear URN válido para platformResource ===
-URN = f"urn:li:platformResource:geonetwork-{id_value}"
+URN = f"urn:li:platformResource:geoserver-{id_value}"
 print(f"URN: {URN}")
 
 # === Emitir PlatformResourceInfo con xmlText ===
