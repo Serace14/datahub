@@ -2,7 +2,7 @@ import { DatabaseFilled, DatabaseOutlined } from '@ant-design/icons';
 import * as React from 'react';
 
 import { Entity, EntityCapabilityType, IconStyleType, PreviewType } from '@app/entity/Entity';
-import { Preview } from '@app/entity/dataset/preview/Preview';
+import { Preview } from '@app/entity/catalogRecord/preview/Preview';
 import { OperationsTab } from '@app/entity/catalogRecord/profile/OperationsTab';
 import { CatalogRecordStatsSummarySubHeader } from '@app/entity/catalogRecord/profile/stats/stats/CatalogRecordStatsSummarySubHeader';
 import { getLastUpdatedMs } from '@app/entity/catalogRecord/shared/utils';
@@ -19,7 +19,6 @@ import SidebarStructuredPropsSection from '@app/entity/shared/containers/profile
 import { getDataForEntityType } from '@app/entity/shared/containers/profile/utils';
 import EmbeddedProfile from '@app/entity/shared/embed/EmbeddedProfile';
 import AccessManagement from '@app/entity/shared/tabs/Dataset/AccessManagement/AccessManagement';
-import { GovernanceTab } from '@app/entity/shared/tabs/Dataset/Governance/GovernanceTab';
 import QueriesTab from '@app/entity/shared/tabs/Dataset/Queries/QueriesTab';
 import { RelationshipsTab } from '@app/entity/shared/tabs/Dataset/Relationship/RelationshipsTab';
 import { SchemaTab } from '@app/entity/shared/tabs/Dataset/Schema/SchemaTab';
@@ -39,14 +38,14 @@ import { capitalizeFirstLetterOnly } from '@app/shared/textUtil';
 import { useAppConfig } from '@app/useAppConfig';
 
 import { GetCatalogRecordQuery, useGetCatalogRecordQuery, useUpdateCatalogRecordMutation } from '@graphql/catalogRecord.generated';
-import { CatalogRecord, CatalogRecordProperties, EntityType, OwnershipType, SearchResult } from '@types';
+import { CatalogRecord, DatasetProperties, EntityType, OwnershipType, SearchResult } from '@types';
 
 const SUBTYPES = {
     VIEW: 'view',
 };
 
 /**
- * Definition of the DataHub Dataset entity.
+ * Definition of the DataHub CatalogRecord entity.
  */
 export class CatalogRecordEntity implements Entity<CatalogRecord> {
     type: EntityType = EntityType.CatalogRecord;
@@ -194,16 +193,6 @@ export class CatalogRecordEntity implements Entity<CatalogRecord> {
                     },
                 },
                 {
-                    name: 'Governance',
-                    component: GovernanceTab,
-                    display: {
-                        visible: (_, _1) => true,
-                        enabled: (_, catalogRecord: GetCatalogRecordQuery) => {
-                            return catalogRecord?.catalogRecord?.testResults !== null;
-                        },
-                    },
-                },
-                {
                     name: 'Runs', // TODO: Rename this to DatasetRunsTab.
                     component: OperationsTab,
                     display: {
@@ -276,7 +265,7 @@ export class CatalogRecordEntity implements Entity<CatalogRecord> {
     getOverridePropertiesFromEntity = (catalogRecord?: CatalogRecord | null): GenericEntityProperties => {
         // if dataset has subTypes filled out, pick the most specific subtype and return it
         const subTypes = catalogRecord?.subTypes;
-        const extendedProperties: CatalogRecordProperties | undefined | null = catalogRecord?.properties && {
+        const extendedProperties: DatasetProperties | undefined | null = catalogRecord?.properties && {
             ...catalogRecord?.properties,
             qualifiedName: catalogRecord?.properties?.qualifiedName || this.displayName(catalogRecord),
         };

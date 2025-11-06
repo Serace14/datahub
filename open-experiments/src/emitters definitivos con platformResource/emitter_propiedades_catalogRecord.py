@@ -74,7 +74,7 @@ ns = {
 
 # === CatalogRecords a procesar ===
 catalog_record_urns = [
-    "urn:li:catalogRecord:(urn:li:dataPlatform:geonetwork,7eea5c42-212f-4099-b9df-1e3703fbc616,PROD)"
+    "urn:li:catalogRecord:(urn:li:dataPlatform:geoserver,7eea5c42-212f-4099-b9df-1e3703fbc616,PROD)"
 ]
 
 for catalog_record_urn in catalog_record_urns:

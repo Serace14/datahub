@@ -5,11 +5,11 @@ import styled from 'styled-components';
 
 import translateFieldPath from '@app/entity/catalogRecord/profile/schema/utils/translateFieldPath';
 import { ExtendedSchemaFields } from '@app/entity/catalogRecord/profile/schema/utils/types';
-import ForeignKeyLabel from '@app/entity/shared/tabs/CatalogRecord/Schema/components/ForeignKeyLabel';
-import NullableLabel from '@app/entity/shared/tabs/CatalogRecord/Schema/components/NullableLabel';
-import PartitioningKeyLabel from '@app/entity/shared/tabs/CatalogRecord/Schema/components/PartitioningKeyLabel';
-import PrimaryKeyLabel from '@app/entity/shared/tabs/CatalogRecord/Schema/components/PrimaryKeyLabel';
-import TypeLabel from '@app/entity/shared/tabs/CatalogRecord/Schema/components/TypeLabel';
+import ForeignKeyLabel from '@app/entity/shared/tabs/Dataset/Schema/components/ForeignKeyLabel';
+import NullableLabel from '@app/entity/shared/tabs/Dataset/Schema/components/NullableLabel';
+import PartitioningKeyLabel from '@app/entity/shared/tabs/Dataset/Schema/components/PartitioningKeyLabel';
+import PrimaryKeyLabel from '@app/entity/shared/tabs/Dataset/Schema/components/PrimaryKeyLabel';
+import TypeLabel from '@app/entity/shared/tabs/Dataset/Schema/components/TypeLabel';
 
 import { ForeignKeyConstraint, SchemaMetadata } from '@types';
 

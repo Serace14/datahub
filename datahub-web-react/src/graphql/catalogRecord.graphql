@@ -209,6 +209,36 @@ fragment nonSiblingCatalogRecordFields on CatalogRecord {
     }
     ...notes
     ...entityProfileVersionProperties
+    platformResources {
+        associatedUrn
+        resource {
+            urn
+            type
+            id
+            info {
+                resourceType
+                primaryKey
+                secondaryKeys
+                value {
+                    blob
+                    contentType
+                    schemaType
+                    schemaRef
+                }
+                xmlText
+            }
+            dataPlatformInstance {
+                platform {
+                    urn
+                    name
+                }
+                instanceId
+            }
+            status {
+                removed
+            }
+        }
+    }
 }
 
 query getRecentQueriesCatalogRecord($urn: String!) {

@@ -8,7 +8,7 @@ import StatChart from '@app/entity/catalogRecord/profile/stats/historical/charts
 import { Message } from '@app/shared/Message';
 import { TimeWindowSize, getFixedLookbackWindow } from '@app/shared/time/timeUtils';
 
-import { useGetDataProfilesLazyQuery } from '@graphql/catalogRecord.generated';
+import { useGetDataProfilesCatalogRecordLazyQuery } from '@graphql/catalogRecord.generated';
 import { DatasetProfile, DateInterval } from '@types';
 
 const HeaderRow = styled(Row)`
@@ -122,7 +122,7 @@ export type Props = {
 };
 
 export default function HistoricalStatsView({ urn, toggleView }: Props) {
-    const [getDataProfiles, { data: profilesData, loading: profilesLoading }] = useGetDataProfilesLazyQuery({
+    const [getDataProfiles, { data: profilesData, loading: profilesLoading }] = useGetDataProfilesCatalogRecordLazyQuery({
         fetchPolicy: 'cache-first',
     });
 

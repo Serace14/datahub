@@ -15,8 +15,8 @@ import styled from 'styled-components/macro';
 import CustomPagination from '@app/entity/catalogRecord/profile/schema/components/CustomPagination';
 import TabToolbar from '@app/entity/shared/components/styled/TabToolbar';
 import { ANTD_GRAY, REDESIGN_COLORS } from '@app/entity/shared/constants';
-import getSchemaFilterFromQueryString from '@app/entity/shared/tabs/CatalogRecord/Schema/utils/getSchemaFilterFromQueryString';
-import { navigateToVersionedCatalogRecordUrl } from '@app/entity/shared/tabs/CatalogRecord/Schema/utils/navigateToVersionedCatalogRecordUrl';
+import getSchemaFilterFromQueryString from '@app/entity/shared/tabs/Dataset/Schema/utils/getSchemaFilterFromQueryString';
+import { navigateToVersionedCatalogRecordUrl } from '@app/entity/shared/tabs/Dataset/Schema/utils/navigateToVersionedCatalogRecordUrl';
 import { toRelativeTimeString } from '@app/shared/time/timeUtils';
 
 import { SemanticVersionStruct } from '@types';
