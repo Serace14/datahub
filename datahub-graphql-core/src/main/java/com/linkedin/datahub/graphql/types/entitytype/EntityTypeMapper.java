@@ -19,6 +19,7 @@ public class EntityTypeMapper {
           .put(EntityType.DATASET, Constants.DATASET_ENTITY_NAME)
           .put(EntityType.CATALOG_RECORD, Constants.CATALOGRECORD_ENTITY_NAME)
           .put(EntityType.PLATFORM_RESOURCE, Constants.PLATFORM_RESOURCE_ENTITY_NAME)
+          .put(EntityType.DISTRIBUTION, Constants.DISTRIBUTION_ENTITY_NAME)
           .put(EntityType.CORP_USER, Constants.CORP_USER_ENTITY_NAME)
           .put(EntityType.CORP_GROUP, Constants.CORP_GROUP_ENTITY_NAME)
           .put(EntityType.DATA_PLATFORM, Constants.DATA_PLATFORM_ENTITY_NAME)

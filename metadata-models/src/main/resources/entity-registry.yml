@@ -50,7 +50,7 @@ entities:
       - versionProperties
       - icebergCatalogInfo
   - name: catalogRecord
-    doc: Entidad para guardar el xml de un metadato y relacionarlo con los datasets a los que esté relacionado.
+    doc: Entidad para relacionar un xml de metadato con los datasets a los que esté relacionado.
     category: core
     keyAspect: catalogRecordKey
     aspects:
@@ -89,6 +89,13 @@ entities:
       - versionProperties
       - icebergCatalogInfo
       - platformResources
+  - name: distribution
+    doc: Entidad relacionar los datasets con sus servicios o partes en caso de estar fragmentado.
+    category: core
+    keyAspect: distributionKey
+    aspects:
+      - distributionInfo
+      - ownership
   - name: dataHubPolicy
     doc: DataHub Policies represent access policies granted to users or groups on metadata operations like edit, view etc.
     category: internal

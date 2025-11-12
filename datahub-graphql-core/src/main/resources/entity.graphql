@@ -45,6 +45,11 @@ type Query {
   platformResource(urn: String!): PlatformResource
 
   """
+  Fetch a Distribution by primary key (urn)
+  """
+  distribution(urn: String!): Distribution
+
+  """
   Fetch a Dataset by primary key (urn) at a point in time based on aspect versions (versionStamp)
   """
   versionedDataset(urn: String!, versionStamp: String): VersionedDataset
@@ -477,6 +482,14 @@ type Mutation {
     urn: String!
     input: PlatformResourceUpdateInput!
   ): PlatformResource
+
+  """
+  Update the metadata about a particular Dashboard
+  """
+  updateDistribution(
+    urn: String!
+    input: DistributionUpdateInput!
+  ): Distribution
 
   """
   Update the metadata about a particular Notebook
@@ -1110,6 +1123,11 @@ enum EntityType {
   The PlatformResource Entity
   """
   PLATFORM_RESOURCE
+
+  """
+  The Distribution Entity
+  """
+  DISTRIBUTION
 
   """
   The CorpUser Entity
@@ -2281,6 +2299,28 @@ enum SerializedValueSchemaType {
   JSON
   XML
   NONE
+}
+
+type Distribution implements Entity {
+  urn: String!
+  type: EntityType!
+  id: String!
+  info: DistributionInfo
+  relationships(input: RelationshipsInput!): EntityRelationshipsResult
+  rights: [String]
+  compressFormat: String
+  issued: Long
+  structuredProperties: StructuredProperties
+  ownership: Ownership
+}
+
+type DistributionInfo {
+  name: String!
+  description: String
+  accessURL: Dataset
+  accessService: Dataset
+  lastModified: AuditStamp!
+  lastRefreshed: Long
 }
 
 type RoleAssociation {
@@ -5564,6 +5604,34 @@ input PlatformResourceInfoInput {
   Optional serialized value (metadata, settings, etc.)
   """
   value: SerializedValueInput
+}
+
+"""
+Input type for updating a PlatformResource entity
+"""
+input DistributionUpdateInput {
+  """
+  General descriptive and identifying information about the platform resource.
+  """
+  info: DistributionInfoInput
+
+  """
+  Structured properties, if the resource supports them.
+  """
+  structuredProperties: StructuredPropertiesInput
+
+  rights: [String]
+  compressFormat: String
+  issued: Long
+}
+
+"""
+Input for updating the 'info' aspect of a PlatformResource
+"""
+input DistributionInfoInput {
+  name: String!
+  description: String
+  lastRefreshed: Long
 }
 
 """

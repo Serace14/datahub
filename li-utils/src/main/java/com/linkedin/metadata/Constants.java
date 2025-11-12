@@ -111,6 +111,7 @@ public class Constants {
   public static final String RESTRICTED_ENTITY_NAME = "restricted";
   public static final String BUSINESS_ATTRIBUTE_ENTITY_NAME = "businessAttribute";
   public static final String PLATFORM_RESOURCE_ENTITY_NAME = "platformResource";
+  public static final String DISTRIBUTION_ENTITY_NAME = "distribution";
 
   /** Aspects */
   // Common
@@ -239,6 +240,10 @@ public class Constants {
   // PlatformResource
   public static final String PLATFORM_RESOURCE_KEY_ASPECT_NAME = "platformResourceKey";
   public static final String PLATFORM_RESOURCE_INFO_ASPECT_NAME = "platformResourceInfo";
+
+  // Distribution
+  public static final String DISTRIBUTION_KEY_ASPECT_NAME = "distributionKey";
+  public static final String DISTRIBUTION_INFO_ASPECT_NAME = "distributionInfo";
 
   // ML Feature
   public static final String ML_FEATURE_KEY_ASPECT_NAME = "mlFeatureKey";

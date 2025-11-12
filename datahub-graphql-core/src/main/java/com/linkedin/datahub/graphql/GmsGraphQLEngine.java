@@ -275,6 +275,7 @@ import com.linkedin.datahub.graphql.types.dataset.DatasetType;
 import com.linkedin.datahub.graphql.types.dataset.VersionedDatasetType;
 import com.linkedin.datahub.graphql.types.dataset.mappers.DatasetProfileMapper;
 import com.linkedin.datahub.graphql.types.datatype.DataTypeType;
+import com.linkedin.datahub.graphql.types.distribution.DistributionType;
 import com.linkedin.datahub.graphql.types.domain.DomainType;
 import com.linkedin.datahub.graphql.types.entitytype.EntityTypeType;
 import com.linkedin.datahub.graphql.types.ermodelrelationship.CreateERModelRelationshipResolver;
@@ -430,6 +431,7 @@ public class GmsGraphQLEngine {
   private final DatasetType datasetType;
   private final CatalogRecordType catalogRecordType;
   private final PlatformResourceType platformResourceType;
+  private final DistributionType distributionType;
 
   private final RoleType roleType;
 
@@ -568,6 +570,7 @@ public class GmsGraphQLEngine {
     this.datasetType = new DatasetType(entityClient);
     this.catalogRecordType = new CatalogRecordType(entityClient);
     this.platformResourceType = new PlatformResourceType(entityClient);
+    this.distributionType = new DistributionType(entityClient);
     this.roleType = new RoleType(entityClient);
     this.corpUserType = new CorpUserType(entityClient, featureFlags);
     this.corpGroupType = new CorpGroupType(entityClient);
@@ -629,7 +632,7 @@ public class GmsGraphQLEngine {
             ImmutableList.of(
                 datasetType,
                 catalogRecordType,
-                platformResourceType,
+                distributionType,
                 roleType,
                 corpUserType,
                 corpGroupType,
@@ -733,6 +736,7 @@ public class GmsGraphQLEngine {
     configureDatasetResolvers(builder);
     configureCatalogRecordResolvers(builder);
     configurePlatformResourceResolvers(builder);
+    configureDistributionResolvers(builder);
     configureCorpUserResolvers(builder);
     configureCorpGroupResolvers(builder);
     configureDashboardResolvers(builder);
@@ -1006,6 +1010,7 @@ public class GmsGraphQLEngine {
                 .dataFetcher("dataset", getResolver(datasetType))
                 .dataFetcher("catalogRecord", getResolver(catalogRecordType))
                 .dataFetcher("platformResource", getResolver(platformResourceType))
+                .dataFetcher("distribution", getResolver(distributionType))
                 .dataFetcher("role", getResolver(roleType))
                 .dataFetcher(
                     "versionedDataset",
@@ -2059,6 +2064,36 @@ public class GmsGraphQLEngine {
                     new EntityTypeBatchResolver(
                         new ArrayList<>(entityTypes),
                         (env) -> ((SiblingProperties) env.getSource()).getSiblings())));
+  }
+
+  /**
+   * Configures resolvers responsible for resolving the {@link
+   * com.linkedin.datahub.graphql.generated.Distribution} type.
+   */
+  private void configureDistributionResolvers(final RuntimeWiring.Builder builder) {
+    builder
+        .type(
+            "Distribution",
+            typeWiring ->
+                typeWiring
+                    .dataFetcher(
+                        "relationships", new EntityRelationshipsResultResolver(graphClient))
+                    .dataFetcher(
+                        "aspects", new WeaklyTypedAspectsResolver(entityClient, entityRegistry))
+                    .dataFetcher(
+                        "distributionInfo", (env) -> ((Distribution) env.getSource()).getInfo())
+                    .dataFetcher("rights", env -> ((Distribution) env.getSource()).getRights())
+                    .dataFetcher(
+                        "compressFormat",
+                        env -> ((Distribution) env.getSource()).getCompressFormat())
+                    .dataFetcher("issued", env -> ((Distribution) env.getSource()).getIssued()))
+        .type(
+            "Owner",
+            typeWiring ->
+                typeWiring.dataFetcher(
+                    "owner",
+                    new OwnerTypeResolver<>(
+                        ownerTypes, (env) -> ((Owner) env.getSource()).getOwner())));
   }
 
   /**

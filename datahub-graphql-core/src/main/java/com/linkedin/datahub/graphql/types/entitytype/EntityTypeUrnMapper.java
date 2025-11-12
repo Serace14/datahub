@@ -25,6 +25,7 @@ public class EntityTypeUrnMapper {
           .put(Constants.CATALOGRECORD_ENTITY_NAME, "urn:li:entityType:datahub.catalogRecord")
           .put(
               Constants.PLATFORM_RESOURCE_ENTITY_NAME, "urn:li:entityType:datahub.platformResource")
+          .put(Constants.DISTRIBUTION_ENTITY_NAME, "urn:li:entityType:datahub.distribution")
           .put(Constants.CORP_USER_ENTITY_NAME, "urn:li:entityType:datahub.corpuser")
           .put(Constants.CORP_GROUP_ENTITY_NAME, "urn:li:entityType:datahub.corpGroup")
           .put(Constants.DATA_PLATFORM_ENTITY_NAME, "urn:li:entityType:datahub.dataPlatform")
