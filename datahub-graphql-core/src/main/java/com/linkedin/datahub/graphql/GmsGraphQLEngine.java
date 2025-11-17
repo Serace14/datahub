@@ -632,6 +632,7 @@ public class GmsGraphQLEngine {
             ImmutableList.of(
                 datasetType,
                 catalogRecordType,
+                platformResourceType,
                 distributionType,
                 roleType,
                 corpUserType,
