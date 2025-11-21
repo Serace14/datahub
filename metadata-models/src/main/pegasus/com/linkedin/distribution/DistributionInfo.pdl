@@ -44,33 +44,5 @@ record DistributionInfo includes CustomProperties, ExternalReference {
    */
   lastRefreshed: optional Time
 
-  /**
-   * The Datasets and Service attached to this Distribution
-   */
-  @Relationship = {
-    "name": "AssociatedWith",
-    "entityTypes": ["dataset"]
-  }
-  @Searchable = {
-    "fieldName": "accessURL",
-    "fieldType": "URN",
-    "hasValuesFieldName": "hasAccessURL",
-    "addToFilters": true,
-    "filterNameOverride": "AccessURL"
-  }
-  accessURL: optional Urn
-
-  @Relationship = {
-    "name": "AssociatedWith",
-    "entityTypes": ["dataset"]
-  }
-  @Searchable = {
-    "fieldName": "accessService",
-    "fieldType": "URN",
-    "hasValuesFieldName": "hasAccessService",
-    "addToFilters": true,
-    "filterNameOverride": "AccessService"
-  }
-  accessService: optional Urn
 
 }

@@ -18,7 +18,7 @@ GRAPHQL_URL = "http://localhost:8080/api/graphql"
 # --- Configuración ---
 TOKEN = os.getenv("DATAHUB_TOKEN", "")
 ENTITY_TYPE = "distribution"
-ENTITY_ID = f"dist-{random.randint(1000, 9999)}"
+ENTITY_ID = f"{random.randint(1000, 9999)}"
 URN = f"urn:li:distribution:{ENTITY_ID}"
 
 # URNs de los datasets
@@ -43,19 +43,19 @@ def emit_distribution_with_datasets():
     audit = ChangeAuditStampsClass(created=AuditStampClass(time=now, actor="urn:li:corpuser:datahub"))
 
     # Emitir datasets
-    for dataset_urn, name in [(ACCESS_URL_URN, "Access URL Dataset"),
-                              (ACCESS_SERVICE_URN, "Access Service Dataset")]:
-        emitter.emit(MetadataChangeProposalWrapper(
-            entityUrn=dataset_urn,
-            aspect=DatasetPropertiesClass(name=name)
-        ))
+    #for dataset_urn, name in [(ACCESS_URL_URN, "Access URL Dataset"),
+    #                          (ACCESS_SERVICE_URN, "Access Service Dataset")]:
+    #    emitter.emit(MetadataChangeProposalWrapper(
+    #        entityUrn=dataset_urn,
+    #        aspect=DatasetPropertiesClass(name=name)
+    #    ))
 
     # Emitir distribución con relaciones incluidas
     info = DistributionInfoClass(
         title="Customer Data Export",
         description="Distribución periódica de datos de clientes hacia servicio externo.",
-        accessURL=ACCESS_URL_URN,
-        accessService=ACCESS_SERVICE_URN,
+        #accessURL=ACCESS_URL_URN,
+        #accessService=ACCESS_SERVICE_URN,
         lastModified=audit,
     )
     emitter.emit(MetadataChangeProposalWrapper(entityUrn=URN, aspect=info))

@@ -177,6 +177,19 @@ fragment autoCompleteFields on Entity {
             ...browsePathV2Fields
         }
     }
+    ... on Distribution {
+        info {
+            name
+            description
+            lastRefreshed
+            lastModified {
+                time
+            }
+        }
+        browsePathV2 {
+            ...browsePathV2Fields
+        }
+    }
     ... on Role {
         id
         properties {
@@ -926,7 +939,25 @@ fragment searchResultsWithoutSchemaField on Entity {
             }
         }
     }
-
+    ... on Distribution {
+        id
+        info {
+            name
+            description
+            lastRefreshed
+            lastModified {
+                time
+            }
+        }
+        structuredProperties {
+            properties {
+                ...structuredPropertiesFields
+            }
+        }
+        ownership {
+            ...ownershipFields
+        }
+    }
     ... on DataPlatformInstance {
         ...dataPlatformInstanceFields
     }

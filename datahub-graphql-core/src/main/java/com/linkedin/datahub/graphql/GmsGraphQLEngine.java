@@ -70,6 +70,7 @@ import com.linkedin.datahub.graphql.resolvers.dataset.DatasetStatsSummaryResolve
 import com.linkedin.datahub.graphql.resolvers.dataset.DatasetUsageStatsResolver;
 import com.linkedin.datahub.graphql.resolvers.dataset.IsAssignedToMeResolver;
 import com.linkedin.datahub.graphql.resolvers.deprecation.UpdateDeprecationResolver;
+import com.linkedin.datahub.graphql.resolvers.distribution.DistributionStatsSummaryResolver;
 import com.linkedin.datahub.graphql.resolvers.domain.CreateDomainResolver;
 import com.linkedin.datahub.graphql.resolvers.domain.DeleteDomainResolver;
 import com.linkedin.datahub.graphql.resolvers.domain.DomainEntitiesResolver;
@@ -2080,21 +2081,42 @@ public class GmsGraphQLEngine {
                     .dataFetcher(
                         "relationships", new EntityRelationshipsResultResolver(graphClient))
                     .dataFetcher(
+                        "browsePaths", new EntityBrowsePathsResolver(this.distributionType))
+                    .dataFetcher(
+                        "statsSummary", new DistributionStatsSummaryResolver(this.usageClient))
+                    .dataFetcher(
                         "aspects", new WeaklyTypedAspectsResolver(entityClient, entityRegistry))
                     .dataFetcher(
                         "distributionInfo", (env) -> ((Distribution) env.getSource()).getInfo())
-                    .dataFetcher("rights", env -> ((Distribution) env.getSource()).getRights())
                     .dataFetcher(
-                        "compressFormat",
-                        env -> ((Distribution) env.getSource()).getCompressFormat())
-                    .dataFetcher("issued", env -> ((Distribution) env.getSource()).getIssued()))
+                        "lineage",
+                        new EntityLineageResultResolver(
+                            siblingGraphService,
+                            restrictedService,
+                            this.authorizationConfiguration)))
         .type(
             "Owner",
             typeWiring ->
                 typeWiring.dataFetcher(
                     "owner",
                     new OwnerTypeResolver<>(
-                        ownerTypes, (env) -> ((Owner) env.getSource()).getOwner())));
+                        ownerTypes, (env) -> ((Owner) env.getSource()).getOwner())))
+        .type(
+            "DistributionStatsSummary",
+            typeWiring ->
+                typeWiring.dataFetcher(
+                    "topUsersLast30Days",
+                    new LoadableTypeBatchResolver<>(
+                        corpUserType,
+                        (env) -> {
+                          DistributionStatsSummary summary =
+                              ((DistributionStatsSummary) env.getSource());
+                          return summary.getTopUsersLast30Days() != null
+                              ? summary.getTopUsersLast30Days().stream()
+                                  .map(CorpUser::getUrn)
+                                  .collect(Collectors.toList())
+                              : null;
+                        })));
   }
 
   /**

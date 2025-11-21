@@ -96,7 +96,22 @@ query getBrowseResults($input: BrowseInput!) {
                 }
                 ...entityDataProduct
             }
-
+            ... on Distribution {
+                urn
+                type
+                id
+                info {
+                    name
+                    description
+                    lastRefreshed
+                    lastModified {
+                        time
+                    }
+                }
+                ownership {
+                    ...ownershipFields
+                }
+            }
             ... on Dashboard {
                 urn
                 type

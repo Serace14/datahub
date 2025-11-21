@@ -30,11 +30,13 @@ import { SchemaFieldPropertiesEntity } from '@app/entity/schemaField/SchemaField
 import { StructuredPropertyEntity } from '@app/entity/structuredProperty/StructuredPropertyEntity';
 import { TagEntity } from '@app/entity/tag/Tag';
 import { UserEntity } from '@app/entity/user/User';
+import { DistributionEntity } from '@app/entity/distribution/DistributionEntity';
 
 export default function buildEntityRegistry() {
     const registry = new EntityRegistry();
     registry.register(new DatasetEntity());
     registry.register(new CatalogRecordEntity());
+    registry.register(new DistributionEntity());
     registry.register(new DataContractEntity());
     registry.register(new DashboardEntity());
     registry.register(new Dashboard2Entity());

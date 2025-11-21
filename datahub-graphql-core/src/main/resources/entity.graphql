@@ -2301,17 +2301,22 @@ enum SerializedValueSchemaType {
   NONE
 }
 
-type Distribution implements Entity {
+type Distribution implements EntityWithRelationships & Entity & BrowsableEntity {
   urn: String!
   type: EntityType!
   id: String!
   info: DistributionInfo
   relationships(input: RelationshipsInput!): EntityRelationshipsResult
-  rights: [String]
-  compressFormat: String
-  issued: Long
   structuredProperties: StructuredProperties
   ownership: Ownership
+
+  statsSummary: DistributionStatsSummary
+
+  browsePaths: [BrowsePath!]
+
+  browsePathV2: BrowsePathV2
+
+  lineage(input: LineageInput!): EntityLineageResult
 }
 
 type DistributionInfo {
@@ -5620,9 +5625,10 @@ input DistributionUpdateInput {
   """
   structuredProperties: StructuredPropertiesInput
 
-  rights: [String]
-  compressFormat: String
-  issued: Long
+  """
+  Update to ownership
+  """
+  ownership: OwnershipUpdate
 }
 
 """
@@ -8254,6 +8260,29 @@ type DashboardUsageAggregationMetrics {
 Experimental - subject to change. A summary of usage metrics about a Dashboard.
 """
 type DashboardStatsSummary {
+  """
+  The total view count for the dashboard
+  """
+  viewCount: Int
+
+  """
+  The view count in the last 30 days
+  """
+  viewCountLast30Days: Int
+  """
+  The unique user count in the past 30 days
+  """
+  uniqueUserCountLast30Days: Int
+  """
+  The top users in the past 30 days
+  """
+  topUsersLast30Days: [CorpUser!]
+}
+
+"""
+Experimental - subject to change. A summary of usage metrics about a Dashboard.
+"""
+type DistributionStatsSummary {
   """
   The total view count for the dashboard
   """

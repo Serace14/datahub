@@ -14,7 +14,8 @@ import { DataPlatformInstanceEntity } from '@app/entityV2/dataPlatformInstance/D
 import { DataProcessInstanceEntity } from '@app/entityV2/dataProcessInstance/DataProcessInstanceEntity';
 import { DataProductEntity } from '@app/entityV2/dataProduct/DataProductEntity';
 import { DatasetEntity } from '@app/entityV2/dataset/DatasetEntity';
-import { CatalogRecordEntity } from '@app/entity/catalogRecord/CatalogRecordEntity';
+import { CatalogRecordEntity } from '@app/entityV2/catalogRecord/CatalogRecordEntity';
+import { DistributionEntity } from '@app/entityV2/distribution/DistributionEntity';
 import { DomainEntity } from '@app/entityV2/domain/DomainEntity';
 import GlossaryNodeEntity from '@app/entityV2/glossaryNode/GlossaryNodeEntity';
 import { GlossaryTermEntity } from '@app/entityV2/glossaryTerm/GlossaryTermEntity';
@@ -34,6 +35,7 @@ export default function buildEntityRegistryV2() {
     const registry = new EntityRegistry();
     registry.register(new DatasetEntity());
     registry.register(new CatalogRecordEntity());
+    registry.register(new DistributionEntity());
     registry.register(new DataContractEntity());
     registry.register(new DashboardEntity());
     registry.register(new Dashboard2Entity());

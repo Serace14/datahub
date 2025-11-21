@@ -4,6 +4,7 @@ import static com.linkedin.datahub.graphql.authorization.AuthorizationUtils.canV
 import static com.linkedin.metadata.Constants.*;
 import static com.linkedin.metadata.Constants.STRUCTURED_PROPERTIES_ASPECT_NAME;
 
+import com.linkedin.common.BrowsePathsV2;
 import com.linkedin.common.Ownership;
 import com.linkedin.common.urn.Urn;
 import com.linkedin.data.DataMap;
@@ -11,6 +12,7 @@ import com.linkedin.datahub.graphql.QueryContext;
 import com.linkedin.datahub.graphql.authorization.AuthorizationUtils;
 import com.linkedin.datahub.graphql.generated.*;
 import com.linkedin.datahub.graphql.types.common.mappers.AuditStampMapper;
+import com.linkedin.datahub.graphql.types.common.mappers.BrowsePathsV2Mapper;
 import com.linkedin.datahub.graphql.types.common.mappers.OwnershipMapper;
 import com.linkedin.datahub.graphql.types.common.mappers.util.MappingHelper;
 import com.linkedin.datahub.graphql.types.mappers.ModelMapper;
@@ -51,6 +53,12 @@ public class DistributionMapper implements ModelMapper<EntityResponse, Distribut
             distribution.setStructuredProperties(
                 StructuredPropertiesMapper.map(
                     context, new StructuredProperties(dataMap), entityUrn))));
+
+    mappingHelper.mapToResult(
+        BROWSE_PATHS_V2_ASPECT_NAME,
+        (distribution, dataMap) ->
+            distribution.setBrowsePathV2(
+                BrowsePathsV2Mapper.map(context, new BrowsePathsV2(dataMap))));
 
     mappingHelper.mapToResult(
         OWNERSHIP_ASPECT_NAME,
@@ -102,19 +110,15 @@ public class DistributionMapper implements ModelMapper<EntityResponse, Distribut
       result.setLastRefreshed(info.getLastRefreshed());
     }
 
-    // --- Mapeo de accessURL y accessService ---
-    if (info.hasAccessURL()) {
-      Dataset accessUrlDataset = new Dataset();
-      accessUrlDataset.setUrn(info.getAccessURL().toString());
-      result.setAccessURL(accessUrlDataset);
-    }
-
-    if (info.hasAccessService()) {
-      Dataset accessServiceDataset = new Dataset();
-      accessServiceDataset.setUrn(info.getAccessService().toString());
-      result.setAccessService(accessServiceDataset);
-    }
-
+    /**
+     * // --- Mapeo de accessURL y accessService --- if (info.hasAccessURL()) { Dataset
+     * accessUrlDataset = new Dataset(); accessUrlDataset.setUrn(info.getAccessURL().toString());
+     * result.setAccessURL(accessUrlDataset); }
+     *
+     * <p>if (info.hasAccessService()) { Dataset accessServiceDataset = new Dataset();
+     * accessServiceDataset.setUrn(info.getAccessService().toString());
+     * result.setAccessService(accessServiceDataset); }
+     */
     return result;
   }
 }
