@@ -245,17 +245,99 @@ for catalog_record_urn in catalog_record_urns:
         print(f"→ Rights asignados: {rights_values}")
 
     # ========================
-    # (9) Tags
+    # (9) Tags & GlossaryTerms
     # ========================
-    # Tags desde gco:CharacterString
-    tags = [el.text.strip() for el in tree.findall(".//gmd:keyword/gco:CharacterString", ns) if el.text]
 
-    # Tags desde gmx:Anchor
+    from datahub.metadata.schema_classes import (
+        GlossaryTermInfoClass,
+        GlossaryTermsClass,
+        GlossaryTermAssociationClass,
+        AuditStampClass,
+        TagPropertiesClass,
+        TagAssociationClass,
+        GlobalTagsClass,
+    )
+    from datahub.emitter.mce_builder import make_term_urn
+    import time
+
     ns["gmx"] = "http://www.isotc211.org/2005/gmx"
-    tags += [el.text.strip() for el in tree.findall(".//gmd:keyword/gmx:Anchor", ns) if el.text]
 
-    # Emitir cada tag individualmente
-    for tag in tags:
+    simple_tags = []
+    glossary_candidates = []
+
+    # ================
+    # 1. CharacterString → TAG
+    # ================
+    for el in tree.findall(".//gmd:keyword/gco:CharacterString", ns):
+        if el.text:
+            kw = el.text.strip()
+            simple_tags.append(kw)
+
+    # ================
+    # 2. gmx:Anchor → GLOSSARY
+    # ================
+    for el in tree.findall(".//gmd:keyword/gmx:Anchor", ns):
+        if el.text:
+            glossary_candidates.append({
+                "term": el.text.strip(),
+                "definition": el.get("href", "Imported from CSW Anchor")
+            })
+            # evitar duplicado como tag
+            if el.text.strip() in simple_tags:
+                simple_tags.remove(el.text.strip())
+
+    # ================
+    # 3. Keywords con tipo → depende
+    # ================
+    CONTROLLED_TYPES = {"place", "discipline", "temporal", "stratum"}
+
+    for block in tree.findall(".//gmd:descriptiveKeywords", ns):
+
+        kw_type_el = block.find(".//gmd:type/gmd:MD_KeywordTypeCode", ns)
+        kw_type = kw_type_el.get("codeListValue") if kw_type_el is not None else None
+        kw_type_lower = kw_type.lower() if kw_type else None
+
+        kws = [
+            el.text.strip()
+            for el in block.findall(".//gmd:keyword//gco:CharacterString", ns)
+            if el.text
+        ]
+
+        # Caso 1: sin tipo → TAGS
+        if not kw_type:
+            continue
+
+        # Caso 2: theme → TAGS
+        if kw_type_lower == "theme":
+            continue
+
+        # Caso 3: tipo controlado → GLOSSARY
+        if kw_type_lower in CONTROLLED_TYPES:
+            for kw in kws:
+                glossary_candidates.append({
+                    "term": kw,
+                    "definition": f"Keyword ({kw_type}) imported from CSW"
+                })
+                if kw in simple_tags:
+                    simple_tags.remove(kw)
+            continue
+
+        # Caso 4: otros tipos raros → TAGS
+        continue
+
+    # ================
+    # 4. dc:subject → TAGS
+    # ================
+    for el in tree.findall(".//dc:subject", ns):
+        if el.text:
+            kw = el.text.strip()
+            if kw not in simple_tags:
+                simple_tags.append(kw)
+
+    # ========================
+    # Crear TAGS
+    # ========================
+    for tag in simple_tags:
         tag_urn = builder.make_tag_urn(tag.replace(" ", "_"))
         emitter.emit(
             MetadataChangeProposalWrapper(
@@ -267,10 +349,10 @@ for catalog_record_urn in catalog_record_urns:
             )
         )
 
-    # Asignar los tags al dataset
-    if tags:
+    if simple_tags:
         tag_associations = [
-            TagAssociationClass(tag=builder.make_tag_urn(t.replace(" ", "_"))) for t in tags
+            TagAssociationClass(tag=builder.make_tag_urn(t.replace(" ", "_")))
+            for t in simple_tags
         ]
         emitter.emit(
             MetadataChangeProposalWrapper(
@@ -278,9 +360,59 @@ for catalog_record_urn in catalog_record_urns:
                 aspect=GlobalTagsClass(tags=tag_associations)
             )
         )
-        print(f"→ Tags asignados: {tags}")
+        print(f"→ Tags asignados: {simple_tags}")
     else:
-        print("⚠ No se encontraron tags en el XML.")
+        print("⚠ No se encontraron tags simples.")
+
+    # ========================
+    # Crear Glossary Terms
+    # ========================
+
+    glossary_associations = []
+
+    for item in glossary_candidates:
+        term_name = item["term"]
+        definition = item.get("definition") or "Imported from metadata"
+
+        if not definition or definition.strip() == "":
+            definition = "Imported from metadata"
+
+        term_id = term_name.replace(" ", "_").replace("/", "_")
+        term_urn = make_term_urn(term_id)
+
+        term_info = GlossaryTermInfoClass(
+            name=term_name,
+            definition=definition,
+            termSource="EXTERNAL"
+        )
+
+        emitter.emit(
+            MetadataChangeProposalWrapper(
+                entityUrn=term_urn,
+                aspect=term_info,
+            )
+        )
+
+        glossary_associations.append(
+            GlossaryTermAssociationClass(urn=term_urn)
+        )
+
+    if glossary_associations:
+        emitter.emit(
+            MetadataChangeProposalWrapper(
+                entityUrn=dataset_urn,
+                aspect=GlossaryTermsClass(
+                    terms=glossary_associations,
+                    auditStamp=AuditStampClass(
+                        time=int(time.time() * 1000),
+                        actor="urn:li:corpuser:ingestion"
+                    )
+                )
+            )
+        )
+        print(f"→ Glossary terms asignados: {[g.urn for g in glossary_associations]}")
+    else:
+        print("⚠ No se encontraron glossary terms.")
 
     # ========================
     # (10) Tipo

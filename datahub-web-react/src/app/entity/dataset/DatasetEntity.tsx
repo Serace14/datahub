@@ -86,13 +86,13 @@ export class DatasetEntity implements Entity<Dataset> {
 
     getAutoCompleteFieldName = () => 'name';
 
-    getPathName = () => 'recurso';
+    getPathName = () => 'dataset';
 
-    getGraphName = () => 'recurso';
+    getGraphName = () => 'dataset';
 
-    getEntityName = () => 'Recurso';
+    getEntityName = () => 'Dataset';
 
-    getCollectionName = () => 'Recursos';
+    getCollectionName = () => 'Datasets';
 
     useEntityQuery = useGetDatasetQuery;
 
