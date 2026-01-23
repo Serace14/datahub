@@ -71,13 +71,14 @@ import { GetCatalogRecordQuery, useGetCatalogRecordQuery, useUpdateCatalogRecord
 import { CatalogRecord, DatasetProperties, EntityType, FeatureFlagsConfig, SearchResult } from '@types';
 
 import GovernMenuIcon from '@images/governMenuIcon.svg?react';
+import {useGetColumnTabCount} from "@app/entityV2/dataset/profile/useGetColumnTabCount";
 
 const SUBTYPES = {
     VIEW: 'view',
 };
 
 const headerDropdownItems = new Set([
-    EntityMenuItems.EXTERNAL_URL,
+    //EntityMenuItems.EXTERNAL_URL,
     EntityMenuItems.SHARE,
     EntityMenuItems.UPDATE_DEPRECATION,
     EntityMenuItems.RAISE_INCIDENT,
@@ -156,7 +157,7 @@ export class CatalogRecordEntity implements Entity<CatalogRecord> {
                     name: 'Columns',
                     component: SchemaTab,
                     icon: LayoutOutlined,
-                    getDynamicName: ColumnTabNameHeader,
+                    getCount: useGetColumnTabCount,
                 },
                 {
                     name: 'View Definition',
@@ -203,12 +204,12 @@ export class CatalogRecordEntity implements Entity<CatalogRecord> {
                     name: 'Properties',
                     component: PropertiesTab,
                     icon: UnorderedListOutlined,
-                    getDynamicName: (_, catalogRecord: GetCatalogRecordQuery, loading) => {
+                    getCount: (_, catalogRecord: GetCatalogRecordQuery) => {
                         const customPropertiesCount = catalogRecord?.catalogRecord?.properties?.customProperties?.length || 0;
                         const structuredPropertiesCount =
                             catalogRecord?.catalogRecord?.structuredProperties?.properties?.length || 0;
                         const propertiesCount = customPropertiesCount + structuredPropertiesCount;
-                        return <TabNameWithCount name="Properties" count={propertiesCount} loading={loading} />;
+                        return propertiesCount;
                     },
                 },
                 {
@@ -268,9 +269,8 @@ export class CatalogRecordEntity implements Entity<CatalogRecord> {
                     name: 'Incidents',
                     icon: WarningOutlined,
                     component: IncidentTab,
-                    getDynamicName: (_, catalogRecord, loading) => {
-                        const activeIncidentCount = catalogRecord?.catalogRecord?.activeIncidents?.total;
-                        return <TabNameWithCount name="Incidents" count={activeIncidentCount} loading={loading} />;
+                    getCount: (_, catalogRecord) => {
+                        return catalogRecord?.catalogRecord?.activeIncidents?.total;
                     },
                 },
             ]}

@@ -55,7 +55,11 @@ public class CatalogRecordStatsSummaryResolver
 
             com.linkedin.usage.UsageQueryResult usageQueryResult =
                 usageClient.getUsageStats(
-                    context.getOperationContext(), resourceUrn.toString(), UsageTimeRange.MONTH);
+                    context.getOperationContext(),
+                    resourceUrn.toString(),
+                    UsageTimeRange.MONTH,
+                    null,
+                    null);
 
             final DatasetStatsSummary result = new DatasetStatsSummary();
             result.setQueryCountLast30Days(usageQueryResult.getAggregations().getTotalSqlQueries());

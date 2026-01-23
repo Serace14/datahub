@@ -40,7 +40,7 @@ import { DocumentationTab } from '@app/entityV2/shared/tabs/Documentation/Docume
 import { EmbedTab } from '@app/entityV2/shared/tabs/Embed/EmbedTab';
 import { DashboardChartsTab } from '@app/entityV2/shared/tabs/Entity/DashboardChartsTab';
 import { DashboardDatasetsTab } from '@app/entityV2/shared/tabs/Entity/DashboardDatasetsTab';
-import TabNameWithCount from '@app/entityV2/shared/tabs/Entity/TabNameWithCount';
+//import TabNameWithCount from '@app/entityV2/shared/tabs/Entity/TabNameWithCount';
 import { IncidentTab } from '@app/entityV2/shared/tabs/Incident/IncidentTab';
 import { LineageTab } from '@app/entityV2/shared/tabs/Lineage/LineageTab';
 import { PropertiesTab } from '@app/entityV2/shared/tabs/Properties/PropertiesTab';
@@ -65,7 +65,7 @@ const PREVIEW_SUPPORTED_PLATFORMS = [LOOKER_URN, MODE_URN];
  */
 
 const headerDropdownItems = new Set([
-    EntityMenuItems.EXTERNAL_URL,
+    //EntityMenuItems.EXTERNAL_URL,
     EntityMenuItems.SHARE,
     EntityMenuItems.UPDATE_DEPRECATION,
     EntityMenuItems.ANNOUNCE,
@@ -191,9 +191,8 @@ export class Dashboard2Entity implements Entity<Dashboard2> {
                     name: 'Incidents',
                     icon: WarningOutlined,
                     component: IncidentTab,
-                    getDynamicName: (_, dashboard2, loading) => {
-                        const activeIncidentCount = dashboard2?.dashboard?.activeIncidents?.total;
-                        return <TabNameWithCount name="Incidents" count={activeIncidentCount} loading={loading} />;
+                    getCount: (_, dashboard2) => {
+                        return dashboard2?.dashboard2?.activeIncidents?.total;
                     },
                 },
             ]}

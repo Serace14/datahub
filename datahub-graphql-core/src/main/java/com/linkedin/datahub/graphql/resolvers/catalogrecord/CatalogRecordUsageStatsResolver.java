@@ -46,11 +46,20 @@ public class CatalogRecordUsageStatsResolver
           try {
             com.linkedin.usage.UsageQueryResult usageQueryResult =
                 usageClient.getUsageStats(
-                    context.getOperationContext(), resourceUrn.toString(), range);
+                    context.getOperationContext(),
+                    resourceUrn.toString(),
+                    UsageTimeRange.MONTH,
+                    null,
+                    null);
             return UsageQueryResultMapper.map(context, usageQueryResult);
           } catch (Exception e) {
-            log.error(String.format("Failed to load Usage Stats for resource %s", resourceUrn), e);
-            MetricUtils.counter(this.getClass(), "usage_stats_dropped").inc();
+              log.error(String.format("Failed to load Usage Stats for resource %s", resourceUrn), e);
+              context
+                      .getOperationContext()
+                      .getMetricUtils()
+                      .ifPresent(
+                              metricUtils ->
+                                      metricUtils.increment(this.getClass(), "usage_stats_dropped", 1));
           }
 
           return UsageQueryResultMapper.EMPTY;

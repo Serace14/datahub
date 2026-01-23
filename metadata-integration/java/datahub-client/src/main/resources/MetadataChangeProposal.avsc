@@ -128,36 +128,36 @@
     "type" : [ "null", {
       "type" : "record",
       "name" : "SystemMetadata",
-      "doc" : "Metadata associated with each metadata change that is processed by the system",
+      "doc" : "Metadata associated with each metadata change that is processed by the system\r",
       "fields" : [ {
         "name" : "lastObserved",
         "type" : [ "long", "null" ],
-        "doc" : "The timestamp the metadata was observed at",
+        "doc" : "The timestamp the metadata was observed at\r",
         "default" : 0
       }, {
         "name" : "runId",
         "type" : [ "string", "null" ],
-        "doc" : "The original run id that produced the metadata. Populated in case of batch-ingestion.",
+        "doc" : "The original run id that produced the metadata. Populated in case of batch-ingestion.\r",
         "default" : "no-run-id-provided"
       }, {
         "name" : "lastRunId",
         "type" : [ "string", "null" ],
-        "doc" : "The last run id that produced the metadata. Populated in case of batch-ingestion.",
+        "doc" : "The last run id that produced the metadata. Populated in case of batch-ingestion.\r",
         "default" : "no-run-id-provided"
       }, {
         "name" : "pipelineName",
         "type" : [ "null", "string" ],
-        "doc" : "The ingestion pipeline id that produced the metadata. Populated in case of batch ingestion.",
+        "doc" : "The ingestion pipeline id that produced the metadata. Populated in case of batch ingestion.\r",
         "default" : null
       }, {
         "name" : "registryName",
         "type" : [ "null", "string" ],
-        "doc" : "The model registry name that was used to process this event",
+        "doc" : "The model registry name that was used to process this event\r",
         "default" : null
       }, {
         "name" : "registryVersion",
         "type" : [ "null", "string" ],
-        "doc" : "The model registry version that was used to process this event",
+        "doc" : "The model registry version that was used to process this event\r",
         "default" : null
       }, {
         "name" : "properties",
@@ -165,12 +165,12 @@
           "type" : "map",
           "values" : "string"
         } ],
-        "doc" : "Additional properties",
+        "doc" : "Additional properties\r",
         "default" : null
       }, {
         "name" : "version",
         "type" : [ "null", "string" ],
-        "doc" : "Aspect version\n   Initial implementation will use the aspect version's number, however stored as\n   a string in the case where a different aspect versioning scheme is later adopted.",
+        "doc" : "Aspect version\r\n   Initial implementation will use the aspect version's number, however stored as\r\n   a string in the case where a different aspect versioning scheme is later adopted.\r",
         "default" : null
       }, {
         "name" : "aspectCreated",
@@ -205,12 +205,12 @@
             "default" : null
           } ]
         } ],
-        "doc" : "When the aspect was initially created and who created it, detected by version 0 -> 1 change",
+        "doc" : "When the aspect was initially created and who created it, detected by version 0 -> 1 change\r",
         "default" : null
       }, {
         "name" : "aspectModified",
         "type" : [ "null", "com.linkedin.pegasus2avro.common.AuditStamp" ],
-        "doc" : "When the aspect was last modified and the actor that performed the modification",
+        "doc" : "When the aspect was last modified and the actor that performed the modification\r",
         "default" : null
       } ],
       "Aspect" : {

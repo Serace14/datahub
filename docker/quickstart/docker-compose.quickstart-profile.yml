@@ -109,13 +109,11 @@ services:
     - type: bind
       source: ${HOME}/.datahub/plugins
       target: /etc/datahub/plugins
-      bind:
-        create_host_path: true
+      bind: {}
     - type: bind
       source: ${HOME}/.datahub/search
       target: /etc/datahub/search
-      bind:
-        create_host_path: true
+      bind: {}
   frontend-quickstart:
     profiles:
     - quickstart
@@ -153,8 +151,7 @@ services:
     - type: bind
       source: ${HOME}/.datahub/plugins
       target: /etc/datahub/plugins
-      bind:
-        create_host_path: true
+      bind: {}
   kafka-broker:
     command:
     - /bin/bash
@@ -450,8 +447,7 @@ services:
     - type: bind
       source: ${HOME}/.datahub/plugins
       target: /etc/datahub/plugins
-      bind:
-        create_host_path: true
+      bind: {}
 networks:
   default:
     name: datahub_network

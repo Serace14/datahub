@@ -51,7 +51,11 @@ public class DistributionStatsSummaryResolver
 
             com.linkedin.usage.UsageQueryResult usageQueryResult =
                 usageClient.getUsageStats(
-                    context.getOperationContext(), resourceUrn.toString(), UsageTimeRange.MONTH);
+                    context.getOperationContext(),
+                    resourceUrn.toString(),
+                    UsageTimeRange.MONTH,
+                    null,
+                    null);
 
             final DistributionStatsSummary result = new DistributionStatsSummary();
             result.setUniqueUserCountLast30Days(
