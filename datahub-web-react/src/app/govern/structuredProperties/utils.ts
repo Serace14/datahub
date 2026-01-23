@@ -105,10 +105,14 @@ export const valueTypes = [
 
 export const SEARCHABLE_ENTITY_TYPES = [
     EntityType.Dataset,
+    EntityType.CatalogRecord,
+    EntityType.PlatformResource,
+    EntityType.Distribution,
     EntityType.DataJob,
     EntityType.DataFlow,
     EntityType.Chart,
     EntityType.Dashboard,
+    EntityType.Dashboard2,
     EntityType.Domain,
     EntityType.Container,
     EntityType.GlossaryTerm,
@@ -128,10 +132,14 @@ export const SEARCHABLE_ENTITY_TYPES = [
 
 export const APPLIES_TO_ENTITIES = [
     EntityType.Dataset,
+    EntityType.CatalogRecord,
+    EntityType.PlatformResource,
+    EntityType.Distribution,
     EntityType.DataJob,
     EntityType.DataFlow,
     EntityType.Chart,
     EntityType.Dashboard,
+    EntityType.Dashboard2,
     EntityType.Domain,
     EntityType.Container,
     EntityType.GlossaryTerm,

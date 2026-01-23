@@ -53,6 +53,57 @@ entities:
       - icebergCatalogInfo
       - logicalParent
       - assetSettings
+  - name: catalogRecord
+    doc: Entidad para relacionar un xml de metadato con los datasets a los que esté relacionado.
+    category: core
+    keyAspect: catalogRecordKey
+    aspects:
+      - viewProperties
+      - subTypes
+      - datasetProfile
+      - datasetUsageStatistics
+      - operation
+      - domains
+      - applications
+      - schemaMetadata
+      - status
+      - container
+      - deprecation
+      - testResults
+      - siblings
+      - embed
+      - incidentsSummary
+      - datasetProperties
+      - editableDatasetProperties
+      - datasetDeprecation
+      - datasetUpstreamLineage
+      - upstreamLineage
+      - institutionalMemory
+      - ownership
+      - editableSchemaMetadata
+      - globalTags
+      - glossaryTerms
+      - browsePaths
+      - dataPlatformInstance
+      - browsePathsV2
+      - access
+      - structuredProperties
+      - forms
+      - partitionsSummary
+      - versionProperties
+      - icebergCatalogInfo
+      - platformResources
+  - name: distribution
+    doc: Entidad relacionar los datasets con sus servicios o partes en caso de estar fragmentado.
+    category: core
+    keyAspect: distributionKey
+    aspects:
+      - distributionInfo
+      - ownership
+      - browsePaths
+      - browsePathsV2
+      - structuredProperties
+      - upstreamLineage
   - name: dataHubPolicy
     doc: DataHub Policies represent access policies granted to users or groups on metadata operations like edit, view etc.
     category: internal
@@ -190,6 +241,15 @@ entities:
       - incidentsSummary
       - forms
       - testResults
+  - name: dashboard2
+    keyAspect: dashboard2Key
+    aspects:
+      - dashboard2Info
+      - dataPlatformInstance
+      - browsePaths
+      - structuredProperties
+      - ownership
+      - browsePathsV2
   - name: notebook
     doc: Notebook represents a combination of query, text, chart and etc. This is in BETA version
     keyAspect: notebookKey

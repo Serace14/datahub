@@ -52,6 +52,8 @@ import com.linkedin.datahub.graphql.resolvers.businessattribute.DeleteBusinessAt
 import com.linkedin.datahub.graphql.resolvers.businessattribute.ListBusinessAttributesResolver;
 import com.linkedin.datahub.graphql.resolvers.businessattribute.RemoveBusinessAttributeResolver;
 import com.linkedin.datahub.graphql.resolvers.businessattribute.UpdateBusinessAttributeResolver;
+import com.linkedin.datahub.graphql.resolvers.catalogrecord.CatalogRecordStatsSummaryResolver;
+import com.linkedin.datahub.graphql.resolvers.catalogrecord.CatalogRecordUsageStatsResolver;
 import com.linkedin.datahub.graphql.resolvers.chart.BrowseV2Resolver;
 import com.linkedin.datahub.graphql.resolvers.chart.ChartStatsSummaryResolver;
 import com.linkedin.datahub.graphql.resolvers.config.AppConfigResolver;
@@ -73,6 +75,7 @@ import com.linkedin.datahub.graphql.resolvers.dataset.DatasetStatsSummaryResolve
 import com.linkedin.datahub.graphql.resolvers.dataset.DatasetUsageStatsResolver;
 import com.linkedin.datahub.graphql.resolvers.dataset.IsAssignedToMeResolver;
 import com.linkedin.datahub.graphql.resolvers.deprecation.UpdateDeprecationResolver;
+import com.linkedin.datahub.graphql.resolvers.distribution.DistributionStatsSummaryResolver;
 import com.linkedin.datahub.graphql.resolvers.domain.CreateDomainResolver;
 import com.linkedin.datahub.graphql.resolvers.domain.DeleteDomainResolver;
 import com.linkedin.datahub.graphql.resolvers.domain.DomainEntitiesResolver;
@@ -271,6 +274,9 @@ import com.linkedin.datahub.graphql.types.aspect.AspectType;
 import com.linkedin.datahub.graphql.types.assertion.AssertionType;
 import com.linkedin.datahub.graphql.types.auth.AccessTokenMetadataType;
 import com.linkedin.datahub.graphql.types.businessattribute.BusinessAttributeType;
+import com.linkedin.datahub.graphql.types.catalogrecord.CatalogRecordType;
+import com.linkedin.datahub.graphql.types.catalogrecord.VersionedCatalogRecordType;
+import com.linkedin.datahub.graphql.types.catalogrecord.mappers.CatalogRecordProfileMapper;
 import com.linkedin.datahub.graphql.types.chart.ChartType;
 import com.linkedin.datahub.graphql.types.common.mappers.OperationMapper;
 import com.linkedin.datahub.graphql.types.common.mappers.UrnToEntityMapper;
@@ -279,6 +285,7 @@ import com.linkedin.datahub.graphql.types.container.ContainerType;
 import com.linkedin.datahub.graphql.types.corpgroup.CorpGroupType;
 import com.linkedin.datahub.graphql.types.corpuser.CorpUserType;
 import com.linkedin.datahub.graphql.types.dashboard.DashboardType;
+import com.linkedin.datahub.graphql.types.dashboard2.Dashboard2Type;
 import com.linkedin.datahub.graphql.types.dataflow.DataFlowType;
 import com.linkedin.datahub.graphql.types.datajob.DataJobType;
 import com.linkedin.datahub.graphql.types.dataplatform.DataPlatformType;
@@ -290,6 +297,7 @@ import com.linkedin.datahub.graphql.types.dataset.DatasetType;
 import com.linkedin.datahub.graphql.types.dataset.VersionedDatasetType;
 import com.linkedin.datahub.graphql.types.dataset.mappers.DatasetProfileMapper;
 import com.linkedin.datahub.graphql.types.datatype.DataTypeType;
+import com.linkedin.datahub.graphql.types.distribution.DistributionType;
 import com.linkedin.datahub.graphql.types.domain.DomainType;
 import com.linkedin.datahub.graphql.types.entitytype.EntityTypeType;
 import com.linkedin.datahub.graphql.types.ermodelrelationship.CreateERModelRelationshipResolver;
@@ -311,6 +319,7 @@ import com.linkedin.datahub.graphql.types.mlmodel.MLPrimaryKeyType;
 import com.linkedin.datahub.graphql.types.module.PageModuleType;
 import com.linkedin.datahub.graphql.types.notebook.NotebookType;
 import com.linkedin.datahub.graphql.types.ownership.OwnershipType;
+import com.linkedin.datahub.graphql.types.platformresource.PlatformResourceType;
 import com.linkedin.datahub.graphql.types.policy.DataHubPolicyType;
 import com.linkedin.datahub.graphql.types.post.PostType;
 import com.linkedin.datahub.graphql.types.query.QueryType;
@@ -452,6 +461,9 @@ public class GmsGraphQLEngine {
   private final ChromeExtensionConfiguration chromeExtensionConfiguration;
 
   private final DatasetType datasetType;
+  private final CatalogRecordType catalogRecordType;
+  private final PlatformResourceType platformResourceType;
+  private final DistributionType distributionType;
 
   private final RoleType roleType;
 
@@ -459,6 +471,7 @@ public class GmsGraphQLEngine {
   private final CorpGroupType corpGroupType;
   private final ChartType chartType;
   private final DashboardType dashboardType;
+  private final Dashboard2Type dashboard2Type;
   private final DataPlatformType dataPlatformType;
   private final TagType tagType;
   private final MLModelType mlModelType;
@@ -478,6 +491,7 @@ public class GmsGraphQLEngine {
   private final NotebookType notebookType;
   private final AssertionType assertionType;
   private final VersionedDatasetType versionedDatasetType;
+  private final VersionedCatalogRecordType versionedCatalogRecordType;
   private final DataPlatformInstanceType dataPlatformInstanceType;
   private final AccessTokenMetadataType accessTokenMetadataType;
   private final TestType testType;
@@ -595,11 +609,15 @@ public class GmsGraphQLEngine {
     this.chromeExtensionConfiguration = args.chromeExtensionConfiguration;
 
     this.datasetType = new DatasetType(entityClient);
+    this.catalogRecordType = new CatalogRecordType(entityClient);
+    this.platformResourceType = new PlatformResourceType(entityClient);
+    this.distributionType = new DistributionType(entityClient);
     this.roleType = new RoleType(entityClient);
     this.corpUserType = new CorpUserType(entityClient, featureFlags);
     this.corpGroupType = new CorpGroupType(entityClient);
     this.chartType = new ChartType(entityClient);
     this.dashboardType = new DashboardType(entityClient);
+    this.dashboard2Type = new Dashboard2Type(entityClient);
     this.dataPlatformType = new DataPlatformType(entityClient);
     this.tagType = new TagType(entityClient);
     this.mlModelType = new MLModelType(entityClient);
@@ -619,6 +637,7 @@ public class GmsGraphQLEngine {
     this.notebookType = new NotebookType(entityClient);
     this.assertionType = new AssertionType(entityClient);
     this.versionedDatasetType = new VersionedDatasetType(entityClient);
+    this.versionedCatalogRecordType = new VersionedCatalogRecordType(entityClient);
     this.dataPlatformInstanceType = new DataPlatformInstanceType(entityClient);
     this.accessTokenMetadataType = new AccessTokenMetadataType(entityClient);
     this.testType = new TestType(entityClient);
@@ -655,12 +674,16 @@ public class GmsGraphQLEngine {
         new ArrayList<>(
             ImmutableList.of(
                 datasetType,
+                catalogRecordType,
+                platformResourceType,
+                distributionType,
                 roleType,
                 corpUserType,
                 corpGroupType,
                 dataPlatformType,
                 chartType,
                 dashboardType,
+                dashboard2Type,
                 tagType,
                 mlModelType,
                 mlModelGroupType,
@@ -678,6 +701,7 @@ public class GmsGraphQLEngine {
                 documentType,
                 assertionType,
                 versionedDatasetType,
+                versionedCatalogRecordType,
                 dataPlatformInstanceType,
                 accessTokenMetadataType,
                 testType,
@@ -755,9 +779,13 @@ public class GmsGraphQLEngine {
     configureMutationResolvers(builder);
     configureGenericEntityResolvers(builder);
     configureDatasetResolvers(builder);
+    configureCatalogRecordResolvers(builder);
+    configurePlatformResourceResolvers(builder);
+    configureDistributionResolvers(builder);
     configureCorpUserResolvers(builder);
     configureCorpGroupResolvers(builder);
     configureDashboardResolvers(builder);
+    configureDashboard2Resolvers(builder);
     configureNotebookResolvers(builder);
     configureChartResolvers(builder);
     configureTypeResolvers(builder);
@@ -786,6 +814,7 @@ public class GmsGraphQLEngine {
     configurePolicyResolvers(builder);
     configureDataProcessInstanceResolvers(builder);
     configureVersionedDatasetResolvers(builder);
+    configureVersionedCatalogRecordResolvers(builder);
     configureAccessAccessTokenMetadataResolvers(builder);
     configureTestResultResolvers(builder);
     configureDataHubRoleResolvers(builder);
@@ -1047,6 +1076,9 @@ public class GmsGraphQLEngine {
                 .dataFetcher("browse", new BrowseResolver(browsableTypes))
                 .dataFetcher("browsePaths", new BrowsePathsResolver(browsableTypes))
                 .dataFetcher("dataset", getResolver(datasetType))
+                .dataFetcher("catalogRecord", getResolver(catalogRecordType))
+                .dataFetcher("platformResource", getResolver(platformResourceType))
+                .dataFetcher("distribution", getResolver(distributionType))
                 .dataFetcher("role", getResolver(roleType))
                 .dataFetcher(
                     "versionedDataset",
@@ -1056,10 +1088,19 @@ public class GmsGraphQLEngine {
                             new VersionedUrn()
                                 .setUrn(UrnUtils.getUrn(env.getArgument(URN_FIELD_NAME)))
                                 .setVersionStamp(env.getArgument(VERSION_STAMP_FIELD_NAME))))
+                .dataFetcher(
+                    "versionedCatalogRecord",
+                    getResolver(
+                        versionedCatalogRecordType,
+                        (env) ->
+                            new VersionedUrn()
+                                .setUrn(UrnUtils.getUrn(env.getArgument(URN_FIELD_NAME)))
+                                .setVersionStamp(env.getArgument(VERSION_STAMP_FIELD_NAME))))
                 .dataFetcher("notebook", getResolver(notebookType))
                 .dataFetcher("corpUser", getResolver(corpUserType))
                 .dataFetcher("corpGroup", getResolver(corpGroupType))
                 .dataFetcher("dashboard", getResolver(dashboardType))
+                .dataFetcher("dashboard2", getResolver(dashboard2Type))
                 .dataFetcher("chart", getResolver(chartType))
                 .dataFetcher("tag", getResolver(tagType))
                 .dataFetcher("dataFlow", getResolver(dataFlowType))
@@ -1217,6 +1258,9 @@ public class GmsGraphQLEngine {
           typeWiring
               .dataFetcher("updateDataset", new MutableTypeResolver<>(datasetType))
               .dataFetcher("updateDatasets", new MutableTypeBatchResolver<>(datasetType))
+              .dataFetcher("updateCatalogRecord", new MutableTypeResolver<>(catalogRecordType))
+              .dataFetcher(
+                  "updateCatalogRecords", new MutableTypeBatchResolver<>(catalogRecordType))
               .dataFetcher(
                   "createTag", new CreateTagResolver(this.entityClient, this.entityService))
               .dataFetcher("updateTag", new MutableTypeResolver<>(tagType))
@@ -1932,11 +1976,294 @@ public class GmsGraphQLEngine {
 
   /**
    * Configures resolvers responsible for resolving the {@link
+   * com.linkedin.datahub.graphql.generated.CatalogRecord} type.
+   */
+  private void configureCatalogRecordResolvers(final RuntimeWiring.Builder builder) {
+    builder
+        .type(
+            "CatalogRecord",
+            typeWiring ->
+                typeWiring
+                    .dataFetcher(
+                        "relationships", new EntityRelationshipsResultResolver(graphClient))
+                    .dataFetcher(
+                        "browsePaths", new EntityBrowsePathsResolver(this.catalogRecordType))
+                    .dataFetcher(
+                        "lineage",
+                        new EntityLineageResultResolver(
+                            siblingGraphService,
+                            restrictedService,
+                            this.authorizationConfiguration))
+                    .dataFetcher(
+                        "platform",
+                        new LoadableTypeResolver<>(
+                            dataPlatformType,
+                            (env) -> ((CatalogRecord) env.getSource()).getPlatform().getUrn()))
+                    .dataFetcher(
+                        "container",
+                        new LoadableTypeResolver<>(
+                            containerType,
+                            (env) -> {
+                              final CatalogRecord catalogrecord = env.getSource();
+                              return catalogrecord.getContainer() != null
+                                  ? catalogrecord.getContainer().getUrn()
+                                  : null;
+                            }))
+                    .dataFetcher(
+                        "dataPlatformInstance",
+                        new LoadableTypeResolver<>(
+                            dataPlatformInstanceType,
+                            (env) -> {
+                              final CatalogRecord dataset = env.getSource();
+                              return dataset.getDataPlatformInstance() != null
+                                  ? dataset.getDataPlatformInstance().getUrn()
+                                  : null;
+                            }))
+                    .dataFetcher(
+                        "datasetProfiles",
+                        new TimeSeriesAspectResolver(
+                            this.entityClient,
+                            "catalogRecord",
+                            "datasetProfile",
+                            CatalogRecordProfileMapper::map))
+                    .dataFetcher(
+                        "operations",
+                        new TimeSeriesAspectResolver(
+                            this.entityClient,
+                            "catalogRecord",
+                            "operation",
+                            OperationMapper::map,
+                            new SortCriterion()
+                                .setField(OPERATION_EVENT_TIME_FIELD_NAME)
+                                .setOrder(SortOrder.DESCENDING)))
+                    .dataFetcher(
+                        "usageStats", new CatalogRecordUsageStatsResolver(this.usageClient))
+                    .dataFetcher(
+                        "statsSummary", new CatalogRecordStatsSummaryResolver(this.usageClient))
+                    .dataFetcher(
+                        "health",
+                        new EntityHealthResolver(
+                            entityClient,
+                            graphClient,
+                            timeseriesAspectService,
+                            new EntityHealthResolver.Config(true, true)))
+                    .dataFetcher("schemaMetadata", new AspectResolver())
+                    .dataFetcher(
+                        "assertions", new EntityAssertionsResolver(entityClient, graphClient))
+                    .dataFetcher("testResults", new TestResultsResolver(entityClient))
+                    .dataFetcher(
+                        "aspects", new WeaklyTypedAspectsResolver(entityClient, entityRegistry))
+                    .dataFetcher("exists", new EntityExistsResolver(entityService))
+                    .dataFetcher("runs", new EntityRunsResolver(entityClient))
+                    .dataFetcher("privileges", new EntityPrivilegesResolver(entityClient))
+                    .dataFetcher("parentContainers", new ParentContainersResolver(entityClient))
+                    .dataFetcher(
+                        "siblingsSearch",
+                        new SiblingsSearchResolver(this.entityClient, this.viewService)))
+        .type(
+            "Owner",
+            typeWiring ->
+                typeWiring.dataFetcher(
+                    "owner",
+                    new OwnerTypeResolver<>(
+                        ownerTypes, (env) -> ((Owner) env.getSource()).getOwner())))
+        .type(
+            "Incident",
+            typeWiring ->
+                typeWiring.dataFetcher(
+                    "assignees",
+                    new OwnerTypeBatchResolver(
+                        ownerTypes, (env) -> ((Incident) env.getSource()).getAssignees())))
+        .type(
+            "SchemaField",
+            typeWiring ->
+                typeWiring.dataFetcher(
+                    "schemaFieldEntity",
+                    new LoadableTypeResolver<>(
+                        schemaFieldType,
+                        (env) -> ((SchemaField) env.getSource()).getSchemaFieldEntity().getUrn())))
+        .type(
+            "UserUsageCounts",
+            typeWiring ->
+                typeWiring.dataFetcher(
+                    "user",
+                    new LoadableTypeResolver<>(
+                        corpUserType,
+                        (env) -> ((UserUsageCounts) env.getSource()).getUser().getUrn())))
+        .type(
+            "ForeignKeyConstraint",
+            typeWiring ->
+                typeWiring.dataFetcher(
+                    "foreignCatalogRecord",
+                    new LoadableTypeResolver<>(
+                        catalogRecordType,
+                        (env) ->
+                            ((ForeignKeyConstraint) env.getSource()).getForeignDataset().getUrn())))
+        .type(
+            "Deprecation",
+            typeWiring ->
+                typeWiring.dataFetcher(
+                    "replacement",
+                    new EntityTypeResolver(
+                        entityTypes, (env) -> ((Deprecation) env.getSource()).getReplacement())))
+        .type(
+            "SiblingProperties",
+            typeWiring ->
+                typeWiring.dataFetcher(
+                    "siblings",
+                    new EntityTypeBatchResolver(
+                        new ArrayList<>(entityTypes),
+                        (env) -> ((SiblingProperties) env.getSource()).getSiblings())))
+        .type(
+            "InstitutionalMemoryMetadata",
+            typeWiring ->
+                typeWiring
+                    .dataFetcher(
+                        "author",
+                        new LoadableTypeResolver<>(
+                            corpUserType,
+                            (env) ->
+                                ((InstitutionalMemoryMetadata) env.getSource())
+                                    .getAuthor()
+                                    .getUrn()))
+                    .dataFetcher(
+                        "actor",
+                        new EntityTypeResolver(
+                            this.entityTypes,
+                            (env) ->
+                                (Entity)
+                                    ((InstitutionalMemoryMetadata) env.getSource()).getActor())))
+        .type(
+            "DatasetStatsSummary",
+            typeWiring ->
+                typeWiring.dataFetcher(
+                    "topUsersLast30Days",
+                    new LoadableTypeBatchResolver<>(
+                        corpUserType,
+                        (env) -> {
+                          DatasetStatsSummary summary = ((DatasetStatsSummary) env.getSource());
+                          return summary.getTopUsersLast30Days() != null
+                              ? summary.getTopUsersLast30Days().stream()
+                                  .map(CorpUser::getUrn)
+                                  .collect(Collectors.toList())
+                              : null;
+                        })));
+  }
+
+  /**
+   * Configures resolvers responsible for resolving the {@link
+   * com.linkedin.datahub.graphql.generated.PlatformResource} type.
+   */
+  private void configurePlatformResourceResolvers(final RuntimeWiring.Builder builder) {
+    builder
+        .type(
+            "PlatformResource",
+            typeWiring ->
+                typeWiring
+                    .dataFetcher(
+                        "relationships", new EntityRelationshipsResultResolver(graphClient))
+                    .dataFetcher(
+                        "aspects", new WeaklyTypedAspectsResolver(entityClient, entityRegistry))
+                    .dataFetcher(
+                        "dataPlatformInstance",
+                        new LoadableTypeResolver<>(
+                            dataPlatformInstanceType,
+                            (env) -> {
+                              final PlatformResource pr = env.getSource();
+                              return pr.getDataPlatformInstance() != null
+                                  ? pr.getDataPlatformInstance().getUrn()
+                                  : null;
+                            }))
+                    .dataFetcher(
+                        "platformResourceInfo",
+                        (env) -> ((PlatformResource) env.getSource()).getInfo())
+                    .dataFetcher(
+                        "lineage",
+                        new EntityLineageResultResolver(
+                            siblingGraphService,
+                            restrictedService,
+                            this.authorizationConfiguration))
+                    .dataFetcher(
+                        "siblingsSearch",
+                        new SiblingsSearchResolver(this.entityClient, this.viewService)))
+        .type(
+            "SiblingProperties",
+            typeWiring ->
+                typeWiring.dataFetcher(
+                    "siblings",
+                    new EntityTypeBatchResolver(
+                        new ArrayList<>(entityTypes),
+                        (env) -> ((SiblingProperties) env.getSource()).getSiblings())));
+  }
+
+  /**
+   * Configures resolvers responsible for resolving the {@link
+   * com.linkedin.datahub.graphql.generated.Distribution} type.
+   */
+  private void configureDistributionResolvers(final RuntimeWiring.Builder builder) {
+    builder
+        .type(
+            "Distribution",
+            typeWiring ->
+                typeWiring
+                    .dataFetcher(
+                        "relationships", new EntityRelationshipsResultResolver(graphClient))
+                    .dataFetcher(
+                        "browsePaths", new EntityBrowsePathsResolver(this.distributionType))
+                    .dataFetcher(
+                        "statsSummary", new DistributionStatsSummaryResolver(this.usageClient))
+                    .dataFetcher(
+                        "aspects", new WeaklyTypedAspectsResolver(entityClient, entityRegistry))
+                    .dataFetcher(
+                        "distributionInfo", (env) -> ((Distribution) env.getSource()).getInfo())
+                    .dataFetcher(
+                        "lineage",
+                        new EntityLineageResultResolver(
+                            siblingGraphService,
+                            restrictedService,
+                            this.authorizationConfiguration)))
+        .type(
+            "Owner",
+            typeWiring ->
+                typeWiring.dataFetcher(
+                    "owner",
+                    new OwnerTypeResolver<>(
+                        ownerTypes, (env) -> ((Owner) env.getSource()).getOwner())))
+        .type(
+            "DistributionStatsSummary",
+            typeWiring ->
+                typeWiring.dataFetcher(
+                    "topUsersLast30Days",
+                    new LoadableTypeBatchResolver<>(
+                        corpUserType,
+                        (env) -> {
+                          DistributionStatsSummary summary =
+                              ((DistributionStatsSummary) env.getSource());
+                          return summary.getTopUsersLast30Days() != null
+                              ? summary.getTopUsersLast30Days().stream()
+                                  .map(CorpUser::getUrn)
+                                  .collect(Collectors.toList())
+                              : null;
+                        })));
+  }
+
+  /**
+   * Configures resolvers responsible for resolving the {@link
    * com.linkedin.datahub.graphql.generated.VersionedDataset} type.
    */
   private void configureVersionedDatasetResolvers(final RuntimeWiring.Builder builder) {
     builder.type(
         "VersionedDataset",
+        typeWiring -> typeWiring.dataFetcher("relationships", new StaticDataFetcher(null)));
+  }
+
+  /**
+   * Configures resolvers responsible for resolving the {@link
+   * com.linkedin.datahub.graphql.generated.VersionedDataset} type.
+   */
+  private void configureVersionedCatalogRecordResolvers(final RuntimeWiring.Builder builder) {
+    builder.type(
+        "VersionedCatalogRecord",
         typeWiring -> typeWiring.dataFetcher("relationships", new StaticDataFetcher(null)));
   }
 
@@ -2297,6 +2624,73 @@ public class GmsGraphQLEngine {
                     (env) -> ((DashboardUserUsageCounts) env.getSource()).getUser().getUrn())));
     builder.type(
         "DashboardStatsSummary",
+        typeWiring ->
+            typeWiring.dataFetcher(
+                "topUsersLast30Days",
+                new LoadableTypeBatchResolver<>(
+                    corpUserType,
+                    (env) -> {
+                      DashboardStatsSummary summary = ((DashboardStatsSummary) env.getSource());
+                      return summary.getTopUsersLast30Days() != null
+                          ? summary.getTopUsersLast30Days().stream()
+                              .map(CorpUser::getUrn)
+                              .collect(Collectors.toList())
+                          : null;
+                    })));
+  }
+
+  /**
+   * Configures resolvers responsible for resolving the {@link
+   * com.linkedin.datahub.graphql.generated.Dashboard2} type.
+   */
+  private void configureDashboard2Resolvers(final RuntimeWiring.Builder builder) {
+    builder.type(
+        "Dashboard2",
+        typeWiring ->
+            typeWiring
+                .dataFetcher("relationships", new EntityRelationshipsResultResolver(graphClient))
+                .dataFetcher("browsePaths", new EntityBrowsePathsResolver(this.dashboard2Type))
+                .dataFetcher(
+                    "lineage",
+                    new EntityLineageResultResolver(
+                        siblingGraphService, restrictedService, this.authorizationConfiguration))
+                .dataFetcher(
+                    "platform",
+                    new LoadableTypeResolver<>(
+                        dataPlatformType,
+                        (env) -> ((Dashboard2) env.getSource()).getPlatform().getUrn()))
+                .dataFetcher(
+                    "dataPlatformInstance",
+                    new LoadableTypeResolver<>(
+                        dataPlatformInstanceType,
+                        (env) -> {
+                          final Dashboard2 dashboard2 = env.getSource();
+                          return dashboard2.getDataPlatformInstance() != null
+                              ? dashboard2.getDataPlatformInstance().getUrn()
+                              : null;
+                        })));
+    builder.type(
+        "Dashboard2Info",
+        typeWiring ->
+            typeWiring.dataFetcher(
+                "charts",
+                new LoadableTypeBatchResolver<>(
+                    chartType,
+                    (env) ->
+                        ((DashboardInfo) env.getSource())
+                            .getCharts().stream()
+                                .map(Chart::getUrn)
+                                .collect(Collectors.toList()))));
+    builder.type(
+        "Dashboard2UserUsageCounts",
+        typeWiring ->
+            typeWiring.dataFetcher(
+                "user",
+                new LoadableTypeResolver<>(
+                    corpUserType,
+                    (env) -> ((DashboardUserUsageCounts) env.getSource()).getUser().getUrn())));
+    builder.type(
+        "Dashboard2StatsSummary",
         typeWiring ->
             typeWiring.dataFetcher(
                 "topUsersLast30Days",
@@ -3158,6 +3552,11 @@ public class GmsGraphQLEngine {
   private void configureContractResolvers(final RuntimeWiring.Builder builder) {
     builder.type(
         "Dataset",
+        typeWiring ->
+            typeWiring.dataFetcher(
+                "contract", new EntityDataContractResolver(this.entityClient, this.graphClient)));
+    builder.type(
+        "CatalogRecord",
         typeWiring ->
             typeWiring.dataFetcher(
                 "contract", new EntityDataContractResolver(this.entityClient, this.graphClient)));

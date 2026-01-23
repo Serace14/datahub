@@ -74,6 +74,10 @@ extend type Dataset implements SupportsVersions {
   versionProperties: VersionProperties
 }
 
+extend type CatalogRecord implements SupportsVersions {
+  versionProperties: VersionProperties
+}
+
 extend type MLModel implements SupportsVersions {
   versionProperties: VersionProperties
 }

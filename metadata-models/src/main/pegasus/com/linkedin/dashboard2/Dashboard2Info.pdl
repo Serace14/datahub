@@ -1,0 +1,72 @@
+namespace com.linkedin.dashboard2
+
+import com.linkedin.common.AccessLevel
+import com.linkedin.common.ChangeAuditStamps
+import com.linkedin.common.ChartUrn
+import com.linkedin.common.Time
+import com.linkedin.common.Url
+import com.linkedin.common.Urn
+import com.linkedin.common.CustomProperties
+import com.linkedin.common.ExternalReference
+import com.linkedin.common.Edge
+
+/**
+ * Information about a dashboard2
+ */
+@Aspect = {
+  "name": "dashboard2Info"
+}
+record Dashboard2Info includes CustomProperties, ExternalReference {
+
+  /**
+   * Title of the dashboard
+   */
+  @Searchable = {
+    "fieldType": "WORD_GRAM",
+    "enableAutocomplete": true,
+    "boostScore": 10.0,
+    "fieldNameAliases": [ "_entityName" ]
+  }
+  title: string
+
+  /**
+   * Detailed description about the dashboard
+   */
+  @Searchable = {
+    "fieldType": "TEXT",
+    "hasValuesFieldName": "hasDescription"
+  }
+  description: string
+
+  /**
+   * Charts in a dashboard
+   * Deprecated! Use chartEdges instead.
+   */
+  @Relationship = {
+    "/*": {
+      "name": "Contains",
+      "entityTypes": [ "chart" ],
+      "isLineage": true
+    }
+  }
+  @deprecated
+  charts: array[ChartUrn] = [ ]
+
+  /**
+   * Charts in a dashboard
+   */
+  @Relationship = {
+    "/*/destinationUrn": {
+      "name": "Contains",
+      "entityTypes": [ "chart" ],
+      "isLineage": true,
+      "createdOn": "chartEdges/*/created/time"
+      "createdActor": "chartEdges/*/created/actor"
+      "updatedOn": "chartEdges/*/lastModified/time"
+      "updatedActor": "chartEdges/*/lastModified/actor"
+      "properties": "chartEdges/*/properties"
+    }
+  }
+  chartEdges: optional array[Edge]
+
+}

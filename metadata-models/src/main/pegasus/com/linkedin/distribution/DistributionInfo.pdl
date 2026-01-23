@@ -1,0 +1,48 @@
+namespace com.linkedin.distribution
+
+import com.linkedin.common.ChangeAuditStamps
+import com.linkedin.common.Time
+import com.linkedin.common.Urn
+import com.linkedin.common.CustomProperties
+import com.linkedin.common.ExternalReference
+
+/**
+ * Information about a distribution
+ */
+@Aspect = {
+  "name": "distributionInfo"
+}
+record DistributionInfo includes CustomProperties, ExternalReference {
+
+  /**
+   * Title of the distribution
+   */
+  @Searchable = {
+    "fieldType": "WORD_GRAM",
+    "enableAutocomplete": true,
+    "boostScore": 10.0,
+    "fieldNameAliases": [ "_entityName" ]
+  }
+  title: string
+
+  /**
+   * Detailed description about the distribution
+   */
+  @Searchable = {
+    "fieldType": "TEXT",
+    "hasValuesFieldName": "hasDescription"
+  }
+  description: string
+
+  /**
+   * Captures information about who created/last modified/deleted this distribution and when
+   */
+  lastModified: ChangeAuditStamps
+
+  /**
+   * The time when this distribution last refreshed
+   */
+  lastRefreshed: optional Time
+
+
+}

@@ -5,6 +5,7 @@ import { BusinessAttributeEntity } from '@app/entityV2/businessAttribute/Busines
 import { ChartEntity } from '@app/entityV2/chart/ChartEntity';
 import { ContainerEntity } from '@app/entityV2/container/ContainerEntity';
 import { DashboardEntity } from '@app/entityV2/dashboard/DashboardEntity';
+import { Dashboard2Entity } from '@app/entityV2/dashboard2/Dashboard2Entity';
 import { DataContractEntity } from '@app/entityV2/dataContract/DataContractEntity';
 import { DataFlowEntity } from '@app/entityV2/dataFlow/DataFlowEntity';
 import { DataJobEntity } from '@app/entityV2/dataJob/DataJobEntity';
@@ -14,6 +15,8 @@ import { DataProcessInstanceEntity } from '@app/entityV2/dataProcessInstance/Dat
 import { DataProductEntity } from '@app/entityV2/dataProduct/DataProductEntity';
 import { DatasetEntity } from '@app/entityV2/dataset/DatasetEntity';
 import { DocumentEntity } from '@app/entityV2/document/DocumentEntity';
+import { CatalogRecordEntity } from '@app/entityV2/catalogRecord/CatalogRecordEntity';
+import { DistributionEntity } from '@app/entityV2/distribution/DistributionEntity';
 import { DomainEntity } from '@app/entityV2/domain/DomainEntity';
 import GlossaryNodeEntity from '@app/entityV2/glossaryNode/GlossaryNodeEntity';
 import { GlossaryTermEntity } from '@app/entityV2/glossaryTerm/GlossaryTermEntity';
@@ -32,8 +35,11 @@ import { UserEntity } from '@app/entityV2/user/User';
 export default function buildEntityRegistryV2() {
     const registry = new EntityRegistry();
     registry.register(new DatasetEntity());
+    registry.register(new CatalogRecordEntity());
+    registry.register(new DistributionEntity());
     registry.register(new DataContractEntity());
     registry.register(new DashboardEntity());
+    registry.register(new Dashboard2Entity());
     registry.register(new ChartEntity());
     registry.register(new UserEntity());
     registry.register(new GroupEntity());

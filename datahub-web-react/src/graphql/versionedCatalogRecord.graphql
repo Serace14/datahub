@@ -1,0 +1,30 @@
+query getVersionedCatalogRecord($urn: String!, $versionStamp: String) {
+    versionedCatalogRecord(urn: $urn, versionStamp: $versionStamp) {
+        schema {
+            fields {
+                fieldPath
+                jsonPath
+                nullable
+                description
+                type
+                nativeDataType
+                recursive
+                isPartOfKey
+                isPartitioningKey
+            }
+            lastObserved
+        }
+        editableSchemaMetadata {
+            editableSchemaFieldInfo {
+                fieldPath
+                description
+                globalTags {
+                    ...globalTagsFields
+                }
+                glossaryTerms {
+                    ...glossaryTerms
+                }
+            }
+        }
+    }
+}

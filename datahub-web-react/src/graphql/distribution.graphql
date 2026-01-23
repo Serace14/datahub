@@ -1,0 +1,50 @@
+query getDistribution($urn: String!) {
+    distribution(urn: $urn) {
+        urn
+        type
+        info {
+            name
+            description
+            lastRefreshed
+            lastModified {
+                time
+            }
+        }
+        structuredProperties {
+            properties {
+                ...structuredPropertiesFields
+            }
+        }
+        ownership {
+            ...ownershipFields
+        }
+        browsePathV2 {
+            ...browsePathV2Fields
+        }
+        statsSummary {
+            viewCount
+            uniqueUserCountLast30Days
+            topUsersLast30Days {
+                urn
+                type
+                username
+                properties {
+                    displayName
+                    firstName
+                    lastName
+                    fullName
+                }
+                editableProperties {
+                    displayName
+                    pictureLink
+                }
+            }
+        }
+    }
+}
+
+mutation updateDistribution($urn: String!, $input: DistributionUpdateInput!) {
+    updateDistribution(urn: $urn, input: $input) {
+        urn
+    }
+}

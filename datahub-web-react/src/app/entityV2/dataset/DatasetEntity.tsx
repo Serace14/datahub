@@ -134,9 +134,9 @@ export class DatasetEntity implements Entity<Dataset> {
 
     getPathName = () => this.getGraphName();
 
-    getEntityName = () => 'Dataset';
+    getEntityName = () => 'Recurso';
 
-    getCollectionName = () => 'Datasets';
+    getCollectionName = () => 'Recursos';
 
     useEntityQuery = useGetDatasetQuery;
 

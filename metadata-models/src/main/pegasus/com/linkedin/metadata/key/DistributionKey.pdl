@@ -1,0 +1,15 @@
+namespace com.linkedin.metadata.key
+
+/**
+ * Key for a Distribution
+ */
+@Aspect = {
+  "name": "distributionKey"
+}
+
+record DistributionKey {
+  /**
+  * Unique id for Distribution
+  */
+  id: string
+}

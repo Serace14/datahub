@@ -259,6 +259,26 @@
     displayName: OpenAPI
     type: OTHERS
     logoUrl: "assets/platforms/openapilogo.png"
+- entityUrn: urn:li:dataPlatform:CustomService
+  entityType: dataPlatform
+  aspectName: dataPlatformInfo
+  changeType: UPSERT
+  aspect:
+    datasetNameDelimiter: "."
+    name: CustomService
+    displayName: CustomService
+    type: OTHERS
+    logoUrl: "/assets/platforms/customservice.png"
+- entityUrn: urn:li:dataPlatform:geoserver
+  entityType: dataPlatform
+  aspectName: dataPlatformInfo
+  changeType: UPSERT
+  aspect:
+    datasetNameDelimiter: "."
+    name: GeoServer
+    displayName: GeoServer
+    type: OTHERS
+    logoUrl: "/assets/platforms/idee.png"
 - entityUrn: urn:li:dataPlatform:oracle
   entityType: dataPlatform
   aspectName: dataPlatformInfo

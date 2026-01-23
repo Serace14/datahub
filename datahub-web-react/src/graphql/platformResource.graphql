@@ -1,0 +1,38 @@
+query getPlatformResource($urn: String!, $showColumns: Boolean!, $separateSiblings: Boolean!) {
+    platformResource(urn: $urn) {
+        urn
+        type
+        id
+
+        info {
+            resourceType
+            primaryKey
+            secondaryKeys
+            value{
+                blob
+            }
+        }
+
+        dataPlatformInstance {
+            urn
+            type
+        }
+
+        status {
+            removed
+        }
+
+        structuredProperties {
+            properties {
+                ...structuredPropertiesFields
+            }
+        }
+    }
+}
+
+mutation updatePlatformResource($urn: String!, $input: PlatformResourceUpdateInput!) {
+    updatePlatformResource(urn: $urn, input: $input) {
+        urn
+    }
+}
+

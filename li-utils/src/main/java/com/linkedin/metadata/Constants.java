@@ -69,8 +69,10 @@ public class Constants {
 
   public static final String CORP_GROUP_ENTITY_NAME = "corpGroup";
   public static final String DATASET_ENTITY_NAME = "dataset";
+  public static final String CATALOGRECORD_ENTITY_NAME = "catalogRecord";
   public static final String CHART_ENTITY_NAME = "chart";
   public static final String DASHBOARD_ENTITY_NAME = "dashboard";
+  public static final String DASHBOARD2_ENTITY_NAME = "dashboard2";
   public static final String DATA_FLOW_ENTITY_NAME = "dataFlow";
   public static final String DATA_JOB_ENTITY_NAME = "dataJob";
   public static final String DATA_PLATFORM_ENTITY_NAME = "dataPlatform";
@@ -117,6 +119,7 @@ public class Constants {
   public static final String BUSINESS_ATTRIBUTE_ENTITY_NAME = "businessAttribute";
   public static final String PLATFORM_RESOURCE_ENTITY_NAME = "platformResource";
   public static final String DOCUMENT_ENTITY_NAME = "document";
+  public static final String DISTRIBUTION_ENTITY_NAME = "distribution";
 
   /** Aspects */
   // Common
@@ -178,6 +181,16 @@ public class Constants {
   public static final String DATASET_USAGE_STATISTICS_ASPECT_NAME = "datasetUsageStatistics";
   public static final String DATASET_OPERATION_ASPECT_NAME = "operation";
 
+  // CatalogRecord
+  public static final String CATALOGRECORD_KEY_ASPECT_NAME = "catalogRecordKey";
+  public static final String CATALOGRECORD_PROPERTIES_ASPECT_NAME = "datasetProperties";
+  public static final String EDITABLE_CATALOGRECORD_PROPERTIES_ASPECT_NAME =
+      "editableDatasetProperties";
+  public static final String CATALOGRECORD_DEPRECATION_ASPECT_NAME = "datasetDeprecation";
+  public static final String CATALOGRECORD_UPSTREAM_LINEAGE_ASPECT_NAME = "datasetUpstreamLineage";
+  public static final String CATALOGRECORD_PROFILE_ASPECT_NAME = "datasetProfile";
+  public static final String PLATFORM_RESOURCE_ASSOCIATION_ASPECT_NAME = "platformResources";
+
   public static final String STRUCTURED_PROPERTIES_ASPECT_NAME = "structuredProperties";
   public static final String FORMS_ASPECT_NAME = "forms";
   // Aspect support
@@ -198,6 +211,13 @@ public class Constants {
   public static final String EDITABLE_DASHBOARD_PROPERTIES_ASPECT_NAME =
       "editableDashboardProperties";
   public static final String DASHBOARD_USAGE_STATISTICS_ASPECT_NAME = "dashboardUsageStatistics";
+
+  // Dashboard2
+  public static final String DASHBOARD2_KEY_ASPECT_NAME = "dashboard2Key";
+  public static final String DASHBOARD2_INFO_ASPECT_NAME = "dashboard2Info";
+  public static final String EDITABLE_DASHBOARD2_PROPERTIES_ASPECT_NAME =
+      "editableDashboard2Properties";
+  public static final String DASHBOARD2_USAGE_STATISTICS_ASPECT_NAME = "dashboard2UsageStatistics";
 
   // Notebook
   public static final String NOTEBOOK_KEY_ASPECT_NAME = "notebookKey";
@@ -228,7 +248,12 @@ public class Constants {
       "dataPlatformInstanceProperties";
 
   // PlatformResource
+  public static final String PLATFORM_RESOURCE_KEY_ASPECT_NAME = "platformResourceKey";
   public static final String PLATFORM_RESOURCE_INFO_ASPECT_NAME = "platformResourceInfo";
+
+  // Distribution
+  public static final String DISTRIBUTION_KEY_ASPECT_NAME = "distributionKey";
+  public static final String DISTRIBUTION_INFO_ASPECT_NAME = "distributionInfo";
 
   // ML Feature
   public static final String ML_FEATURE_KEY_ASPECT_NAME = "mlFeatureKey";

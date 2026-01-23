@@ -1,0 +1,31 @@
+namespace com.linkedin.catalogrecord
+
+import com.linkedin.common.Urn
+
+/**
+ * Links from an Asset to its Applications
+ */
+@Aspect = {
+  "name": "platformResources"
+}
+record PlatformResources {
+  /**
+   * The PlatformResource attached to an Asset
+   */
+  @Relationship = {
+    "/*": {
+      "name": "AssociatedWith",
+      "entityTypes": [ "platformResource" ]
+    }
+  }
+  @Searchable = {
+    "/*": {
+      "fieldName": "resources",
+      "fieldType": "URN",
+      "hasValuesFieldName": "hasPlatformResource",
+      "addToFilters": true,
+      "filterNameOverride": "PlatformResource"
+    }
+  }
+  resources: array[Urn]
+}

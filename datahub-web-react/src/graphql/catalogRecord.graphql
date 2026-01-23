@@ -1,0 +1,497 @@
+query getDataProfilesCatalogRecord($urn: String!, $limit: Int, $startTime: Long, $endTime: Long, $filters: FilterInput) {
+    catalogRecord(urn: $urn) {
+        urn
+        type
+        datasetProfiles(limit: $limit, startTimeMillis: $startTime, endTimeMillis: $endTime, filter: $filters) {
+            rowCount
+            columnCount
+            sizeInBytes
+            timestampMillis
+            partitionSpec {
+                type
+                partition
+                timePartition {
+                    startTimeMillis
+                    durationMillis
+                }
+            }
+            fieldProfiles {
+                fieldPath
+                uniqueCount
+                uniqueProportion
+                nullCount
+                nullProportion
+                min
+                max
+                mean
+                median
+                stdev
+                sampleValues
+                quantiles {
+                    quantile
+                    value
+                }
+                distinctValueFrequencies {
+                    value
+                    frequency
+                }
+            }
+        }
+    }
+}
+
+query getCatalogRecord($urn: String!) {
+    catalogRecord(urn: $urn) {
+        ...nonSiblingCatalogRecordFields
+        siblings {
+            isPrimary
+            siblings {
+                urn
+                type
+                ...nonSiblingCatalogRecordFields
+            }
+        }
+        siblingsSearch(input: { query: "*", count: 5 }) {
+            count
+            total
+            searchResults {
+                entity {
+                    urn
+                    type
+                    ...nonSiblingCatalogRecordFields
+                }
+            }
+        }
+    }
+}
+
+fragment nonSiblingCatalogRecordFields on CatalogRecord {
+    ...nonRecursiveCatalogRecordFields
+    exists
+    deprecation {
+        actor
+        deprecated
+        note
+        decommissionTime
+    }
+    globalTags {
+        ...globalTagsFields
+    }
+    glossaryTerms {
+        ...glossaryTerms
+    }
+    subTypes {
+        typeNames
+    }
+    domain {
+        ...entityDomain
+    }
+    ...entityDataProduct
+    parentContainers {
+        ...parentContainersFields
+    }
+    usageStats(range: MONTH) {
+        buckets {
+            bucket
+            metrics {
+                totalSqlQueries
+            }
+        }
+        aggregations {
+            uniqueUserCount
+            totalSqlQueries
+            fields {
+                fieldName
+                count
+            }
+        }
+    }
+    datasetProfiles(limit: 1) {
+        rowCount
+        columnCount
+        sizeInBytes
+        timestampMillis
+        fieldProfiles {
+            fieldPath
+            uniqueCount
+            uniqueProportion
+            nullCount
+            nullProportion
+            min
+            max
+            mean
+            median
+            stdev
+            sampleValues
+        }
+    }
+    latestFullTableProfile: datasetProfiles(
+        limit: 1
+        filter: {
+            and: [
+                { field: "partitionSpec.partition", values: ["FULL_TABLE_SNAPSHOT", "SAMPLE"], condition: START_WITH }
+            ]
+        }
+    ) {
+        ...datasetProfileFields
+    }
+    latestPartitionProfile: datasetProfiles(
+        limit: 1
+        filter: {
+            and: [
+                {
+                    field: "partitionSpec.partition"
+                    values: ["SAMPLE", "FULL_TABLE_SNAPSHOT"]
+                    negated: true
+                    condition: START_WITH
+                }
+            ]
+        }
+    ) {
+        ...datasetProfileFields
+    }
+    health {
+        ...entityHealth
+    }
+    assertions(start: 0, count: 1) {
+        total
+    }
+    access {
+        roles {
+            role {
+                urn
+            }
+        }
+    }
+    operations(limit: 1) {
+        timestampMillis
+        lastUpdatedTimestamp
+    }
+    ...viewPropertiesCatalogRecord
+    autoRenderAspects: aspects(input: { autoRenderOnly: true }) {
+        ...autoRenderAspectFields
+    }
+    status {
+        removed
+    }
+    runs: runs(start: 0, count: 20, direction: OUTGOING) {
+        count
+        start
+        total
+    }
+    statsSummary {
+        queryCountLast30Days
+        uniqueUserCountLast30Days
+        topUsersLast30Days {
+            urn
+            type
+            username
+            properties {
+                displayName
+                firstName
+                lastName
+                fullName
+            }
+            editableProperties {
+                displayName
+                pictureLink
+            }
+        }
+    }
+    siblings {
+        isPrimary
+    }
+    privileges {
+        ...entityPrivileges
+    }
+    forms {
+        ...formsFields
+    }
+    ...notes
+    ...entityProfileVersionProperties
+    platformResources {
+        associatedUrn
+        resource {
+            urn
+            type
+            id
+            info {
+                resourceType
+                primaryKey
+                secondaryKeys
+                value {
+                    blob
+                    contentType
+                    schemaType
+                    schemaRef
+                }
+                xmlText
+            }
+            dataPlatformInstance {
+                platform {
+                    urn
+                    name
+                }
+                instanceId
+            }
+            status {
+                removed
+            }
+        }
+    }
+}
+
+query getRecentQueriesCatalogRecord($urn: String!) {
+    catalogRecord(urn: $urn) {
+        usageStats(range: MONTH) {
+            buckets {
+                bucket
+                metrics {
+                    topSqlQueries
+                }
+            }
+        }
+    }
+}
+
+query getLastMonthUsageAggregationsCatalogRecord($urn: String!) {
+    catalogRecord(urn: $urn) {
+        usageStats(range: MONTH) {
+            aggregations {
+                uniqueUserCount
+                totalSqlQueries
+                users {
+                    user {
+                        urn
+                        type
+                        username
+                        properties {
+                            displayName
+                            firstName
+                            lastName
+                            fullName
+                        }
+                        editableProperties {
+                            displayName
+                            pictureLink
+                        }
+                    }
+                    count
+                    userEmail
+                }
+                fields {
+                    fieldName
+                    count
+                }
+            }
+        }
+    }
+}
+
+query getTimeRangeUsageAggregationsCatalogRecord($urn: String!, $timeRange: TimeRange!) {
+    catalogRecord(urn: $urn) {
+        usageStats(range: $timeRange) {
+            aggregations {
+                uniqueUserCount
+                totalSqlQueries
+                users {
+                    user {
+                        urn
+                        type
+                        username
+                        properties {
+                            displayName
+                            firstName
+                            lastName
+                            fullName
+                        }
+                        editableProperties {
+                            displayName
+                            pictureLink
+                        }
+                    }
+                    count
+                    userEmail
+                }
+                fields {
+                    fieldName
+                    count
+                }
+            }
+            buckets {
+                bucket
+                metrics {
+                    totalSqlQueries
+                }
+            }
+        }
+    }
+}
+
+mutation updateCatalogRecord($urn: String!, $input: CatalogRecordUpdateInput!) {
+    updateCatalogRecord(urn: $urn, input: $input) {
+        urn
+    }
+}
+
+fragment viewPropertiesCatalogRecord on CatalogRecord {
+    viewProperties {
+        materialized
+        logic
+        formattedLogic
+        language
+    }
+}
+
+fragment assertionsQueryCatalogRecord on CatalogRecord {
+    assertions(start: 0, count: 1000, includeSoftDeleted: false) {
+        start
+        count
+        total
+        assertions {
+            ...assertionDetailsWithRunEvents
+            runEvents(status: COMPLETE, limit: 1) {
+                total
+                failed
+                succeeded
+                runEvents {
+                    ...assertionRunEventDetails
+                }
+            }
+        }
+    }
+}
+
+query getCatalogRecordAssertions($urn: String!) {
+    catalogRecord(urn: $urn) {
+        ...assertionsQueryCatalogRecord
+        siblings {
+            isPrimary
+            siblings {
+                urn
+                type
+                ...assertionsQueryCatalogRecord
+            }
+        }
+        siblingsSearch(input: { query: "*", count: 5 }) {
+            count
+            total
+            searchResults {
+                entity {
+                    urn
+                    type
+                    ...assertionsQueryCatalogRecord
+                }
+            }
+        }
+    }
+}
+
+query getCatalogRecordRuns($urn: String!, $start: Int!, $count: Int!, $direction: RelationshipDirection!) {
+    catalogRecord(urn: $urn) {
+        runs(start: $start, count: $count, direction: $direction) {
+            ...runResults
+        }
+    }
+}
+
+fragment catalogRecordSchema on CatalogRecord {
+    schemaMetadata(version: 0) {
+        ...schemaMetadataFields
+    }
+    editableSchemaMetadata {
+        editableSchemaFieldInfo {
+            fieldPath
+            description
+            globalTags {
+                ...globalTagsFields
+            }
+            glossaryTerms {
+                ...glossaryTerms
+            }
+        }
+    }
+}
+
+query getCatalogRecordSchema($urn: String!) {
+    catalogRecord(urn: $urn) {
+        ...catalogRecordSchema
+        siblings {
+            isPrimary
+            siblings {
+                urn
+                type
+                ... on CatalogRecord {
+                    ...catalogRecordSchema
+                }
+            }
+        }
+        siblingsSearch(input: { query: "*", count: 5 }) {
+            count
+            total
+            searchResults {
+                entity {
+                    urn
+                    type
+                    ...catalogRecordSchema
+                }
+            }
+        }
+    }
+}
+
+query getExternalRolesCatalogRecord($urn: String!) {
+    catalogRecord(urn: $urn) {
+        access {
+            ...getRolesCatalogRecord
+        }
+        __typename
+    }
+}
+
+fragment getRolesCatalogRecord on Access {
+    roles {
+        role {
+            id
+            properties {
+                name
+                description
+                type
+                requestUrl
+            }
+            urn
+            isAssignedToMe
+        }
+    }
+}
+
+fragment assertionsQueryWithRunEventsCatalogRecord on CatalogRecord {
+    assertions(start: 0, count: 1000) {
+        start
+        count
+        total
+        assertions {
+            ...assertionDetailsWithRunEvents
+        }
+    }
+}
+
+query getCatalogRecordAssertionsWithRunEvents($urn: String!) {
+    catalogRecord(urn: $urn) {
+        ...assertionsQueryWithRunEventsCatalogRecord
+        siblings {
+            isPrimary
+        }
+        siblingsSearch(input: { query: "*", count: 5 }) {
+            count
+            total
+            searchResults {
+                entity {
+                    urn
+                    type
+                    ...assertionsQueryWithRunEventsCatalogRecord
+                }
+            }
+        }
+    }
+}

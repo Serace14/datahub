@@ -40,6 +40,78 @@ query getBrowseResults($input: BrowseInput!) {
                 }
                 ...entityDataProduct
             }
+            ... on CatalogRecord {
+                name
+                origin
+                properties {
+                    name
+                    description
+                }
+                editableProperties {
+                    name
+                    description
+                }
+                platform {
+                    ...platformFields
+                }
+                ownership {
+                    ...ownershipFields
+                }
+                globalTags {
+                    ...globalTagsFields
+                }
+                glossaryTerms {
+                    ...glossaryTerms
+                }
+                subTypes {
+                    typeNames
+                }
+                domain {
+                    ...entityDomain
+                }
+                ...entityDataProduct
+            }
+            ... on PlatformResource {
+                urn
+                type
+                id
+                info {
+                    resourceType
+                    primaryKey
+                    secondaryKeys
+                    value{
+                        blob
+                    }
+                }
+                dataPlatformInstance {
+                    ...dataPlatformInstanceFields
+                }
+                status {
+                    removed
+                }
+                structuredProperties {
+                    properties {
+                        ...structuredPropertiesFields
+                    }
+                }
+                ...entityDataProduct
+            }
+            ... on Distribution {
+                urn
+                type
+                id
+                info {
+                    name
+                    description
+                    lastRefreshed
+                    lastModified {
+                        time
+                    }
+                }
+                ownership {
+                    ...ownershipFields
+                }
+            }
             ... on Dashboard {
                 urn
                 type
@@ -75,6 +147,16 @@ query getBrowseResults($input: BrowseInput!) {
                 ...entityDataProduct
                 subTypes {
                     typeNames
+                }
+            }
+            ... on Dashboard2 {
+                urn
+                type
+                tool
+                dashboardId
+                info {
+                    name
+                    description
                 }
             }
             ... on GlossaryTerm {

@@ -16,7 +16,7 @@ import {
     DatasetProfile,
     DatasetProperties,
     DatasetStatsSummary,
-    DateInterval,
+    DateInterval, DistributionStatsSummary,
     Entity,
     EntityRelationshipsResult,
     EntityType,
@@ -181,7 +181,7 @@ export function getDataProduct(dataProductResult: Maybe<EntityRelationshipsResul
 }
 
 export function summaryHasStats(
-    statsSummary: DatasetStatsSummary | ChartStatsSummary | DashboardStatsSummary | undefined | null,
+    statsSummary: DatasetStatsSummary | ChartStatsSummary | DistributionStatsSummary | DashboardStatsSummary | undefined | null,
 ): boolean {
     return !!Object.entries(statsSummary || {}).find(
         ([key, value]) => !key.startsWith('__') && (Array.isArray(value) ? value.length : value),

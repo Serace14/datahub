@@ -1,0 +1,13 @@
+query getDashboard2($urn: String!) {
+    dashboard2(urn: $urn) {
+        urn
+        type
+        charts: relationships(input: { types: ["Contains"], direction: OUTGOING, start: 0, count: 100 }) {
+            ...fullRelationshipResults
+        }
+        datasets: relationships(input: { types: ["Consumes"], direction: OUTGOING, start: 0, count: 100 }) {
+            ...fullRelationshipResults
+        }
+        ...notes
+    }
+}

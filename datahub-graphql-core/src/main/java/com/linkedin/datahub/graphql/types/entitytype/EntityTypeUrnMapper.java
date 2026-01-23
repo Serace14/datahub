@@ -22,6 +22,10 @@ public class EntityTypeUrnMapper {
       ImmutableMap.<String, String>builder()
           .put(Constants.DOMAIN_ENTITY_NAME, "urn:li:entityType:datahub.domain")
           .put(Constants.DATASET_ENTITY_NAME, "urn:li:entityType:datahub.dataset")
+          .put(Constants.CATALOGRECORD_ENTITY_NAME, "urn:li:entityType:datahub.catalogRecord")
+          .put(
+              Constants.PLATFORM_RESOURCE_ENTITY_NAME, "urn:li:entityType:datahub.platformResource")
+          .put(Constants.DISTRIBUTION_ENTITY_NAME, "urn:li:entityType:datahub.distribution")
           .put(Constants.CORP_USER_ENTITY_NAME, "urn:li:entityType:datahub.corpuser")
           .put(Constants.CORP_GROUP_ENTITY_NAME, "urn:li:entityType:datahub.corpGroup")
           .put(Constants.DATA_PLATFORM_ENTITY_NAME, "urn:li:entityType:datahub.dataPlatform")
@@ -29,6 +33,7 @@ public class EntityTypeUrnMapper {
               Constants.ER_MODEL_RELATIONSHIP_ENTITY_NAME,
               "urn:li:entityType:datahub.erModelRelationship")
           .put(Constants.DASHBOARD_ENTITY_NAME, "urn:li:entityType:datahub.dashboard")
+          .put(Constants.DASHBOARD2_ENTITY_NAME, "urn:li:entityType:datahub.dashboard2")
           .put(Constants.NOTEBOOK_ENTITY_NAME, "urn:li:entityType:datahub.notebook")
           .put(Constants.CHART_ENTITY_NAME, "urn:li:entityType:datahub.chart")
           .put(Constants.DATA_CONTRACT_ENTITY_NAME, "urn:li:entityType:datahub.dataContract")

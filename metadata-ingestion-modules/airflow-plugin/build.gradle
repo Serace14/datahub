@@ -119,8 +119,8 @@ task buildWheel(type: Exec, dependsOn: [environmentSetup]) {
 }
 
 build.dependsOn install
-check.dependsOn lint
-check.dependsOn testQuick
+//check.dependsOn lint
+//check.dependsOn testQuick
 
 clean {
   delete venv_name

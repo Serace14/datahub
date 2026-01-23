@@ -1,3 +1,161 @@
+# Proyecto TFG – DataHub
+
+Este repositorio contiene el entorno y las modificaciones realizadas sobre **DataHub** en el contexto del Trabajo de Fin de Grado (TFG).
+
+El objetivo de este documento es describir de forma clara y reproducible:
+
+* Las dependencias necesarias
+* El proceso de instalación
+* El despliegue del entorno
+* La configuración básica
+* La ingesta de datos
+
+---
+
+## 1. Requisitos (Requirements)
+
+Para poder ejecutar correctamente el proyecto es necesario disponer de las siguientes dependencias:
+
+* **Java 17 JDK**
+* **Python 3.11**
+* **Docker Engine** (con al menos **8GB de memoria** asignados)
+* **Docker Compose >= 2.20**
+* **Node.js 22.x**
+* **Yarn >= 1.22** (necesario para la construcción de la documentación y la UI)
+
+> El entorno ha sido probado principalmente en **Ubuntu sobre WSL 2 (Windows 11)**.
+
+---
+
+## 2. Descarga del proyecto
+
+Clonar el repositorio del proyecto:
+
+```bash
+git clone <URL_DEL_REPOSITORIO>
+cd <NOMBRE_DEL_REPOSITORIO>
+```
+
+---
+
+## 3. Instalación del CLI de DataHub
+
+El CLI de DataHub es necesario para tareas de administración e ingesta de metadatos.
+
+### Opción A: Instalación con pip (entornos sin restricción PEP 668)
+
+```bash
+python3 -m pip install --upgrade pip wheel setuptools
+python3 -m pip install --upgrade acryl-datahub
+datahub version
+```
+
+### Opción B (recomendada): Instalación con pipx
+
+```bash
+sudo apt install pipx
+pipx ensurepath
+pipx install acryl-datahub
+datahub version
+```
+
+> ⚠️ Esta opción requiere **cerrar y volver a abrir la terminal** para que el comando `datahub` esté disponible en el PATH.
+
+---
+
+## 4. Despliegue del entorno
+
+### 4.1 Despliegue usando Docker (quickstart)
+
+```bash
+docker compose -f docker/quickstart/docker-compose.quickstart.yml up
+```
+
+### 4.2 Despliegue usando Gradle (opción utilizada durante el desarrollo)
+
+```bash
+./gradlew quickstartDebug -x test
+```
+
+Si este comando falla debido a problemas de compilación (por ejemplo, errores de lint), se puede excluir la tarea problemática usando `-x`:
+
+```bash
+./gradlew quickstartDebug -x test -x <tarea_que_falla>
+```
+
+---
+
+## 5. Acceso a la interfaz web
+
+Una vez desplegado el entorno, la interfaz web estará disponible en:
+
+```
+http://localhost:9002
+```
+
+Credenciales por defecto:
+
+* **Usuario:** datahub
+* **Contraseña:** datahub
+
+---
+
+## 6. Resolución de problemas en la UI
+
+Si no aparecen todas las opciones en la barra lateral (por ejemplo, *Structured Properties*) o en el menú de configuración solo aparecen ajustes de apariencia, ejecutar:
+
+```bash
+./gradlew :metadata-service:war:build
+./gradlew :datahub-frontend:dist -x yarnTest -x yarnLint
+```
+
+---
+
+## 7. Configuración de autenticación
+
+Para facilitar la ingesta de datos durante el desarrollo, se recomienda **deshabilitar la autenticación**:
+
+1. Acceder a **Settings > Access Tokens**
+2. Si la autenticación aparece como habilitada, deshabilitarla
+
+Si ya aparece deshabilitada, no es necesario realizar ninguna acción adicional.
+
+---
+
+## 8. Ingesta de datos
+
+La ingesta de datos se realiza mediante el *emitter* ubicado en:
+
+```
+open-experiments/emitters/definitivos/emitter_platformResource_from_csw.py
+```
+
+Antes de ejecutar la ingesta, es necesario crear las **Structured Properties** correspondientes a cada entidad.
+
+### 8.1 Structured Properties
+
+#### Entidad Dataset
+
+* Id: `string` – `urn:li:structuredProperty:id`
+* Boundingbox: `string[]` – `urn:li:structuredProperty:boundingbox`
+* Fecha: `string` – `urn:li:structuredProperty:date`
+* Lenguaje: `string` – `urn:li:structuredProperty:language`
+* Rights: `string[]` – `urn:li:structuredProperty:rights`
+* Tipo: `string` – `urn:li:structuredProperty:type`
+* URLs: `string[]` – `urn:li:structuredProperty:urls`
+* Distribution: `entity(Distribution)` – `urn:li:structuredProperty:distribution`
+* CatalogRecord: `entity(CatalogRecord)` – `urn:li:structuredProperty:catalog`
+
+#### Entidad CatalogRecord
+
+* Lenguaje: `string` – `urn:li:structuredProperty:language`
+* Issued: `string` – `urn:li:structuredProperty:date`
+* Modified: `string[]` – `urn:li:structuredProperty:fechas`
+* Linkxmlmetadato: `string` – `urn:li:structuredProperty:linkxmlmetadato`
+
+
+### 9. README original de DataHub
+
 <!--HOSTED_DOCS_ONLY
 import useBaseUrl from '@docusaurus/useBaseUrl';
 
@@ -13,9 +171,10 @@ export const Logo = (props) => {
   );
 };
 
+
 <Logo />
 
-<!--
+<--
 HOSTED_DOCS_ONLY-->
 <p align="center">
 <a href="https://datahub.com">

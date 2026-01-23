@@ -54,4 +54,9 @@ record PlatformResourceInfo {
    * The serialized value of this platform resource item.
    */
   value: optional SerializedValue
+
+    /**
+     * The raw XML text of this platform resource item.
+     */
+  xmlText: optional string
 }

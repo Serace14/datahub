@@ -1,0 +1,88 @@
+# General emitter + dataset configuration
+dataset:
+  platform: "geoserver"
+  env: "PROD"
+
+# Properties to extract from XML
+properties:
+  # (1) ID
+  - name: "id"
+    type: "structuredProperty"
+    property_urn: "urn:li:structuredProperty:id"
+    xpaths:
+      - ".//dc:identifier"
+      - ".//gmd:fileIdentifier/gco:CharacterString"
+
+  # (2) BoundingBox
+  - name: "boundingbox"
+    type: "structuredProperty"
+    property_urn: "urn:li:structuredProperty:boundingbox"
+    xpaths:
+      - ".//ows:BoundingBox"
+      - ".//gmd:EX_GeographicBoundingBox"
+
+  # (3) Date
+  - name: "date"
+    type: "structuredProperty"
+    property_urn: "urn:li:structuredProperty:date"
+    xpaths:
+      - ".//dc:date"
+      - ".//gmd:dateStamp/gco:Date"
+      - ".//gmd:citation//gmd:date/gco:Date"
+
+  # (4) Language
+  - name: "language"
+    type: "structuredProperty"
+    property_urn: "urn:li:structuredProperty:language"
+    xpaths:
+      - ".//dc:language"
+      - ".//gmd:language/gmd:LanguageCode/@codeListValue"
+
+  # (5) Ownership (organisationName)
+  - name: "owners"
+    type: "ownership"
+    xpaths:
+      - ".//gmd:pointOfContact//gmd:organisationName//gco:CharacterString"
+    owner_type: "TECHNICAL_OWNER"
+
+  # (6) Rights
+  - name: "rights"
+    type: "structuredProperty"
+    multi: True,
+    property_urn: "urn:li:structuredProperty:rights"
+    xpaths:
+      - ".//dc:rights"
+      - ".//gmd:resourceConstraints//gmd:MD_LegalConstraints//gmd:accessConstraints//gmd:MD_RestrictionCode/@codeListValue"
+      - ".//gmd:resourceConstraints//gmd:MD_LegalConstraints//gmd:useConstraints//gmd:MD_RestrictionCode/@codeListValue"
+      - ".//gmd:resourceConstraints//gmd:MD_LegalConstraints//gmd:otherConstraints//gco:CharacterString"
+
+  # (7) Tags (keywords)
+  - name: "tags"
+    type: "tags"
+    multi: True,
+    xpaths:
+      - ".//gmd:keyword/gco:CharacterString"
+
+  # (8) Type
+  - name: "type"
+    type: "structuredProperty"
+    property_urn: "urn:li:structuredProperty:type"
+    xpaths:
+      - ".//dc:type"
+      - ".//gmd:hierarchyLevel/gmd:MD_ScopeCode/@codeListValue"
+
+  # (9) URLs
+  - name: "urls"
+    type: "structuredProperty"
+    property_urn: "urn:li:structuredProperty:urls"
+    xpaths:
+      - ".//dc:references"
+      - ".//dc:URI"
+      - ".//gmd:distributionInfo//gmd:onLine//gmd:linkage//gmd:URL"
+      - ".//gmd:distributionInfo//gmd:MD_DigitalTransferOptions//gmd:onLine//gmd:URL"
+
+  # (10) Dominio
+  - name: "dominio"
+    type: "dominio"
+    domain_name: "Datos Espaciales"
+    domain_description: "Dominio general para datasets espaciales importados desde CSW"

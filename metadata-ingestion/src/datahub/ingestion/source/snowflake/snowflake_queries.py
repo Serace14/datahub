@@ -829,7 +829,6 @@ class SnowflakeQueriesSource(Source):
     def close(self) -> None:
         self.connection.close()
         self.queries_extractor.close()
-        super().close()
 
 
 class QueryLogQueryBuilder:
