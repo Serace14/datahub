@@ -133,7 +133,13 @@ open-experiments/emitters/definitivos/emitter_platformResource_from_csw.py
 Antes de ejecutar la ingesta, es necesario crear las **Structured Properties** correspondientes a cada entidad.
 
 ### 8.1 Structured Properties
-
+Para crearlas deberás darles un nombre y un tipo como mínimo y asignarlas a la entidad correspondiente. Además, para hacer mas sencilla la ingesta de datos
+les daremos un urn específico. Para esto último se hace en el apartado de Advanced options > Qualified name la primera
+vez que lo creamos, especificando el nombre que queremos en el urn y se generará automáticamente.
+A continuación la lista de Structured Properties a crar ordenadas por :
+```
+<Nombre>: <tipo> - urn:li:structuredProperty:<Qualified name>
+```
 #### Entidad Dataset
 
 * Id: `string` – `urn:li:structuredProperty:id`
